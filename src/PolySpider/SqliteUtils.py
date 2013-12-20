@@ -17,7 +17,7 @@ def get_conn(path):
     如果path存在并且是一个文件路径，则创建文件数据库链接
     否则创建内存数据库链接
     '''
-    return sqlite3.connect(path) if (os.path.exists(path) and os.path.isfile(path)) else sqlite3.connect(':memory:')
+    return sqlite3.connect(path)
     
 def get_cursor(conn):
     '''

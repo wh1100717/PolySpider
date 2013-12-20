@@ -5,6 +5,7 @@ from scrapy.item import Item, Field
 
 class AppItem(Item):
     apk_url = Field()
+    pakage_name = Field()
 #    name = Field()
 #    cover = Field()
 #    detail_page = Field()

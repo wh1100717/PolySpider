@@ -3,6 +3,7 @@
 
 from PolySpider import Config
 from PolySpider import SqliteUtils
+from PolySpider import apkParser
 import pybcs
 import re
 import urllib
@@ -27,6 +28,13 @@ class AppStarFileUploadPipeline(object):
         urllib.urlretrieve(url, 'apk/' + name)
         print 'Download Finished'
         #下载文件至本地 Done
+        
+        #分析APK文件，获取里面的info_list
+        #目前值获取了里面的pakage_name，以后可以增加别的需要的属性
+        info_list = apkParser.getInfoList(name)
+        item['pakage_name'] = info_list['packageInfo']['orig_package']
+        #Done
+        
         '''
         #上传至百度云
         bcs = pybcs.BCS('http://bcs.duapp.com/', Config.BAIDU_AK, Config.BAIDU_SK, pybcs.HttplibHTTPC) 
@@ -52,10 +60,9 @@ class AppStarFileUploadPipeline(object):
 
         up = upyun.UpYun(Config.UPYUN_BUCKET, Config.UPYUN_USERNAME, Config.UPYUN_PASSWORD, timeout=30, endpoint=upyun.ED_AUTO)
         print "Bucket:%s | UserName:%s" %(Config.UPYUN_BUCKET, Config.UPYUN_USERNAME)
-        up.put('/apk/' + name, 'apk/' + name)
+        with open('apk//' + name, 'rb') as f: res = up.put('apk/' + name, f, checksum=True)
         #上传至UpYun Done
         '''
-        
         return item
 class AppStarDatabasePipeline(object):
     def process_item(self, item, spider):
@@ -67,13 +74,14 @@ class AppStarDatabasePipeline(object):
             sql_table_create = '''
                 CREATE TABLE app_info(
                 id INTEGER PRIMARY KEY,
-                apk_url VARCHAR(32))
+                apk_url VARCHAR(32),
+                pakage_name VARCHAR(32))
             '''
             SqliteUtils.create_table(con,sql_table_create)
         #插入数据
         sql_insert = '''
-            INSERT INTO app_info values(null,?)
+            INSERT INTO app_info values(null,?,?)
         '''
-        data = [(item['apk_url'],)]
+        data = [(item['apk_url'],item['pakage_name'])]
         SqliteUtils.save_or_update(con, sql_insert, data)
         return item
