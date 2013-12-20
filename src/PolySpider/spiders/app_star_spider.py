@@ -5,7 +5,7 @@ from scrapy.selector import Selector
 from scrapy.spider import BaseSpider
 from scrapy.http import Request
 from PolySpider.items import AppItem
-from PolySpider import settings
+from PolySpider import Config
 
 class AppStarSpider(BaseSpider):
 	name = "app_star"
@@ -15,7 +15,7 @@ class AppStarSpider(BaseSpider):
 	]
         
         def parse(self,response):
-            for i in range(30,30 + settings.APPSTAR_MAX_APPS):
+            for i in range(30,30 + Config.APPSTAR_MAX_APPS):
                 req = Request(url="http://www.appstar.com.cn/ace/store/"+str(i)+'.htm',callback = self.parse_app)
                 yield req
                 
