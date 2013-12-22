@@ -76,6 +76,7 @@ class AppStarFileUploadPipeline(object):
         return item
 class AppStarDatabasePipeline(object):
     def process_item(self, item, spider):
+        if spider.name != 'app_star': return item
         con = SqliteUtils.get_conn(Config.SQLITE_PATH)
 
         #如果表不存在，则创建表

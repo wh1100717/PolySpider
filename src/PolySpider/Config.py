@@ -3,7 +3,7 @@
 
 #Sqlite3 Configuration
 SQLITE_PATH = "app.db"
-SHOW_SQL = False
+SHOW_SQL = False #True则会在控制台显示详细的SQL查询
 
 
 #App Star Constant
