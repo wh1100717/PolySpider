@@ -3,12 +3,14 @@
 
 from PolySpider import Config
 from PolySpider import SqliteUtils
+from PolySpider import CommonUtils
 from PolySpider import apkParser
-import pybcs
+from scrapy.exceptions import DropItem
 import re
+import os
 import urllib
 import upyun
-import os
+import pybcs
 
 class PolySpiderPipeline(object):
     def process_item(self, item, spider):
@@ -17,6 +19,14 @@ class PolySpiderPipeline(object):
 class AppStarFileUploadPipeline(object):
     def process_item(self, item, spider):
         if spider.name != 'app_star': return item
+        con = SqliteUtils.get_conn(Config.SQLITE_PATH)
+        cur = SqliteUtils.get_cursor(con)
+        #如果表不存在，则创建表
+        checkAppInfoExist(con)
+        oldItem = SqliteUtils.getItemByAppName(cur,item['app_name'])
+        if oldItem != [] and CommonUtils.cmpVersion(oldItem[0][5], item['version']): 
+            print "Crawled app has been record in databse. No newer version has been found!"
+            raise DropItem("Crawled app has been record in databse. No newer version has been found!")
         url = item['apk_url']
         
         ##根据获取的apk下载地址将apk文件传至百度云
@@ -67,21 +77,54 @@ class AppStarFileUploadPipeline(object):
 class AppStarDatabasePipeline(object):
     def process_item(self, item, spider):
         con = SqliteUtils.get_conn(Config.SQLITE_PATH)
-        cur = SqliteUtils.get_cursor(con)
 
         #如果表不存在，则创建表
-        if  not SqliteUtils.is_table_exist(cur, 'app_info'):
-            sql_table_create = '''
-                CREATE TABLE app_info(
-                id INTEGER PRIMARY KEY,
-                apk_url VARCHAR(32),
-                pakage_name VARCHAR(32))
-            '''
-            SqliteUtils.create_table(con,sql_table_create)
+        checkAppInfoExist(con)
+        
         #插入数据
         sql_insert = '''
-            INSERT INTO app_info values(null,?,?)
+            INSERT INTO app_info values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         '''
-        data = [(item['apk_url'],item['pakage_name'])]
+        print item
+        data = [(
+                item['apk_url'],
+                item['pakage_name'],
+                item['app_name'],
+                item['cover'],
+                item['version'],
+                item['rating_star'],
+                item['rating_count'],
+                item['category'],
+                item['android_version'],
+                item['download_times'],
+                item['author'],
+                item['last_update'],
+                item['description'],
+                item['imgs_url'])]
         SqliteUtils.save_or_update(con, sql_insert, data)
         return item
+
+def checkAppInfoExist(con):
+    #如果表不存在，则创建表
+    cur = SqliteUtils.get_cursor(con)
+    if  not SqliteUtils.is_table_exist(cur, 'app_info'):
+        sql_table_create = '''
+            CREATE TABLE app_info(
+            id INTEGER PRIMARY KEY,
+            apk_url VARCHAR(32),
+            pakage_name VARCHAR(32),
+            app_name VARCHAR(32),
+            cover VARCHAR(32),
+            version VARCHAR(32),
+            rating_star VARCHAR(32),
+            rating_count VARCHAR(32),
+            category VARCHAR(32),
+            android_version VARCHAR(32),
+            download_times VARCHAR(32),
+            author VARCHAR(32),
+            last_update TEXT,
+            description TEXT,
+            imgs_url TEXT	
+            )
+        '''
+        SqliteUtils.create_table(con,sql_table_create)

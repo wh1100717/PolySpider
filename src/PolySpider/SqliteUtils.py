@@ -85,6 +85,11 @@ def delete(conn, sql, data):
         cu.execute(sql, d)
         conn.commit()
         
+def getItemByAppName(cur, app_name):
+    sql = "select * from app_info where app_name = ?"
+    cur.execute(sql,(app_name,))
+    return cur.fetchall()
+    
 def fetchall(conn, sql, conditions):
     '''
     查询所有数据

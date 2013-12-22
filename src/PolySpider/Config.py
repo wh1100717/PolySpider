@@ -3,7 +3,7 @@
 
 #Sqlite3 Configuration
 SQLITE_PATH = "app.db"
-SHOW_SQL = True
+SHOW_SQL = False
 
 
 #App Star Constant
