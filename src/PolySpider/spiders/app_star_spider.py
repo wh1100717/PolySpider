@@ -14,12 +14,21 @@ class AppStarSpider(BaseSpider):
                 "http://appstar.com.cn/"
 	]
         
-        def parse(self,response):            
+        def parse(self,response):
+            '''
+            其应用详细页的格式为 http://www.appstar.com.cn/ace/store/n.htm
+            n从30开始，总共大概有3W多个。
+            所以利用循环分别构造带有相应url的请求，并利用yield返回给Scrapy进行内容抓取，response利用parse_app来纪念性处理和解析
+            '''
             for i in range(30,30 + Config.APPSTAR_MAX_APPS):
                 req = Request(url="http://www.appstar.com.cn/ace/store/"+str(i)+'.htm',callback = self.parse_app)
                 yield req
-                
-	def parse_app(self, response):	
+        
+        '''
+        request的Callback处理函数，对于页面中能抓到的数据，利用xpath筛选内容
+        xpath教程：http://www.w3school.com.cn/xpath/
+	'''
+        def parse_app(self, response):	
             sel = Selector(response)
             item= AppItem()
             item['apk_url'] = "http://www.appstar.com.cn" + sel.xpath("//*[@id='appDetail']/li[1]/a/@href").extract()[0]
