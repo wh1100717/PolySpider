@@ -11,8 +11,9 @@ Python(v2.7) and Scrapy(v0.20.2) are used in this project, which is mainly desig
 ## Contribution Guides
 1.	[Getting Involved]
 2.	[Installation]
-3.	Core Functionalities
-4.	Tips
+3.	[TODO List]
+4.	Core Functionalities
+5.	Tips
 
 ## Usage
 1.	step into `PolySpider/src/` directory
@@ -28,11 +29,12 @@ Python(v2.7) and Scrapy(v0.20.2) are used in this project, which is mainly desig
 
 
 
-[AppStar]:http://www.appstar.com.cn/
-[Python]:http://www.python.org/
-[Scrapy]:http://www.scrapy.org/
-[BaiYun]:http://developer.baidu.com
-[Upyun]:https://www.upyun.com
-[Getting Involved]:http://wh1100717.github.io/PolyTechDocs/docs/invovled/
+[AppStar]: http://www.appstar.com.cn/
+[Python]: http://www.python.org/
+[Scrapy]: http://www.scrapy.org/
+[BaiYun]: http://developer.baidu.com
+[Upyun]: https://www.upyun.com
+[Getting Involved]: http://wh1100717.github.io/PolyTechDocs/docs/invovled/
 [Installation]: http://wh1100717.github.io/PolyTechDocs/python/scrapy/installation/
+[TODO List]: https://github.com/wh1100717/PolySpider/blob/master/TODO_LIST.md
 [PolySpider]: https://github.com/wh1100717/PolySpider
