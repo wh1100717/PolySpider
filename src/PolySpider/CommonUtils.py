@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #coding:gbk
-
+import urllib
+from progressbar import *
 def cmpVersion(oldVersion, newVersion):
     '''
     比较版本号
@@ -23,3 +24,23 @@ def cmpVersion(oldVersion, newVersion):
         return False
     else:
         return True
+'''
+下载进度条，和文件下载
+'''
+def progressbar(url,fileName):
+    file=urllib.urlopen(url)
+    totalSize=file.info().getheader("content-length")
+    count=1000
+    blockSize=int(totalSize)/int(count)
+    widgets = [' <<<', Bar(), '>>> ',Percentage(),' ', ETA() ,' ' ,  FileTransferSpeed()]
+    pbar = ProgressBar(widgets=widgets)
+
+    def dlProgress(count, blockSize, totalSize):
+        if pbar.maxval is None:
+            pbar.maxval = totalSize
+            pbar.start()
+        pbar.update(min(count*blockSize, totalSize))
+    urllib.urlretrieve(url, fileName, reporthook=dlProgress)
+    pbar.finish()
+    
+     

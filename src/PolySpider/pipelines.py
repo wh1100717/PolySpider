@@ -21,7 +21,7 @@ class PolySpiderPipeline(object):
 执行顺序ID：100
 判断版本号，根据版本号来判断是否进行后续操作
 '''
-class VersionCmpPipeline(boject):
+class VersionCmpPipeline(object):
     def process_item(self,item,spider):
         con = SqliteUtils.get_conn(Config.SQLITE_PATH)
         cur = SqliteUtils.get_cursor(con)
@@ -37,9 +37,13 @@ class VersionCmpPipeline(boject):
 执行顺序ID：101
 处理应用的分类的Pipeline
 '''
-class CategorizingPipeline(boject):
+class CategorizingPipeline(object):
     def process_item(self,item,spider):
-        item['category'] = CategoryUtils.CATEGORY[item['category']]
+        #如果category中没有这个类 会报错
+        a=item['category'].encode('gbk','ignore')
+        print "_____________________________"
+        print a
+        item['category'] = CategoryUtils.CATEGORY[a]
         #TODO 未来添加高级分类判定
         return item
 
@@ -49,7 +53,7 @@ class CategorizingPipeline(boject):
 分析Apk信息
 上传到UpYun/BaiduYun
 '''
-class FileUploadPipeline(boject):
+class FileUploadPipeline(object):
     def process_item(self,item,spider):
         url = item['apk_url']
         
@@ -59,7 +63,10 @@ class FileUploadPipeline(boject):
         #下载文件至本地
         print 'Start Download apk %s locally' %name
         if not os.path.exists('apk/'): os.makedirs('apk/')
-        urllib.urlretrieve(url, 'apk/' + name)
+        #开始下载
+        print "Begin to download "+name
+        #调用进度条，传入下载url和文件名称
+        CommonUtils.progressbar(url,'apk/' + name)
         print 'Download Finished'
         #下载文件至本地 Done
         
@@ -103,7 +110,7 @@ class FileUploadPipeline(boject):
 执行顺序ID：103
 数据库插入或者更新操作
 '''
-class DatebasePipeline(boject):
+class DatebasePipeline(object):
     def process_item(self,item,spider):
         if spider.name != 'app_star': return item
         con = SqliteUtils.get_conn(Config.SQLITE_PATH)

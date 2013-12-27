@@ -124,4 +124,4 @@ def checkAppInfoExist(conn):
             imgs_url TEXT	
             )
         '''
-        create_table(con,sql_table_create)
+        create_table(conn,sql_table_create)

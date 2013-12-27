@@ -8,7 +8,7 @@ import platform
 
 def apkTool(apk_name):  
     apk_file_path='apk/' + apk_name
-    os.system('PolySpider\\tools\\apktool.jar d ' + apk_file_path + " apk\\unzip\\" + apk_name)
+    os.system('java -jar PolySpider\\tools\\apktool.jar d ' + apk_file_path + " apk\\unzip\\" + apk_name)
     return True
 
 def unzipApk(apk_name):
