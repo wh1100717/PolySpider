@@ -8,8 +8,10 @@ NEWSPIDER_MODULE = 'PolySpider.spiders'
 
 ITEM_PIPELINES = {
     'PolySpider.pipelines.PolySpiderPipeline' : 1,
-    'PolySpider.pipelines.AppStarFileUploadPipeline': 100,
-    'PolySpider.pipelines.AppStarDatabasePipeline': 101
+    'PolySpider.pipelines.VersionCmpPipeline': 100,
+    'PolySpider.pipelines.CategorizingPipeline': 101,
+    'PolySpider.pipelines.FileUploadPipeline': 102,
+    'PolySpider.pipelines.DatebasePipeline': 103
 }
 
 #--------------------avoid banning:2 seconds once time--------------

@@ -6,6 +6,7 @@ from PolySpider import SqliteUtils
 from PolySpider import CommonUtils
 from PolySpider import apkParser
 from scrapy.exceptions import DropItem
+from PolySpider import CategoryUtils
 import re
 import os
 import urllib
@@ -16,17 +17,40 @@ class PolySpiderPipeline(object):
     def process_item(self, item, spider):
         return item
 
-class AppStarFileUploadPipeline(object):
-    def process_item(self, item, spider):
-        if spider.name != 'app_star': return item
+'''
+执行顺序ID：100
+判断版本号，根据版本号来判断是否进行后续操作
+'''
+class VersionCmpPipeline(boject):
+    def process_item(self,item,spider):
         con = SqliteUtils.get_conn(Config.SQLITE_PATH)
         cur = SqliteUtils.get_cursor(con)
         #如果表不存在，则创建表
-        checkAppInfoExist(con)
+        SqliteUtils.checkAppInfoExist(con)
         oldItem = SqliteUtils.getItemByAppName(cur,item['app_name'])
         if oldItem != [] and CommonUtils.cmpVersion(oldItem[0][5], item['version']): 
             print "Crawled app has been record in databse. No newer version has been found!"
             raise DropItem("Crawled app has been record in databse. No newer version has been found!")
+        return item
+
+'''
+执行顺序ID：101
+处理应用的分类的Pipeline
+'''
+class CategorizingPipeline(boject):
+    def process_item(self,item,spider):
+        item['category'] = CategoryUtils.CATEGORY[item['category']]
+        #TODO 未来添加高级分类判定
+        return item
+
+'''
+执行顺序ID：102
+文件下载到服务器
+分析Apk信息
+上传到UpYun/BaiduYun
+'''
+class FileUploadPipeline(boject):
+    def process_item(self,item,spider):
         url = item['apk_url']
         
         ##根据获取的apk下载地址将apk文件传至百度云
@@ -74,13 +98,15 @@ class AppStarFileUploadPipeline(object):
         #上传至UpYun Done
         '''
         return item
-class AppStarDatabasePipeline(object):
-    def process_item(self, item, spider):
+
+'''
+执行顺序ID：103
+数据库插入或者更新操作
+'''
+class DatebasePipeline(boject):
+    def process_item(self,item,spider):
         if spider.name != 'app_star': return item
         con = SqliteUtils.get_conn(Config.SQLITE_PATH)
-
-        #如果表不存在，则创建表
-        checkAppInfoExist(con)
         
         #插入数据
         sql_insert = '''
@@ -104,28 +130,3 @@ class AppStarDatabasePipeline(object):
                 item['imgs_url'])]
         SqliteUtils.save_or_update(con, sql_insert, data)
         return item
-
-def checkAppInfoExist(con):
-    #如果表不存在，则创建表
-    cur = SqliteUtils.get_cursor(con)
-    if  not SqliteUtils.is_table_exist(cur, 'app_info'):
-        sql_table_create = '''
-            CREATE TABLE app_info(
-            id INTEGER PRIMARY KEY,
-            apk_url VARCHAR(32),
-            pakage_name VARCHAR(32),
-            app_name VARCHAR(32),
-            cover VARCHAR(32),
-            version VARCHAR(32),
-            rating_star VARCHAR(32),
-            rating_count VARCHAR(32),
-            category VARCHAR(32),
-            android_version VARCHAR(32),
-            download_times VARCHAR(32),
-            author VARCHAR(32),
-            last_update TEXT,
-            description TEXT,
-            imgs_url TEXT	
-            )
-        '''
-        SqliteUtils.create_table(con,sql_table_create)

@@ -101,3 +101,27 @@ def fetchall(conn, sql, conditions):
     if Config.SHOW_SQL: print('查询所有数据\n执行sql:[{}]'.format(sql,conditions))
     return cu.fetchall()
 
+def checkAppInfoExist(conn):
+    #如果表不存在，则创建表
+    cur = get_cursor(conn)
+    if  not is_table_exist(cur, 'app_info'):
+        sql_table_create = '''
+            CREATE TABLE app_info(
+            id INTEGER PRIMARY KEY,
+            apk_url VARCHAR(32),
+            pakage_name VARCHAR(32),
+            app_name VARCHAR(32),
+            cover VARCHAR(32),
+            version VARCHAR(32),
+            rating_star VARCHAR(32),
+            rating_count VARCHAR(32),
+            category VARCHAR(32),
+            android_version VARCHAR(32),
+            download_times VARCHAR(32),
+            author VARCHAR(32),
+            last_update TEXT,
+            description TEXT,
+            imgs_url TEXT	
+            )
+        '''
+        create_table(con,sql_table_create)
