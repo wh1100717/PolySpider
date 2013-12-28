@@ -44,6 +44,7 @@ class AppStarSpider(BaseSpider):
             item['last_update'] = sel.xpath('//*[@id="appDetail"]/li[2]/span[2]/text()').extract()[0][6:]
             description = sel.xpath('//*[@id="appDes"]/p/text()').extract()
             item['description'] = "" if description == [] else description[0]
+            item['apksize'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()[3]').extract()[0][5:]
             
             #获取图片地址，通过空格来分割多张图片
             imgs =  sel.xpath('//li/img/@src').extract()

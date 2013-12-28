@@ -102,7 +102,7 @@ class FileUploadPipeline(object):
 '''
 class DatebasePipeline(object):
     def process_item(self,item,spider):
-        if spider.name != 'app_star': return item
+        
         con = SqliteUtils.get_conn(Config.SQLITE_PATH)
         
         #≤Â»Î ˝æ›
@@ -124,6 +124,7 @@ class DatebasePipeline(object):
                 item['author'],
                 item['last_update'],
                 item['description'],
-                item['imgs_url'])]
+                item['imgs_url'],
+                item['apksize'])]
         SqliteUtils.save_or_update(con, sql_insert, data)
         return item

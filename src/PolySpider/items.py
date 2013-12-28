@@ -35,3 +35,4 @@ class AppItem(Item):
     last_update = Field()
     description = Field()
     imgs_url = Field()
+    apksize = Field()
