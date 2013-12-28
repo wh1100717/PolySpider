@@ -7,10 +7,10 @@ from PolySpider import CommonUtils
 from PolySpider import apkParser
 from scrapy.exceptions import DropItem
 from PolySpider import CategoryUtils
+from PolySpider import FileUploadUtils
 import re
 import os
 import urllib
-import upyun
 import pybcs
 
 class PolySpiderPipeline(object):
@@ -88,22 +88,12 @@ class FileUploadPipeline(object):
         print 'Upload Finished'
         #上传至百度云 Done
         '''
-        '''
-        #上传至UpYun
-        # 参数 `bucket` 为空间名称,`username` 和 `password` 分别为授权操作员帐号和密码，必选。
-        # 参数 `timeout` 为 HTTP 请求超时时间，默认 60 秒，可选。
-        # 根据国内的网络情况，又拍云存储 API 目前提供了电信、联通网通、移动铁通三个接入点，
-        # 在初始化时可由参数 `endpoint` 进行设置，其可选的值有：
-        # upyun.ED_AUTO     根据网络条件自动选择接入点，默认
-        # upyun.ED_TELECOM  电信接入点
-        # upyun.ED_CNC      联通网通接入点
-        # upyun.ED_CTT      移动铁通接入点
 
-        up = upyun.UpYun(Config.UPYUN_BUCKET, Config.UPYUN_USERNAME, Config.UPYUN_PASSWORD, timeout=30, endpoint=upyun.ED_AUTO)
-        print "Bucket:%s | UserName:%s" %(Config.UPYUN_BUCKET, Config.UPYUN_USERNAME)
-        with open('apk//' + name, 'rb') as f: res = up.put('apk/' + name, f, checksum=True)
+        #上传至UpYun
+        up = FileUploadUtils.UpYun()
+        up.put('apk/' + name, 'apk/' + name)
         #上传至UpYun Done
-        '''
+
         return item
 
 '''
