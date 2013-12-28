@@ -1,5 +1,20 @@
 ## ApkParse
 目前利用[aapt]对apk进行解压缩，提取出aapt构建的yml等文件获取相应的icon、pakage_name、version等内容。但是aapt会将apk文件整体解压，效率较慢。如果仅仅是获取部分apk信息，则没必要使用aapt来对apk进行整体解压缩,ApkParse模块需要研究并实现对于apk部分内容的分析。
+
+apk反编译过程：
+
+*	`unzip targetFile.apk`
+*	`$ java -jar AXMLPrinter2.jar AndroidManifest.xml AndroidManifest2.xml`
+*	这样就可以获取到可读的AndroidManifest.xml文件
+*	但是在AndroidManifest.xml中有些信息是类似于`@7F080000`这样的
+*	如果要获取实际信息则需要反编译classes.dex
+*	`java -jar ddx1.11.jar -o -D -r -d src classes.dex`
+*	在src/com/target/目录下面执行`$ grep -i 7F080000 *`可以获得该数值所代表的真正含义
+*	根据具体的数值去获取相应的资源
+
+在实际操作过程中发现，利用ddx解压classes.dex的时间占大部分，而如果为了获取AndroidManifest.xml中类似于`@7F080000`这样的字符串所代表的信息必须要家压缩classes.dex，而且获取所有信息需要做额外非常多的编码工作，又没有效率上的提升，所以还是建议使用aapt作为android的分析和开发工具。为了增加解压缩速度，aapt需要增加`-s`参数(Do not decode sources.)。
+
+
 ## Selenium
 Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载和执行js文件，导致动态请求内容无法获取。为了实现爬虫对于动态请求的抓取，需要利用[Selenium]来模拟浏览器行为，Scarpy集合Selenium来实现爬虫对于多种类型网页的抓取工作。
 ## Spider
