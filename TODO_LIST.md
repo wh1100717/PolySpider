@@ -48,6 +48,11 @@ Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载�
 *   UpYun上传进度条     Done
 *   BaidYun上传进度条   TODO
 
+##PEP8
+
+*	阅读[PEP8--Style Guide for Python Code]，了解python编码规范，逐步养成符合PEP8编码规范的Python代码编写习惯
+*	学习使用[pep8 - Python style guide checker]，利用pep8最代码做规范性检查
+
 
 [aapt]:https://code.google.com/p/android-apktool/
 [Selenium]:http://www.seleniumhq.org/
@@ -70,3 +75,6 @@ Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载�
 [安卓市场]:http://apk.hiapk.com/
 [拇指玩]:http://www.muzhiwan.com/
 [Google Play]:https://play.google.com/store
+
+[PEP8--Style Guide for Python Code]:http://www.python.org/dev/peps/pep-0008/
+[pep8 - Python style guide checker]:https://pypi.python.org/pypi/pep8
