@@ -49,9 +49,11 @@ Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载�
 *   BaidYun上传进度条   TODO
 
 ##PEP8
+项目需要统一代码格式和规范，而实际上PEP8提供了Python的代码规范格式说明和相应的规范检查工具。
 
 *	阅读[PEP8--Style Guide for Python Code]，了解python编码规范，逐步养成符合PEP8编码规范的Python代码编写习惯
 *	学习使用[pep8 - Python style guide checker]，利用pep8最代码做规范性检查
+*	查找或者撰写中文PEP8代码规范文档，方便查询和阅读
 
 
 [aapt]:https://code.google.com/p/android-apktool/
