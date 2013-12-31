@@ -41,9 +41,8 @@ class CategorizingPipeline(object):
     def process_item(self,item,spider):
         #如果category中没有这个类 会报错
         a=item['category'].encode('gbk','ignore')
-        print "_____________________________"
-        print a
-        item['category'] = CategoryUtils.CATEGORY[a]
+        print "Grab CategoryName: %s" %a
+        item['category'] = CategoryUtils.getCategoryIds(a)
         #TODO 未来添加高级分类判定
         return item
 
@@ -111,7 +110,6 @@ class DatebasePipeline(object):
         sql_insert = '''
             INSERT INTO app_info values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         '''
-        print item['category']
         data = [(
                 item['apk_url'],
                 item['pakage_name'],

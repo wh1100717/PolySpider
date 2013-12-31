@@ -3,10 +3,7 @@
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import Selector
-from scrapy.spider import BaseSpider
-from scrapy.http import Request
 from PolySpider.items import AppItem
-from PolySpider import Config
 import urllib2
 class AppStarSpider(CrawlSpider):
 	name = "hiapk"
@@ -15,9 +12,10 @@ class AppStarSpider(CrawlSpider):
                 "http://apk.hiapk.com/apps"
 	]
        # rules = [Rule(SgmlLinkExtractor(allow=("http\://apk\.hiapk\.com/html/[0-9]*/[0-9]*/[0-9]*\.html", )), callback='parse_app'),]
-        rules = [
-		Rule(SgmlLinkExtractor(allow=('http\://apk\.hiapk\.com/html/[0-9]*/[0-9]*/[0-9]*\.html', )),callback='parse_app')
-	]
+        rules = (
+                #Rule(SgmlLinkExtractor(allow=('http\://apk\.hiapk\.com/apps_[0-9]*_[0-9]*_[0-9]*', )), ),
+                Rule(SgmlLinkExtractor(allow=('/html/[0-9]*/[0-9]*/[0-9]*\.html', )), callback='parse_app', follow= 'True'),
+	)
 	def parse_app(self, response):	
 		sel = Selector(response)
                 item = AppItem()
