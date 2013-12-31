@@ -66,15 +66,17 @@ class FileUploadPipeline(object):
         #开始下载
         print "Begin to download "+name
         #调用进度条，传入下载url和文件名称
-        CommonUtils.progressbar(url,'apk/' + name)
+        #CommonUtils.progressbar(url,'apk/' + name)
         print 'Download Finished'
         #下载文件至本地 Done
         
         #分析APK文件，获取里面的info_list
         #目前值获取了里面的pakage_name，以后可以增加别的需要的属性
-        info_list = apkParser.getInfoList(name)
-        item['pakage_name'] = info_list['packageInfo']['orig_package']
+        #info_list = apkParser.getInfoList(name)
+        #item['pakage_name'] = info_list['packageInfo']['orig_package']
+        item['pakage_name'] = ''
         #Done
+        return item
         
         '''
         #上传至百度云
@@ -94,7 +96,7 @@ class FileUploadPipeline(object):
         up.put('apk/' + name, 'apk/' + name)
         #上传至UpYun Done
 
-        return item
+        
 '''
 '''
 执行顺序ID：103
@@ -107,9 +109,9 @@ class DatebasePipeline(object):
         
         #插入数据
         sql_insert = '''
-            INSERT INTO app_info values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            INSERT INTO app_info values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         '''
-        print item
+        print item['category']
         data = [(
                 item['apk_url'],
                 item['pakage_name'],

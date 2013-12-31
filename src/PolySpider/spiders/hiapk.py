@@ -8,8 +8,8 @@ from scrapy.http import Request
 from PolySpider.items import AppItem
 from PolySpider import Config
 import urllib2
-class AppStarSpider(BaseSpider):
-		name = "hiapk"
+class AppStarSpider(CrawlSpider):
+	name = "hiapk"
 	allowed_domains = ["hiapk.com"]
 	start_urls = [
                 "http://apk.hiapk.com/apps"

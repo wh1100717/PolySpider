@@ -108,7 +108,7 @@ def checkAppInfoExist(conn):
         sql_table_create = '''
             CREATE TABLE app_info(
             id INTEGER PRIMARY KEY,
-            apk_url VARCHAR(32),
+            apk_url TEXT,
             pakage_name VARCHAR(32),
             app_name VARCHAR(32),
             cover VARCHAR(32),
@@ -121,7 +121,8 @@ def checkAppInfoExist(conn):
             author VARCHAR(32),
             last_update TEXT,
             description TEXT,
-            imgs_url TEXT	
+            imgs_url TEXT,
+            apk_size VARCHAR(32)
             )
         '''
         create_table(conn,sql_table_create)
