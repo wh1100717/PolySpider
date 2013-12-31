@@ -12,10 +12,9 @@ class AppStarSpider(CrawlSpider):
                 "http://apk.hiapk.com/apps"
 	]
        # rules = [Rule(SgmlLinkExtractor(allow=("http\://apk\.hiapk\.com/html/[0-9]*/[0-9]*/[0-9]*\.html", )), callback='parse_app'),]
-        rules = (
-                #Rule(SgmlLinkExtractor(allow=('http\://apk\.hiapk\.com/apps_[0-9]*_[0-9]*_[0-9]*', )), ),
-                Rule(SgmlLinkExtractor(allow=('/html/[0-9]*/[0-9]*/[0-9]*\.html', )), callback='parse_app', follow= 'True'),
-	)
+        rules = [
+		Rule(SgmlLinkExtractor(allow=('/[0-9]*/[0-9]*/[0-9]*', )),callback='parse_app',follow=True)
+	]
 	def parse_app(self, response):	
 		sel = Selector(response)
                 item = AppItem()
@@ -28,11 +27,8 @@ class AppStarSpider(CrawlSpider):
                 item['apk_url'] = response.url
 		name = sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftName"]/text()').extract()[0]
                 item['app_name'] = name
-		apps = sel.xpath('//*[@id="relatedSoftBox"]/div/ul/li/div/dl/a/@href')
-		item['app_url']=[]
-                for app in apps:
-			url = app.extract()
-			item['app_url'].append(url)
+		
+		
                 item['cover'] = sel.xpath('//*[@id="main"]/div/div/div[1]/div[1]/div[2]/div[1]/div[1]/img/@src').extract()[0]
                 item['version'] = sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftVersionName"]/text()').extract()[0]
                 item['rating_star'] = sel.xpath('//*[@id="main"]/div/div/div[1]/div[1]/div[2]/div[1]/div[2]/div[3]/@class').extract()[0][21:-2]
