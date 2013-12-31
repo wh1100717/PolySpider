@@ -21,6 +21,7 @@ class AppItem(Item):
     description: 应用简介
     imgs_url: 应用截图链接
     """
+    app_url = Field()
     apk_url = Field()
     pakage_name = Field()
     app_name = Field()

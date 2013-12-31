@@ -88,14 +88,14 @@ class FileUploadPipeline(object):
         print 'Upload Finished'
         #上传至百度云 Done
         '''
-
+'''
         #上传至UpYun
         up = FileUploadUtils.UpYun()
         up.put('apk/' + name, 'apk/' + name)
         #上传至UpYun Done
 
         return item
-
+'''
 '''
 执行顺序ID：103
 数据库插入或者更新操作
