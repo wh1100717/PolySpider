@@ -85,7 +85,8 @@ def delete(conn, sql, data):
         cu.execute(sql, d)
         conn.commit()
         
-def getItemByAppName(cur, app_name):
+def getItemByAppName(conn, app_name):
+    cur = get_cursor(conn)
     sql = "select * from app_info where app_name = ?"
     cur.execute(sql,(app_name,))
     return cur.fetchall()

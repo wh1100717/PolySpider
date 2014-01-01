@@ -3,6 +3,8 @@
 
 BOT_NAME = 'PolySpider'
 
+#LOG_LEVEL='INFO'
+
 SPIDER_MODULES = ['PolySpider.spiders']
 NEWSPIDER_MODULE = 'PolySpider.spiders'
 

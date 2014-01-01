@@ -6,6 +6,7 @@ from scrapy.spider import BaseSpider
 from scrapy.http import Request
 from PolySpider.items import AppItem
 from PolySpider import Config
+from PolySpider import CommonUtils
 
 class AppStarSpider(BaseSpider):
 	name = "app_star"
@@ -34,7 +35,7 @@ class AppStarSpider(BaseSpider):
             item['apk_url'] = "http://www.appstar.com.cn" + sel.xpath("//*[@id='appDetail']/li[1]/a/@href").extract()[0]
             item['app_name'] = sel.xpath('//*[@id="appName"]/text()').extract()[0]
             item['cover'] = sel.xpath('//*[@id="appImg"]/@src').extract()[0]
-            item['version'] = sel.xpath('//*[@id="appVersion"]/text()').extract()[0][4:-1]
+            item['version'] = CommonUtils.normalizeVersion(sel.xpath('//*[@id="appVersion"]/text()').extract()[0][4:-1])
             item['rating_star'] = sel.xpath('//*[@id="appDetail"]/li[1]/span/text()').extract()[0][1:-2]
             item['rating_count'] = sel.xpath('//*[@id="appDetail"]/li[2]/span[1]/text()').extract()[0][:-3]
             item['category'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()').extract()[1][6:]
@@ -44,7 +45,7 @@ class AppStarSpider(BaseSpider):
             item['last_update'] = sel.xpath('//*[@id="appDetail"]/li[2]/span[2]/text()').extract()[0][6:]
             description = sel.xpath('//*[@id="appDes"]/p/text()').extract()
             item['description'] = "" if description == [] else description[0]
-            item['apksize'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()[3]').extract()[0][5:]
+            item['apk_size'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()[3]').extract()[0][5:]
             
             #获取图片地址，通过空格来分割多张图片
             imgs =  sel.xpath('//li/img/@src').extract()

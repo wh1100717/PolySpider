@@ -3,11 +3,8 @@
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import Selector
-from scrapy.spider import BaseSpider
-from scrapy.http import Request
+from PolySpider import CommonUtils
 from PolySpider.items import AppItem
-from PolySpider import Config
-import urllib2
 class AppStarSpider(CrawlSpider):
 	name = "baidu"
 	allowed_domains = ["baidu.com"]
@@ -27,7 +24,7 @@ class AppStarSpider(CrawlSpider):
                 item['app_name'] = sel.xpath("//*[@id='appname']/text()").extract()[0]
             
                 item['cover'] = sel.xpath("//*[@id='app-logo']/@src").extract()[0]
-                item['version'] = sel.xpath("//*/td[2]/span/text()").extract()[0]
+                item['version'] = CommonUtils.normalizeVersion(sel.xpath("//*/td[2]/span/text()").extract()[0])
                 item['rating_star'] = sel.xpath("//*[@id='score-num']/text()").extract()[0]
                 item['rating_count'] = sel.xpath("//*[@id='score-participants']/text()").extract()[0][3:-4]
                 item['category'] =  sel.xpath("//span[@class='params-catename']/text()").extract()[0]
@@ -37,7 +34,7 @@ class AppStarSpider(CrawlSpider):
                 item['last_update'] =   sel.xpath("//*/tr[3]/td[1]/span/text()").extract()[0]
 
                 item['description'] =  sel.xpath("//*[@class='brief-des']/text()").extract()[:5]
-                item['apksize'] = sel.xpath('//span[@class="params-size"]/text()').extract()[0]
+                item['apk_size'] = sel.xpath('//span[@class="params-size"]/text()').extract()[0]
                 #获取图片地址，通过空格来分割多张图片
                 imgs =  sel.xpath("//ul[@class='screen cls data-screenshots']/li/img/@src").extract()
                 imgs_url = ""

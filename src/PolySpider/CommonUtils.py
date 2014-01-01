@@ -17,17 +17,36 @@ def cmpVersion(oldVersion, newVersion):
 	old_v = int(old_vs[i])
 	new_v = int(new_vs[i])
 	if new_v > old_v:
-		return False
+            print "当前版本：%s | 抓取的应用版本：%s : 执行更新操作" %(oldVersion, newVersion)
+            return False
 	elif old_v > new_v:
-		return True
+            print "当前版本：%s | 抓取的应用版本：%s : 不执行更新操作" %(oldVersion, newVersion)
+            return True
     if len(old_vs) < len(new_vs):
+        print "当前版本：%s | 抓取的应用版本：%s : 执行更新操作" %(oldVersion, newVersion)
         return False
     else:
+        print "当前版本：%s | 抓取的应用版本：%s : 不执行更新操作" %(oldVersion, newVersion)
         return True
-'''
-下载进度条，和文件下载
-'''
+
+def normalizeVersion(versionInput):
+    '''
+    对抓取到的版本号进行格式化处理
+    保证版本号的格式为XXX.XXX.XXX
+    其中X为数字
+    注1：把所有非数字过滤掉
+    注2：对于带有字母的版本号同样舍弃，目前不知道是否有这方面版本号记录的需求
+    '''
+    if not versionInput: return ""
+    for digit in versionInput:
+        if digit in "1234567890.":
+            result += digit
+    return result
+
 def progressbar(url,fileName):
+    '''
+    下载进度条，和文件下载
+    '''
     file=urllib.urlopen(url)
     totalSize=file.info().getheader("content-length")
     count=1000

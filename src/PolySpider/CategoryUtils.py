@@ -108,7 +108,7 @@ CATEGORY = {
 def getCategoryIds(category_name):
     if not CATEGORY.get(category_name):
         #如果没有，则un_record_category.yml记录该分类
-        print "插入分类：%s" %category_name
+        print "分类：%s" %category_name
         flag = True
         category_map = {}
         for line in open('un_record_category.txt','r'): 
@@ -120,7 +120,6 @@ def getCategoryIds(category_name):
         if flag:
             with open('un_record_category.txt','w') as f: 
                 for key in category_map.keys(): 
-                    print key
                     f.write(key + "\n")
         return ""
         
