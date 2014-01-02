@@ -41,3 +41,4 @@ class AppItem(Item):
     def __repr__(self):
         #Debug和Info模式下，Pipeline处理完成后不打印Item内容
         return "\n"
+    
