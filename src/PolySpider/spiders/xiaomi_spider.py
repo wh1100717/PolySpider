@@ -35,7 +35,7 @@ class AppStarSpider(BaseSpider):
             item= AppItem()
             print "抓取开始：%s" %response.url
             item['apk_url'] = "http://app.xiaomi.com" +  sel.xpath('/html/body/div[2]/div[1]/div[3]/div[1]/a/@href').extract()[0]
-            item['app_name'] = CommonUtil.normalizeString(sel.xpath('/html/body/div[2]/div[1]/div[2]/h1/text()').extract()[0])
+            item['app_name'] = CommonUtil.dropBrackets(sel.xpath('/html/body/div[2]/div[1]/div[2]/h1/text()').extract()[0])
             item['cover'] = sel .xpath("/html/body/div[2]/div[1]/div[3]/div[1]/div[1]/img/@src").extract()[0]
             item['version'] = CommonUtil.normalizeVersion(sel.xpath('/html/body/div[2]/div[2]/ul[1]/li[2]/h4/text()').extract()[0])
             item['rating_star'] = sel.xpath('/html/body/div[2]/div[1]/div[3]/div[1]/div[2]/@class').extract()[0][11:]
@@ -50,7 +50,7 @@ class AppStarSpider(BaseSpider):
             for description in descriptions:
                 alldescription=alldescription+description
                 
-            item['description'] = alldescription
+            item['description'] = alldescription.strip()
             item['apk_size'] = sel.xpath('/html/body/div[2]/div[2]/ul[1]/li[5]/h4/text()').extract()[0]
             #获取图片地址，通过空格来分割多张图片
             imgs =  sel.xpath('//*[@id="J_thumbnail_wrap"]/img').extract()

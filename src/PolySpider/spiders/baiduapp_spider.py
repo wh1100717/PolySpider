@@ -28,7 +28,7 @@ class AppStarSpider(CrawlSpider):
                 item = AppItem()
                 print "抓取开始：%s" %response.url
                 item['apk_url'] = sel.xpath('//*[@id="down_as_durl"]/@href').extract()[0]
-                item['app_name'] = CommonUtil.normalizeString(sel.xpath("//*[@id='appname']/text()").extract()[0])
+                item['app_name'] = CommonUtil.dropBrackets(sel.xpath("//*[@id='appname']/text()").extract()[0])
                 item['cover'] = sel.xpath("//*[@id='app-logo']/@src").extract()[0]
                 item['version'] = CommonUtil.normalizeVersion(sel.xpath("//*/td[2]/span/text()").extract()[0])
                 item['rating_star'] = sel.xpath("//*[@id='score-num']/text()").extract()[0][:-1]
@@ -43,7 +43,7 @@ class AppStarSpider(CrawlSpider):
                 destemp=''
                 for des in descriptions:
                     destemp=destemp+des+' '
-                item['description']=destemp
+                item['description']=destemp.strip()
                 item['apk_size'] = sel.xpath('//span[@class="params-size"]/text()').extract()[0]
                 #获取图片地址，通过空格来分割多张图片
                 imgs =  sel.xpath("//ul[@class='screen cls data-screenshots']/li/img/@src").extract()
