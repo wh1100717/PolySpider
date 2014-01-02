@@ -23,11 +23,24 @@ class AppStarSpider(CrawlSpider):
                 "http://as.baidu.com/a/software?cid=509&s=1&f=home_2005_1",
                 "http://as.baidu.com/a/software?cid=510&s=1&f=home_2005_1",
                 "http://as.baidu.com/a/software?cid=500&s=1&f=home_2005_1",
+                "http://as.baidu.com/a/asgame?cid=102&s=1",
+                "http://as.baidu.com/a/asgame?cid=401&s=1",
+                "http://as.baidu.com/a/asgame?cid=402&s=1",
+                "http://as.baidu.com/a/asgame?cid=403&s=1",
+                "http://as.baidu.com/a/asgame?cid=404&s=1",
+                "http://as.baidu.com/a/asgame?cid=405&s=1",
+                "http://as.baidu.com/a/asgame?cid=406&s=1",
+                "http://as.baidu.com/a/asgame?cid=407&s=1",
+                "http://as.baidu.com/a/asgame?cid=408&s=1",
+                "http://as.baidu.com/a/asgame?cid=400&s=1",
+                
+                
 
                 
 	]
        # rules = [Rule(SgmlLinkExtractor(allow=("http\://apk\.hiapk\.com/html/[0-9]*/[0-9]*/[0-9]*\.html", )), callback='parse_app'),]
         rules = [
+                Rule(SgmlLinkExtractor(allow=('software\?cid=.*', )),follow=True),
                 Rule(SgmlLinkExtractor(allow=('software\?cid=.*', )),follow=True),
 		Rule(SgmlLinkExtractor(allow=('item\?docid=\d.*', )),callback='parse_app',follow=True)
 	]

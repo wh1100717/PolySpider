@@ -28,6 +28,22 @@ class AppStarSpider(CrawlSpider):
                 "http://www.appchina.com/category/313.html",
                 "http://www.appchina.com/category/314.html",
                 "http://www.appchina.com/category/315.html",
+                "http://www.appchina.com/category/40.html",
+                "http://www.appchina.com/category/411.html",
+                "http://www.appchina.com/category/412.html",
+                "http://www.appchina.com/category/413.html",
+                "http://www.appchina.com/category/414.html",
+                "http://www.appchina.com/category/415.html",
+                "http://www.appchina.com/category/416.html",
+                "http://www.appchina.com/category/417.html",
+                "http://www.appchina.com/category/418.html",
+                "http://www.appchina.com/category/419.html",
+                "http://www.appchina.com/category/420.html",
+                "http://www.appchina.com/category/421.html",
+                "http://www.appchina.com/category/422.html",
+                "http://www.appchina.com/category/423.html",
+                "http://www.appchina.com/category/424.html",
+                
 	]
        # rules = [Rule(SgmlLinkExtractor(allow=("http\://apk\.hiapk\.com/html/[0-9]*/[0-9]*/[0-9]*\.html", )), callback='parse_app'),]
   
