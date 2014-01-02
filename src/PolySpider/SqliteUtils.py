@@ -123,7 +123,8 @@ def checkAppInfoExist(conn):
             last_update TEXT,
             description TEXT,
             imgs_url TEXT,
-            apk_size VARCHAR(32)
+            apk_size VARCHAR(32),
+            platform VARCHAR(32)
             )
         '''
         create_table(conn,sql_table_create)

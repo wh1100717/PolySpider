@@ -33,6 +33,7 @@ class AppStarSpider(BaseSpider):
             '''
             sel = Selector(response)
             item= AppItem()
+            print "抓取开始：%s" %response.url
             item['apk_url'] = "http://app.xiaomi.com" +  sel.xpath('/html/body/div[2]/div[1]/div[3]/div[1]/a/@href').extract()[0]
             item['app_name'] = CommonUtils.normalizeString(sel.xpath('/html/body/div[2]/div[1]/div[2]/h1/text()').extract()[0])
             item['cover'] = sel .xpath("/html/body/div[2]/div[1]/div[3]/div[1]/div[1]/img/@src").extract()[0]
@@ -56,4 +57,6 @@ class AppStarSpider(BaseSpider):
             imgs_url = ""
             for img in imgs: imgs_url += img + " "
             item['imgs_url'] = imgs_url.strip()
+            item['platform'] = "xiaomi"
+            print "抓取结束，进入pipeline进行数据处理"
             return item

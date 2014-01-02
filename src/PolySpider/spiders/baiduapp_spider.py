@@ -32,7 +32,7 @@ class AppStarSpider(CrawlSpider):
 	def parse_app(self, response):	
 		sel = Selector(response)
                 item = AppItem()
-                
+                print "抓取开始：%s" %response.url
                 item['apk_url'] = sel.xpath('//*[@id="down_as_durl"]/@href').extract()[0]
                 item['app_name'] = CommonUtils.normalizeString(sel.xpath("//*[@id='appname']/text()").extract()[0])
                 item['cover'] = sel.xpath("//*[@id='app-logo']/@src").extract()[0]
@@ -56,4 +56,6 @@ class AppStarSpider(CrawlSpider):
                 imgs_url = ""
                 for img in imgs: imgs_url += img + " "
                 item['imgs_url'] = imgs_url.strip()
+                item['platform'] = "baiduapp"
+                print "抓取结束，进入pipeline进行数据处理"
 		return item

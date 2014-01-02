@@ -37,6 +37,7 @@ class AppItem(Item):
     description = Field()
     imgs_url = Field()
     apk_size = Field()
+    platform = Field()
     
     def __repr__(self):
         #Debug和Info模式下，Pipeline处理完成后不打印Item内容

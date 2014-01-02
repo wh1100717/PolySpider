@@ -47,5 +47,6 @@ class AppStarSpider(CrawlSpider):
             imgs_url = ""
             for img in imgs: imgs_url += img + " "
             item['imgs_url'] = imgs_url.strip()
+            item['platform'] = "hiapk"
             print "抓取结束，进入pipeline进行数据处理"
             return item

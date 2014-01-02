@@ -36,6 +36,7 @@ class AppStarSpider(CrawlSpider):
 	def parse_app(self, response):	
 		sel = Selector(response)
                 item = AppItem()
+                print "抓取开始：%s" %response.url
                 apk_url =  sel.xpath('//div[@class="down-box cf"]/a[3]/@href').extract()[0]
                 response= urllib2.urlopen(apk_url)
                 item['apk_url'] = response.url
@@ -60,4 +61,6 @@ class AppStarSpider(CrawlSpider):
                 imgs_url = ""
                 for img in imgs: imgs_url += img + " "
                 item['imgs_url'] = imgs_url.strip()
+                item['platform'] = "appchina"
+                print "抓取结束，进入pipeline进行数据处理"
 		return item

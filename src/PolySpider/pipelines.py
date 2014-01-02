@@ -121,7 +121,8 @@ class DatebasePipeline(object):
                     last_update = ?,
                     description = ?,
                     imgs_url = ?,
-                    apk_size = ?
+                    apk_size = ?,
+                    platform = ?
                 WHERE app_name = ? '''
             data = [(
                 item['apk_url'],
@@ -138,11 +139,12 @@ class DatebasePipeline(object):
                 item['description'],
                 item['imgs_url'],
                 item['apk_size'],
+                item['platform'],
                 item['app_name'])]
         else:
             #插入数据
             print '数据库插入数据'
-            sql = '''INSERT INTO app_info values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'''
+            sql = '''INSERT INTO app_info values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'''
             data = [(
                     item['apk_url'],
                     item['pakage_name'],
@@ -158,7 +160,8 @@ class DatebasePipeline(object):
                     item['last_update'],
                     item['description'],
                     item['imgs_url'],
-                    item['apk_size'])]
+                    item['apk_size'],
+                    item['platform'])]
                     
         SqliteUtils.save_or_update(con, sql, data)
         print '数据库操作结束'
