@@ -34,7 +34,7 @@ class AppStarSpider(BaseSpider):
             item= AppItem()
             print "抓取开始：%s" %response.url
             item['apk_url'] = "http://www.appstar.com.cn" + sel.xpath("//*[@id='appDetail']/li[1]/a/@href").extract()[0]
-            item['app_name'] = CommonUtil.normalizeString(sel.xpath('//*[@id="appName"]/text()').extract()[0])
+            item['app_name'] = CommonUtil.dropBrackets(sel.xpath('//*[@id="appName"]/text()').extract()[0])
             item['cover'] = sel.xpath('//*[@id="appImg"]/@src').extract()[0]
             item['version'] = CommonUtil.normalizeVersion(sel.xpath('//*[@id="appVersion"]/text()').extract()[0][4:-1])
             item['rating_star'] = sel.xpath('//*[@id="appDetail"]/li[1]/span/text()').extract()[0][1:-2]
@@ -45,7 +45,7 @@ class AppStarSpider(BaseSpider):
             item['author'] = sel.xpath('//*[@id="appDetail"]/li[2]/text()').extract()[2][3:]
             item['last_update'] = sel.xpath('//*[@id="appDetail"]/li[2]/span[2]/text()').extract()[0][6:]
             description = sel.xpath('//*[@id="appDes"]/p/text()').extract()
-            item['description'] = "" if description == [] else description[0]
+            item['description'] = "" if description == [] else description[0].strip()
             item['apk_size'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()[3]').extract()[0][5:]
             
             #获取图片地址，通过空格来分割多张图片

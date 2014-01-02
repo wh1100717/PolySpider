@@ -62,7 +62,14 @@ def progressbar(url,fileName):
         pbar.update(min(count*blockSize, totalSize))
     urllib.urlretrieve(url, fileName, reporthook=dlProgress)
     pbar.finish()
-    
+
+def dropBrackets(str):
+    str = normalizeString(str)
+    while '(' in str:
+        startPoint = str.find('(')
+        endPoint = str.rfind(')')
+        str = str[:startPoint] if endPoint == -1 else str[:satrtPoint] + str[endPoint+1:]
+    return str.strip()
 def normalizeString(str):
     normalizedStr = {
         '\t':'',

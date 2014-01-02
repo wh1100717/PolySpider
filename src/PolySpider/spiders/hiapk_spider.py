@@ -26,7 +26,7 @@ class AppStarSpider(CrawlSpider):
             req.add_header('referer', response.url)
 
             item['apk_url'] = urllib2.urlopen(req).url
-            item['app_name'] = CommonUtil.normalizeString(sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftName"]/text()').extract()[0])
+            item['app_name'] = CommonUtil.dropBrackets(sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftName"]/text()').extract()[0])
             item['cover'] = sel.xpath('//*[@id="main"]/div/div/div[1]/div[1]/div[2]/div[1]/div[1]/img/@src').extract()[0]
             item['version'] = CommonUtil.normalizeVersion(sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftVersionName"]/text()').extract()[0])
             item['category'] =  sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftCategory"]/text()').extract()[0]
@@ -44,7 +44,7 @@ class AppStarSpider(CrawlSpider):
                 description =  sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_Description"]/p/text()').extract()[0]
             else:
                 description =  sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_Description"]/text()').extract()[0]
-            item['description']=description
+            item['description']=description.strip()
             item['apk_size'] = sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftSize"]/text()').extract()[0]
             rating_star = sel.xpath('//*[@id="main"]/div/div/div[1]/div[1]/div[2]/div[1]/div[2]/div[3]/@class').extract()[0]
             if len(rating_star) < 21:
