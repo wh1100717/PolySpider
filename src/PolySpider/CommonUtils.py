@@ -63,4 +63,6 @@ def progressbar(url,fileName):
     urllib.urlretrieve(url, fileName, reporthook=dlProgress)
     pbar.finish()
     
-     
+def normalizeString(str):
+    str=str.replace('\t','').replace('\n','').replace('\r','')
+    return str

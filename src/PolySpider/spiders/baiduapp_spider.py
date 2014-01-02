@@ -9,10 +9,24 @@ class AppStarSpider(CrawlSpider):
 	name = "baidu"
 	allowed_domains = ["baidu.com"]
 	start_urls = [
-                "http://as.baidu.com/a/software?cid=101&s=1&f=home_2005_1"
+                "http://as.baidu.com/a/software?cid=101&s=1&f=home_2005_1",
+                "http://as.baidu.com/a/software?cid=501&s=1&f=home_2005_1",
+                "http://as.baidu.com/a/software?cid=502&s=1&f=home_2005_1",
+                "http://as.baidu.com/a/software?cid=503&s=1&f=home_2005_1",
+                "http://as.baidu.com/a/software?cid=504&s=1&f=home_2005_1",
+                "http://as.baidu.com/a/software?cid=505&s=1&f=home_2005_1",
+                "http://as.baidu.com/a/software?cid=506&s=1&f=home_2005_1",
+                "http://as.baidu.com/a/software?cid=507&s=1&f=home_2005_1",
+                "http://as.baidu.com/a/software?cid=508&s=1&f=home_2005_1",
+                "http://as.baidu.com/a/software?cid=509&s=1&f=home_2005_1",
+                "http://as.baidu.com/a/software?cid=510&s=1&f=home_2005_1",
+                "http://as.baidu.com/a/software?cid=500&s=1&f=home_2005_1",
+
+                
 	]
        # rules = [Rule(SgmlLinkExtractor(allow=("http\://apk\.hiapk\.com/html/[0-9]*/[0-9]*/[0-9]*\.html", )), callback='parse_app'),]
         rules = [
+                Rule(SgmlLinkExtractor(allow=('software\?cid=.*', )),follow=True),
 		Rule(SgmlLinkExtractor(allow=('item\?docid=\d.*', )),callback='parse_app',follow=True)
 	]
 	def parse_app(self, response):	
