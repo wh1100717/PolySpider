@@ -12,43 +12,12 @@ class AppStarSpider(CrawlSpider):
 	name = "appchina"
 	allowed_domains = ["appchina.com"]
 	start_urls = [
-                "http://www.appchina.com/category/30.html",
-                "http://www.appchina.com/category/301.html",
-                "http://www.appchina.com/category/302.html",
-                "http://www.appchina.com/category/303.html",
-                "http://www.appchina.com/category/304.html",
-                "http://www.appchina.com/category/305.html",
-                "http://www.appchina.com/category/306.html",
-                "http://www.appchina.com/category/307.html",
-                "http://www.appchina.com/category/308.html",
-                "http://www.appchina.com/category/309.html",
-                "http://www.appchina.com/category/310.html",
-                "http://www.appchina.com/category/311.html",
-                "http://www.appchina.com/category/312.html",
-                "http://www.appchina.com/category/313.html",
-                "http://www.appchina.com/category/314.html",
-                "http://www.appchina.com/category/315.html",
-                "http://www.appchina.com/category/40.html",
-                "http://www.appchina.com/category/411.html",
-                "http://www.appchina.com/category/412.html",
-                "http://www.appchina.com/category/413.html",
-                "http://www.appchina.com/category/414.html",
-                "http://www.appchina.com/category/415.html",
-                "http://www.appchina.com/category/416.html",
-                "http://www.appchina.com/category/417.html",
-                "http://www.appchina.com/category/418.html",
-                "http://www.appchina.com/category/419.html",
-                "http://www.appchina.com/category/420.html",
-                "http://www.appchina.com/category/421.html",
-                "http://www.appchina.com/category/422.html",
-                "http://www.appchina.com/category/423.html",
-                "http://www.appchina.com/category/424.html",
-                
+                "http://www.appchina.com/"        
 	]
        # rules = [Rule(SgmlLinkExtractor(allow=("http\://apk\.hiapk\.com/html/[0-9]*/[0-9]*/[0-9]*\.html", )), callback='parse_app'),]
   
         rules = [
-                Rule(SgmlLinkExtractor(allow=('[0-9]_[0-9]_[0-9]*_[0-9]_[0-9]_[0-9]_[0-9]\.html', )),follow=True),
+                Rule(SgmlLinkExtractor(allow=('www\.appchina\.com', )),follow=True),
 		Rule(SgmlLinkExtractor(allow=('www\.appchina\.com/app/.*/$', )),callback='parse_app',follow=True)
 	]
 	def parse_app(self, response):	
