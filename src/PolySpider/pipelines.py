@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 #coding:gbk
 
-from PolySpider import Config
-from PolySpider import SqliteUtils
-from PolySpider import CommonUtils
-from PolySpider import apkParser
-from scrapy.exceptions import DropItem
-from PolySpider import CategoryUtils
-from PolySpider import FileUploadUtils
 import re
 import os
 import urllib
 import pybcs
+from scrapy.exceptions import DropItem
+from PolySpider.config import Config
+from PolySpider.util import SqliteUtil
+from PolySpider.util import CommonUtil
+from PolySpider.util import ApkUtil
+from PolySpider.util import CategoryUtil
+from PolySpider.util import FileUploadUtil
 
 class PolySpiderPipeline(object):
     def process_item(self, item, spider):
@@ -23,13 +23,13 @@ class PolySpiderPipeline(object):
 '''
 class VersionCmpPipeline(object):
     def process_item(self,item,spider):
-        con = SqliteUtils.get_conn(Config.SQLITE_PATH)
+        con = SqliteUtil.get_conn(Config.SQLITE_PATH)
         #如果表不存在，则创建表
-        SqliteUtils.checkAppInfoExist(con)
-        oldItem = SqliteUtils.getItemByAppName(con,item['app_name'])
+        SqliteUtil.checkAppInfoExist(con)
+        oldItem = SqliteUtil.getItemByAppName(con,item['app_name'])
         if oldItem == []:
             print "数据库中无该App记录，执行插入操作"
-        elif CommonUtils.cmpVersion(oldItem[0][5], item['version']): 
+        elif CommonUtil.cmpVersion(oldItem[0][5], item['version']): 
             raise DropItem("Crawled app has been record in databse. No newer version has been found!")
         return item
 
@@ -40,7 +40,7 @@ class VersionCmpPipeline(object):
 class CategorizingPipeline(object):
     def process_item(self,item,spider):
         #如果category中没有这个类 会报错
-        item['category'] = CategoryUtils.getCategoryIds(item['category'].encode('gbk','ignore'))
+        item['category'] = CategoryUtil.getCategoryIds(item['category'].encode('gbk','ignore'))
         #TODO 未来添加高级分类判定
         return item
 
@@ -62,14 +62,14 @@ class FileUploadPipeline(object):
         if not os.path.exists('apk/'): os.makedirs('apk/')
         #开始下载
         #调用进度条，传入下载url和文件名称
-        #CommonUtils.progressbar(url,'apk/' + name)
+        #CommonUtil.progressbar(url,'apk/' + name)
         print '下载完成'
         #下载文件至本地 Done
         
         #分析APK文件，获取里面的info_list
         #目前值获取了里面的pakage_name，以后可以增加别的需要的属性
         print '开始分析Apk内容'
-        #info_list = apkParser.getInfoList(name)
+        #info_list = ApkUtil.getInfoList(name)
         #item['pakage_name'] = info_list['packageInfo']['orig_package']
         item['pakage_name'] = ''
         print '分析完成'
@@ -90,7 +90,7 @@ class FileUploadPipeline(object):
 
         #上传至UpYun
         print '开始上传apk %s 到UpYun' %name
-        up = FileUploadUtils.UpYun()
+        up = FileUploadUtil.UpYun()
         up.put('apk/' + name, 'apk/' + name)
         print '上传完成'
         #上传至UpYun Done
@@ -102,8 +102,8 @@ class FileUploadPipeline(object):
 '''
 class DatebasePipeline(object):
     def process_item(self,item,spider):
-        con = SqliteUtils.get_conn(Config.SQLITE_PATH)
-        if SqliteUtils.getItemByAppName(con,item['app_name']) != []:
+        con = SqliteUtil.get_conn(Config.SQLITE_PATH)
+        if SqliteUtil.getItemByAppName(con,item['app_name']) != []:
             #更新数据
             print "数据库更新数据"
             sql = '''
@@ -163,6 +163,6 @@ class DatebasePipeline(object):
                     item['apk_size'],
                     item['platform'])]
                     
-        SqliteUtils.save_or_update(con, sql, data)
+        SqliteUtil.save_or_update(con, sql, data)
         print '数据库操作结束'
         return item

@@ -2,8 +2,7 @@
 #coding:gbk
 
 import sqlite3
-import os
-from PolySpider import Config
+from PolySpider.config import Config
 
 def check_sql(sql):
     if not sql or sql == '': 

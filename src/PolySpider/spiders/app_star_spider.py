@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 #coding:gbk
-
 from scrapy.selector import Selector
 from scrapy.spider import BaseSpider
 from scrapy.http import Request
 from PolySpider.items import AppItem
-from PolySpider import Config
-from PolySpider import CommonUtils
+
+from PolySpider.config import Config
+from PolySpider.util import CommonUtil
 
 class AppStarSpider(BaseSpider):
 	name = "app_star"
@@ -34,9 +34,9 @@ class AppStarSpider(BaseSpider):
             item= AppItem()
             print "抓取开始：%s" %response.url
             item['apk_url'] = "http://www.appstar.com.cn" + sel.xpath("//*[@id='appDetail']/li[1]/a/@href").extract()[0]
-            item['app_name'] = CommonUtils.normalizeString(sel.xpath('//*[@id="appName"]/text()').extract()[0])
+            item['app_name'] = CommonUtil.normalizeString(sel.xpath('//*[@id="appName"]/text()').extract()[0])
             item['cover'] = sel.xpath('//*[@id="appImg"]/@src').extract()[0]
-            item['version'] = CommonUtils.normalizeVersion(sel.xpath('//*[@id="appVersion"]/text()').extract()[0][4:-1])
+            item['version'] = CommonUtil.normalizeVersion(sel.xpath('//*[@id="appVersion"]/text()').extract()[0][4:-1])
             item['rating_star'] = sel.xpath('//*[@id="appDetail"]/li[1]/span/text()').extract()[0][1:-2]
             item['rating_count'] = sel.xpath('//*[@id="appDetail"]/li[2]/span[1]/text()').extract()[0][:-3]
             item['category'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()').extract()[1][6:]

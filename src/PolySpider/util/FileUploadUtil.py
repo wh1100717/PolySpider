@@ -8,7 +8,7 @@ import datetime
 import md5
 import os
 from progressbar import *
-from PolySpider import Config
+from PolySpider.config import Config
 
 __version__ = '2.1.1'
 

@@ -3,8 +3,10 @@
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import Selector
-from PolySpider import CommonUtils
 from PolySpider.items import AppItem
+
+from PolySpider.util import CommonUtil
+
 class AppStarSpider(CrawlSpider):
 	name = "baidu"
 	allowed_domains = ["baidu.com"]
@@ -34,9 +36,9 @@ class AppStarSpider(CrawlSpider):
                 item = AppItem()
                 print "抓取开始：%s" %response.url
                 item['apk_url'] = sel.xpath('//*[@id="down_as_durl"]/@href').extract()[0]
-                item['app_name'] = CommonUtils.normalizeString(sel.xpath("//*[@id='appname']/text()").extract()[0])
+                item['app_name'] = CommonUtil.normalizeString(sel.xpath("//*[@id='appname']/text()").extract()[0])
                 item['cover'] = sel.xpath("//*[@id='app-logo']/@src").extract()[0]
-                item['version'] = CommonUtils.normalizeVersion(sel.xpath("//*/td[2]/span/text()").extract()[0])
+                item['version'] = CommonUtil.normalizeVersion(sel.xpath("//*/td[2]/span/text()").extract()[0])
                 item['rating_star'] = sel.xpath("//*[@id='score-num']/text()").extract()[0][:-1]
                 item['rating_count'] = sel.xpath("//*[@id='score-participants']/text()").extract()[0][3:-4]
                 item['category'] =  sel.xpath("//span[@class='params-catename']/text()").extract()[0]

@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 #coding:gbk
+import urllib2
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import Selector
 from PolySpider.items import AppItem
-from PolySpider import CommonUtils
-import urllib2
+
+from PolySpider.util import CommonUtil
+
 class AppStarSpider(CrawlSpider):
 	name = "hiapk"
 	allowed_domains = ["apk.hiapk.com"]
@@ -24,9 +26,9 @@ class AppStarSpider(CrawlSpider):
             req.add_header('referer', response.url)
 
             item['apk_url'] = urllib2.urlopen(req).url
-            item['app_name'] = CommonUtils.normalizeString(sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftName"]/text()').extract()[0])
+            item['app_name'] = CommonUtil.normalizeString(sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftName"]/text()').extract()[0])
             item['cover'] = sel.xpath('//*[@id="main"]/div/div/div[1]/div[1]/div[2]/div[1]/div[1]/img/@src').extract()[0]
-            item['version'] = CommonUtils.normalizeVersion(sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftVersionName"]/text()').extract()[0])
+            item['version'] = CommonUtil.normalizeVersion(sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftVersionName"]/text()').extract()[0])
             item['category'] =  sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftCategory"]/text()').extract()[0]
             item['android_version'] =sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftSuitSdk"]/text()').extract()[0]
             item['download_times'] = sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_Download"]/text()').extract()[0]
