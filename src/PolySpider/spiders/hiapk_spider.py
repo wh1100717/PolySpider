@@ -17,20 +17,14 @@ class AppStarSpider(CrawlSpider):
             Rule(SgmlLinkExtractor(allow=("apk\.hiapk\.com", ),deny=("down\.apk\.hiapk\.com","apk\.hiapk\.com/Download\.aspx", )), follow = True),
         ]
 	def parse_app(self, response):	
-
             sel = Selector(response)
             item = AppItem()
             print "抓取开始：%s" %response.url
-            downloadlink = "http://apk.hiapk.com" +   sel.xpath('//*[@id="main"]/div/div/div[1]/div[2]/div[1]/div[10]/a/@href').extract()[0]
-            req=urllib2.Request(downloadlink)
+            req=urllib2.Request("http://apk.hiapk.com" +   sel.xpath('//*[@id="main"]/div/div/div[1]/div[2]/div[1]/div[10]/a/@href').extract()[0])
             req.add_header('referer', response.url)
-            response=urllib2.urlopen(req)
 
-            item['apk_url'] = response.url
-            name = sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftName"]/text()').extract()[0]
-            item['app_name'] = name
-
-
+            item['apk_url'] = urllib2.urlopen(req).url
+            item['app_name'] = CommonUtils.normalizeString(sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftName"]/text()').extract()[0])
             item['cover'] = sel.xpath('//*[@id="main"]/div/div/div[1]/div[1]/div[2]/div[1]/div[1]/img/@src').extract()[0]
             item['version'] = CommonUtils.normalizeVersion(sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftVersionName"]/text()').extract()[0])
             item['category'] =  sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftCategory"]/text()').extract()[0]

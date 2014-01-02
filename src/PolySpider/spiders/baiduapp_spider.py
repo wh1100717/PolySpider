@@ -34,9 +34,7 @@ class AppStarSpider(CrawlSpider):
                 item = AppItem()
                 
                 item['apk_url'] = sel.xpath('//*[@id="down_as_durl"]/@href').extract()[0]
-		
-                item['app_name'] = sel.xpath("//*[@id='appname']/text()").extract()[0]
-            
+                item['app_name'] = CommonUtils.normalizeString(sel.xpath("//*[@id='appname']/text()").extract()[0])
                 item['cover'] = sel.xpath("//*[@id='app-logo']/@src").extract()[0]
                 item['version'] = CommonUtils.normalizeVersion(sel.xpath("//*/td[2]/span/text()").extract()[0])
                 item['rating_star'] = sel.xpath("//*[@id='score-num']/text()").extract()[0][:-1]
@@ -46,7 +44,6 @@ class AppStarSpider(CrawlSpider):
                 item['download_times'] = sel.xpath("//*/tr[2]/td[1]/span/text()").extract()[0]
                 item['author'] =  ''
                 item['last_update'] =   sel.xpath("//*/tr[3]/td[1]/span/text()").extract()[0]
-
             
                 descriptions = sel.xpath("//*[@class='brief-des']/text()").extract()
                 destemp=''

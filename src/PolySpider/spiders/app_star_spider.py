@@ -25,15 +25,15 @@ class AppStarSpider(BaseSpider):
                 req = Request(url="http://www.appstar.com.cn/ace/store/"+str(i)+'.htm',callback = self.parse_app)
                 yield req
         
-        '''
-        request的Callback处理函数，对于页面中能抓到的数据，利用xpath筛选内容
-        xpath教程：http://www.w3school.com.cn/xpath/
-	'''
         def parse_app(self, response):	
+            '''
+            request的Callback处理函数，对于页面中能抓到的数据，利用xpath筛选内容
+            xpath教程：http://www.w3school.com.cn/xpath/
+            '''
             sel = Selector(response)
             item= AppItem()
             item['apk_url'] = "http://www.appstar.com.cn" + sel.xpath("//*[@id='appDetail']/li[1]/a/@href").extract()[0]
-            item['app_name'] = sel.xpath('//*[@id="appName"]/text()').extract()[0]
+            item['app_name'] = CommonUtils.normalizeString(sel.xpath('//*[@id="appName"]/text()').extract()[0])
             item['cover'] = sel.xpath('//*[@id="appImg"]/@src').extract()[0]
             item['version'] = CommonUtils.normalizeVersion(sel.xpath('//*[@id="appVersion"]/text()').extract()[0][4:-1])
             item['rating_star'] = sel.xpath('//*[@id="appDetail"]/li[1]/span/text()').extract()[0][1:-2]

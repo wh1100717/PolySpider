@@ -64,5 +64,23 @@ def progressbar(url,fileName):
     pbar.finish()
     
 def normalizeString(str):
-    str=str.replace('\t','').replace('\n','').replace('\r','')
+    normalizedStr = {
+        '\t':'',
+        '\n':'',
+        '\r':'',
+        '£û':'{',
+        '£ý':'}',
+        '£¨':'(',
+        '£©':')',
+        '¡¾':'[',
+        '¡¿':']',
+        '£¿':'?',
+        '¡®':'\'',
+        '¡¯':'\'',
+        '¡°':'"',
+        '¡±':'"',
+        '£º':':'
+    }
+    for key in normalizedStr.keys():
+        str = str.replace(key,normalizedStr[key])
     return str
