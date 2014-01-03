@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Poly Spider Terminal</title>
+        <link href="../static/css/common.css" rel="stylesheet">
+        <!-- Bootstrap core CSS -->
+        <link href="../static/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <!-- Just for debugging purposes. Don't actually copy this line! -->
+        <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <!-- Static navbar -->
+        <div class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/home/">Poly Spider</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="/home/">Home</a></li>
+                        <li><a href="/state/">State</a></li>
+                        <li><a href="/chart/">Chart</a></li>
+                        <li><a href="/data/">Data</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+
+        <section class="polyboard">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="intro animate fadeIn">
+                            <h1>Poly Spider <small>New Android Crawler</small></h1>
+                            <p class="lead">Poly Spider is mainly designed for Android app synchronizing and categorizing by focusing on grabing data from Android Markets.</p>
+                            <a href="https://github.com/wh1100717/PolySpider" target="_blank" class="demo-button">View Demo on Github</a>
+                            <!--<a class="btn btn-lg btn-primary" href="" role="button">Fork on GitHub »</a>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="what-we-do">
+            <div class="container">
+                <div class="section-title">
+                    <span>WHAT WE DO</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h2>Data Crawling</h2>
+                        <P>Selected Android Markets have been crawled for Android App data collecting. Scrapy spiders have been used to crawl the market to achieve useful information by parsing the content with xpath.</P>
+                    </div>
+                    <div class="col-md-4">
+                        <h2>Auto Categorizing</h2>
+                        <p>Intelligent categorizing method has benn applied for auto adjusting grabbed category information, which will be used for auto defining blacklist/whitelist policy of MAM based on category.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h2>Data Analyzing</h2>
+                        <p>Charts&amp;&amp;Grids would be used for showing the processed data information statistically in the future. APIs would aslo be released out to the guys who are interested in the data we have.</p>
+                    </div>
+                </div>
+                <a href="https://github.com/wh1100717/PolySpider/blob/master/TODO_LIST.md">See our process <i class="icon-angle-right"></i></a>
+            </div>
+        </section>
+
+        <section class="featured-work">
+            <div class="container">
+                <div class="section-title">
+                    <span>PolyTech Projects</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 company">
+                        <a href="https://github.com/wh1100717/PolySpider" target="_blank"><img src="../static/img/spider.jpg" alt="Poly Spider"></a>
+                    </div>
+                    <div class="col-md-4 company">
+                        <a href="http://wh1100717.github.io/PolyTechDocs/" target="_blank"><img src="../static/img/doc.png" alt="Poly Tech Docs" style="max-height:57%;padding-top: 10px;"></a>
+                    </div>
+                    <div class="col-md-4 company">
+                        <a href="http://wh1100717.github.io/PolyTechDocs/airwatch/intro/" target="_blank"><img src="../static/img/airwatch.png" alt="Air Watch Chinese Doc" style="max-height: 76%;padding-top: 5px;"></a>
+                    </div>
+                </div>
+                <a href="http://wh1100717.github.io/PolyTechDocs/docs/invovled/">Getting Involved »</a>
+            </div>
+        </section>
+
+        <section class="company-updates">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="section-title">
+                            <span>FROM THE BLOG</span>
+                        </div>
+                        <ul class="blog-posts">
+                        </ul>
+                    </div>
+                    <div class="col-md-6 twitter-feed">
+                        <div class="section-title">
+                            <span>LATEST TWEETS</span>
+                        </div>
+                        <div class="latest-tweets">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="copyright">
+                Copyright © 2013&nbsp;Poly Spider 
+            </div>
+            <ul class="footer-nav">
+                <li><a href="/">Home</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </footer>        
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+    </body>
+</html>
