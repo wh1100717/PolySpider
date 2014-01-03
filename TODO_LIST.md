@@ -53,8 +53,64 @@ Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载�
 
 *	阅读[PEP8--Style Guide for Python Code]，了解python编码规范，逐步养成符合PEP8编码规范的Python代码编写习惯
 *	学习使用[pep8 - Python style guide checker]，利用pep8最代码做规范性检查
-*	查找或者撰写中文PEP8代码规范文档，方便查询和阅读
+*	查找或者撰写中文PEP8代码规范文档，方便查询和阅读,为后续员工提供文档，形成规范
 
+##items.py
+*	field（）升序降序
+*	itemloader（）
+##rule
+*	对现有的所有spider进行check，加以调整，进行优化
+##middleware
+*	downloader middleware
+*	CookiesMiddleware
+*	defaultHeadersMiddleware
+*	DownloadTimeoutMiddleware
+*	HttpAuthMiddleware
+*	HttpCacheMiddleware
+*	HttpCompressionMiddleware
+*	ChunkedTransferMiddleware
+*	HttpProxyMiddleware
+*	RedirectMiddleware
+*	MetaRefreshMiddleware
+*	RetryMiddleware
+*	RobotsTxtMiddleware
+*	DepthMiddleware
+*	HttpErrorMiddleware
+*	OffsiteMiddleware
+*	RefererMiddleware
+*	UrlLengthMiddleware
+##__init __.py
+* 了解及利用，完成相应的初始化
+##from ... import ...
+*	规范用法
+##数据库
+*	对数据库表所整理，思考是否有其他需要获取的数据项
+*	修改数据库结构
+	*	app表	包含了app_name， author等唯一标识
+	*	app_info表， 包含了version, apk, 等等 特殊标识
+##settings.py
+*	了解settings.py，学习其他设置参数
+##pipy及接口定义方式
+*	了解上传pipy方法，尝试将polyspider做成一个API
+##智能分类
+* 	通过不同网站对该应用的分类，对其进行命中率的计算，做到对应用的准确归类，避免发生归类错误的情况发生
+##在服务器上运行Scarpy
+* 	将Scrapy成功运行在服务器上，保证其正常运行，尽量避免发生停止运行等情况发生，以及发生问题后能够完成断电续爬，并生成日志
+* 	Scheduler
+* 	WatchDog
+##运行多个Spider
+* 	通过scrapyd，完成多spider的运行，提高爬取效率
+* 	做到高并发，缓存，Redis (key-value)
+##防止被禁
+* 	通过改变cookie
+* 	通过middleware，不停的变user-aget
+* 	更改访问时间等方法
+##完成一个日志系统
+* 	通过日志，了解程序运行状况，对出现问题进行汇总，进行统计
+##后台制作
+* 	制作一个强大的后台，能够查看日志，对数据进行处理，以报表等方式完成数据统计，时刻了解到Spider的状态，对数据的查询等功能
+##aapt
+*	aapt读取apk信息
 
 [aapt]:https://code.google.com/p/android-apktool/
 [Selenium]:http://www.seleniumhq.org/
