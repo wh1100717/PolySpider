@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding:gbk
+# -*- coding: utf-8 -*-  
 import urllib2
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor

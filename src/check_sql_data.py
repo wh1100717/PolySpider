@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding:gbk
+# -*- coding: utf-8 -*-  
 
 import sqlite3
 con = sqlite3.connect('app.db')

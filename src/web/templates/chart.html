@@ -50,23 +50,65 @@
             </div>
         </div>
 
-        <div class="container">
-            <!-- Main component for a primary marketing message or call to action -->
-            <div class="jumbotron">
-                <h1>Navbar example</h1>
-                <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
-                <p>To see the difference between static and fixed top navbars, just scroll.</p>
-                <p>
-                    <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs »</a>
-                </p>
-            </div>
-
-        </div> <!-- /container -->
+        <div id="container-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../static/highcharts/js/highcharts.js"></script>
+        <script src="../static/highcharts/js/modules/exporting.js"></script>
+        <script type="text/javascript">
+            $$(function() {
+                var chart;
+
+                $$(document).ready(function() {
+
+                    // Build the chart
+                    $$('#container-chart').highcharts({
+                        chart: {
+                            plotBackgroundColor: null,
+                            plotBorderWidth: null,
+                            plotShadow: false
+                        },
+                        title: {
+                            text: 'Browser market shares at a specific website, 2010'
+                        },
+                        tooltip: {
+                            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                        },
+                        plotOptions: {
+                            pie: {
+                                allowPointSelect: true,
+                                cursor: 'pointer',
+                                dataLabels: {
+                                    enabled: false
+                                },
+                                showInLegend: true
+                            }
+                        },
+                        series: [{
+                                type: 'pie',
+                                name: 'Browser share',
+                                data: [
+                                    ['Firefox', 45.0],
+                                    ['IE', 26.8],
+                                    {
+                                        name: 'Chrome',
+                                        y: 12.8,
+                                        sliced: true,
+                                        selected: true
+                                    },
+                                    ['Safari', 8.5],
+                                    ['Opera', 6.2],
+                                    ['Others', 0.7]
+                                ]
+                            }]
+                    });
+                });
+
+            });
+        </script>
     </body>
 </html>

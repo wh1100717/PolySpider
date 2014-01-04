@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding:gbk
+# -*- coding: utf-8 -*-  
 from scrapy.selector import Selector
 from scrapy.spider import BaseSpider
 from scrapy.http import Request
