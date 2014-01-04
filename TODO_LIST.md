@@ -20,10 +20,10 @@ Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载�
 ## Spider
 [AppStoreList]中详细分析了目前国内android应用商店的具体情况、特点和访问方式。通过其逐步添加针对性的spider。
 
-*   [小米商店]：TODO
-*   [应用宝]：TODO
 *   [百度应用]：TODO
 *   [安卓市场]：TODO
+*   [小米商店]：TODO
+*   [应用宝]：TODO
 *   [拇指玩]：TODO
 
 ## Sqlite
