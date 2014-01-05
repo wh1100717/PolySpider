@@ -40,6 +40,8 @@ class AppItem(Item):
     apk_size = Field()
     platform = Field()
     
+    app_category = Field()#用来临时存储获取的app的category
+    
     def __repr__(self):
         #Debug和Info模式下，Pipeline处理完成后不打印Item内容
         return "\n"

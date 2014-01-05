@@ -12,18 +12,18 @@ def check_sql(sql):
         return False
     else: return True
     
-def is_table_exist(con, table_name):
+def is_table_exist(table_name):
     '''
     检查table_name的数据库表是否存在
     '''
-    return True if con.cursor().execute("SELECT count(*) FROM sqlite_master WHERE type= 'table' and name = ? ",(table_name,)).fetchone()[0] > 0 else False
+    return True if Config.DB_CON.cursor().execute("SELECT count(*) FROM sqlite_master WHERE type= 'table' and name = ? ",(table_name,)).fetchone()[0] > 0 else False
 
-def checkTableExist(con):
+def checkTableExist():
     '''
     检查数据库中是否存在表
     如果数据库中无ps_app和ps_app_detail表，则创建表
     '''
-    if not is_table_exist(con, 'ps_app'):
+    if not is_table_exist('ps_app'):
         sql_table_create = '''
             CREATE TABLE ps_app(
                 id INTEGER PRIMARY KEY,
@@ -32,8 +32,8 @@ def checkTableExist(con):
                 category VARCHAR(32),
             );
         '''
-        create_table(con,sql_table_create)
-    if not is_table_exist(con, 'ps_app_detail'):
+        create_table(sql_table_create)
+    if not is_table_exist('ps_app_detail'):
         sql_table_create = '''
             CREATE TABLE ps_app_detail(
                 app_id INTEGER
@@ -53,7 +53,7 @@ def checkTableExist(con):
                 primary key (app_id, version, platform)
             );
         '''
-        create_table(con,sql_table_create)
+        create_table(sql_table_create)
 
 def close_all(con):
     '''
@@ -64,15 +64,16 @@ def close_all(con):
     finally:
         if con: con.close()
 
-def execute_sql(con, sql, data = ""):
+def execute_sql(sql, data = ""):
     '''
     执行sql语句
     data默认为空,data为list，可执行多条数据操作
     '''
+    con = Config.DB_CON
     if not check_sql(sql): return
     cur = con.cursor()
     if data == "":
-        cur.execute(sql)
+        DB_CUR.execute(sql)
     else:
         for d in data:
             if Config.SHOW_SQL: print('执行sql:[{}],参数:[{}]'.format(sql, d))
@@ -80,47 +81,47 @@ def execute_sql(con, sql, data = ""):
     con.commit()
     close_all(con)
 
-def create_table(con, sql):
+def create_table(sql):
     '''
     创建数据库表
     '''
-    execute_sql(con, sql)
+    execute_sql(sql)
     print('创建数据库表成功!')
 
-def drop_table(con, table):
+def drop_table(table):
     '''
     如果表存在,则删除表，如果表中存在数据的时候，使用该方法的时候要慎用！
     '''
     if table is not None and table != '':
         sql = 'DROP TABLE IF EXISTS ' + table
-        execute_sql(con, sql)
+        execute_sql(sql)
     else:
         print('the [{}] is empty or equal None!'.format(sql))
 
-def save(con, sql, data):
+def save(sql, data):
     '''
     插入数据
     data为要插入的数据，格式为list，可以存放多条数据
     '''
     if not data: return
-    execute_sql(con, sql, data)
+    execute_sql(sql, data)
     print('插入数据成功!')
     
-def update(con, sql, data):
+def update(sql, data):
     '''
     更新数据
     data为要插入的数据，格式为list，可以存放多条数据    
     '''
     if not data: return
-    execute_sql(con, sql, data)
+    execute_sql(sql, data)
     print('更新数据成功!')
         
-def delete(con, sql, data):
+def delete(sql, data):
     '''
     删除数据
     '''
     if not data: return
-    execute_sql(con, sql, data)
+    execute_sql(sql, data)
     print('删除数据成功!')
 
 ###################################################################

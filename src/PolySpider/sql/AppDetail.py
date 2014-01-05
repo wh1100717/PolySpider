@@ -28,5 +28,4 @@ def insert_app_detail(item):
          item['description'],
          item['imgs_url'],
          item['last_update'],)]
-    SqliteUtil.save(Config.DB_CON, sql, data)
-    cur = Config.DB_CON.cursor()
+    SqliteUtil.save(sql, data)

@@ -4,8 +4,8 @@
 import re
 import os
 from scrapy.exceptions import DropItem
-from PolySpider.config import Config
 from PolySpider.util import CategoryUtil
+from PolySpider.util import SqliteUtil
 from PolySpider.sql import App
 from PolySpider.sql import AppDetail
 
@@ -14,32 +14,34 @@ import pybcs
 from PolySpider.util import ApkUtil
 from PolySpider.util import FileUploadUtil
 from PolySpider.util import CommonUtil
+from PolySpider.config import Config
+
 
 APP_TABLE_INSERT = False
-APP_DETAIL_TABLE_INSERT = False
 
 class PolySpiderPipeline(object):
     def process_item(self, item, spider):
         return item
 
-'''
-执行顺序ID：100
-处理应用的分类的Pipeline~
-'''
 class CategorizingPipeline(object):
+    '''
+    执行顺序ID：100
+    处理应用的分类的Pipeline~
+    '''
     def process_item(self,item,spider):
         #如果category中没有这个类 会报错
         item['category'] = CategoryUtil.getCategoryIds(item['category'].encode('gbk','ignore'))
         return item
 
-'''
-执行顺序ID：101
-检查ps_app表中是否存在该App数据
-如果不存在，则记录该App数据
-如果存在，检查author,如果为空，则更新author
-'''
 class CheckAppPipeline(object):
+    '''
+    执行顺序ID：101
+    检查ps_app表中是否存在该App数据
+    如果不存在，则记录该App数据
+    如果存在，检查author,如果为空，则更新author
+    '''
     def process_item(self,item,spider):
+        SqliteUtil.checkTableExist()
         app_name = item['app_name']
         app = App.get_app_by_app_name(app_name)
         if not app:
@@ -51,19 +53,20 @@ class CheckAppPipeline(object):
             item['app_id'] = App.insert_app(item)
         else:
             item['app_id'] = app['id']
+            item['app_category'] = app['category']
             #更新分类
             #判断author是否为空，如果为空，则更新app表
             if app['author'] == "" and item['author'] != "":
                 App.update_app_author(app['id'], item['author'])
         return item
 
-'''
-执行顺序ID：102
-分析ps_app_detail表中是否存在该App_Detail数据(通过app_id, verison, flatform做唯一标识)
-如果不存在，则记录该App数据
-如果存在，更新一些数据信息，然后将该ItemDrop掉
-'''
 class CheckAppDetailsPipeline(object):
+    '''
+    执行顺序ID：102
+    分析ps_app_detail表中是否存在该App_Detail数据(通过app_id, verison, flatform做唯一标识)
+    如果不存在，则记录该App数据
+    如果存在，更新一些数据信息，然后将该ItemDrop掉
+    '''
     def process_item(self,item,spider):
         app_detail = AppDetail.get_app_detail_by_item(item)
         if not app_detail:
@@ -126,14 +129,41 @@ class CheckAppDetailsPipeline(object):
         '''
 
 class UpdateCategoryPipeline(object):
+    '''
+    执行顺序ID：103
+    更新ps_app中的category项
+    '''
     def process_item(self,item,spider):
         if not APP_TABLE_INSERT:
-            #TODO 重新计算category
-            category = ""
-            
+            #重新计算category
+            item_category = item['category']
+            categories = item['app_category'].split(",")
+            flag = True
+            for index in range(len(categories)):
+                category = categories[index]
+                app_category_name = category[:category.find(":")]
+                if app_category_name == item_category:
+                    categories[index] = app_category_name + ":" + str(int(category[(category.find(":") + 1):]) + 1)
+                    item['app_category'] = ",".join(self.category_reorder(categories))
+                    flag = False
+                    break
+            if flag:
+                item['app_category'] = item['app_category'] + "," + item['category'] + ":1"
             #更新ps_app表的category
-            App.update_app_category(app['id'], category)
+            App.update_app_category(app['id'], item['app_category'])
         return item
+    
+    def category_reorder(self,categories):
+        length = len(categories)
+        for i in range(length):
+            order_category = categories[i]
+            order_category_value = int(order_category[(order_category.find(":")+1):])
+            for j in range(1,length-i):
+                cmp_category = categories[j]
+                cmp_category_value = int(cmp_category[(cmp_category.find(":")+1):])
+                if cmp_category_value > order_category_value:
+                    categories[i],categories[j] = categories[j],categories[i]
+        return categories
 
 
 #'''
@@ -153,73 +183,73 @@ class UpdateCategoryPipeline(object):
 #        return item
 
 
-'''
-执行顺序ID：103
-数据库插入或者更新操作
-'''
-class DatebasePipeline(object):
-    def process_item(self,item,spider):
-        con = SqliteUtil.get_conn(Config.SQLITE_PATH)
-        if SqliteUtil.getItemByAppName(con,item['app_name']) != []:
-            #更新数据
-            print "数据库更新数据"
-            sql = '''
-                UPDATE  app_info SET
-                    apk_url = ? ,
-                    pakage_name = ?,
-                    cover = ?,
-                    version = ?,
-                    rating_star = ?,
-                    rating_count = ?,
-                    category = ?,
-                    android_version = ?,
-                    download_times = ?,
-                    author = ?,
-                    last_update = ?,
-                    description = ?,
-                    imgs_url = ?,
-                    apk_size = ?,
-                    platform = ?
-                WHERE app_name = ? '''
-            data = [(
-                item['apk_url'],
-                item['pakage_name'],
-                item['cover'],
-                item['version'],
-                item['rating_star'],
-                item['rating_count'],
-                item['category'],
-                item['android_version'],
-                item['download_times'],
-                item['author'],
-                item['last_update'],
-                item['description'],
-                item['imgs_url'],
-                item['apk_size'],
-                item['platform'],
-                item['app_name'])]
-        else:
-            #插入数据
-            print '数据库插入数据'
-            sql = '''INSERT INTO app_info values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'''
-            data = [(
-                    item['apk_url'],
-                    item['pakage_name'],
-                    item['app_name'],
-                    item['cover'],
-                    item['version'],
-                    item['rating_star'],
-                    item['rating_count'],
-                    item['category'],
-                    item['android_version'],
-                    item['download_times'],
-                    item['author'],
-                    item['last_update'],
-                    item['description'],
-                    item['imgs_url'],
-                    item['apk_size'],
-                    item['platform'])]
-                    
-        SqliteUtil.save_or_update(con, sql, data)
-        print '数据库操作结束'
-        return item
+#'''
+#执行顺序ID：103
+#数据库插入或者更新操作
+#'''
+#class DatebasePipeline(object):
+#    def process_item(self,item,spider):
+#        con = SqliteUtil.get_conn(Config.SQLITE_PATH)
+#        if SqliteUtil.getItemByAppName(con,item['app_name']) != []:
+#            #更新数据
+#            print "数据库更新数据"
+#            sql = '''
+#                UPDATE  app_info SET
+#                    apk_url = ? ,
+#                    pakage_name = ?,
+#                    cover = ?,
+#                    version = ?,
+#                    rating_star = ?,
+#                    rating_count = ?,
+#                    category = ?,
+#                    android_version = ?,
+#                    download_times = ?,
+#                    author = ?,
+#                    last_update = ?,
+#                    description = ?,
+#                    imgs_url = ?,
+#                    apk_size = ?,
+#                    platform = ?
+#                WHERE app_name = ? '''
+#            data = [(
+#                item['apk_url'],
+#                item['pakage_name'],
+#                item['cover'],
+#                item['version'],
+#                item['rating_star'],
+#                item['rating_count'],
+#                item['category'],
+#                item['android_version'],
+#                item['download_times'],
+#                item['author'],
+#                item['last_update'],
+#                item['description'],
+#                item['imgs_url'],
+#                item['apk_size'],
+#                item['platform'],
+#                item['app_name'])]
+#        else:
+#            #插入数据
+#            print '数据库插入数据'
+#            sql = '''INSERT INTO app_info values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'''
+#            data = [(
+#                    item['apk_url'],
+#                    item['pakage_name'],
+#                    item['app_name'],
+#                    item['cover'],
+#                    item['version'],
+#                    item['rating_star'],
+#                    item['rating_count'],
+#                    item['category'],
+#                    item['android_version'],
+#                    item['download_times'],
+#                    item['author'],
+#                    item['last_update'],
+#                    item['description'],
+#                    item['imgs_url'],
+#                    item['apk_size'],
+#                    item['platform'])]
+#                    
+#        SqliteUtil.save_or_update(con, sql, data)
+#        print '数据库操作结束'
+#        return item

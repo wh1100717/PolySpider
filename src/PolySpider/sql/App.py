@@ -17,7 +17,7 @@ def insert_app(item):
          item['app_name'],
          item['author'],
          item['category'])]
-    SqliteUtil.save(Config.DB_CON, sql, data)
+    SqliteUtil.save(sql, data)
     cur = Config.DB_CON.cursor()
     cur.execute("select last_insert_rowid() from ps_app")
     return cur.fetchall[0][0]
@@ -27,11 +27,11 @@ def update_app_author(id, author):
     print "数据库更新数据"
     sql = '''UPDATE ps_app set author = ? where id = ?'''
     data = [(author, id)]
-    SqliteUtil.update(Config.DB_CON, sql, data)
+    SqliteUtil.update(sql, data)
 
 def update_app_category(id, category):
     #更新数据
     print "数据库更新数据"
     sql = '''UPDATE ps_app set category = ? where id = ?'''
     data = [(category, id)]
-    SqliteUtil.update(Config.DB_CON, sql, data)
+    SqliteUtil.update(sql, data)
