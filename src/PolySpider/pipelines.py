@@ -3,15 +3,20 @@
 
 import re
 import os
-import urllib
-import pybcs
 from scrapy.exceptions import DropItem
 from PolySpider.config import Config
-from PolySpider.util import SqliteUtil
-from PolySpider.util import CommonUtil
-from PolySpider.util import ApkUtil
 from PolySpider.util import CategoryUtil
+from PolySpider.sql import App
+from PolySpider.sql import AppDetail
+
+import urllib
+import pybcs
+from PolySpider.util import ApkUtil
 from PolySpider.util import FileUploadUtil
+from PolySpider.util import CommonUtil
+
+APP_TABLE_INSERT = False
+APP_DETAIL_TABLE_INSERT = False
 
 class PolySpiderPipeline(object):
     def process_item(self, item, spider):
@@ -19,41 +24,65 @@ class PolySpiderPipeline(object):
 
 '''
 执行顺序ID：100
-判断版本号，根据版本号来判断是否进行后续操作
-'''
-class VersionCmpPipeline(object):
-    def process_item(self,item,spider):
-        con = SqliteUtil.get_conn(Config.SQLITE_PATH)
-        #如果表不存在，则创建表
-        SqliteUtil.checkAppInfoExist(con)
-        oldItem = SqliteUtil.getItemByAppName(con,item['app_name'])
-        if oldItem == []:
-            print "数据库中无该App记录，执行插入操作"
-        elif CommonUtil.cmpVersion(oldItem[0][5], item['version']): 
-            raise DropItem("Crawled app has been record in databse. No newer version has been found!")
-        return item
-
-'''
-执行顺序ID：101
-处理应用的分类的Pipeline
+处理应用的分类的Pipeline~
 '''
 class CategorizingPipeline(object):
     def process_item(self,item,spider):
         #如果category中没有这个类 会报错
         item['category'] = CategoryUtil.getCategoryIds(item['category'].encode('gbk','ignore'))
-        #TODO 未来添加高级分类判定
+        return item
+
+'''
+执行顺序ID：101
+检查ps_app表中是否存在该App数据
+如果不存在，则记录该App数据
+如果存在，检查author,如果为空，则更新author
+'''
+class CheckAppPipeline(object):
+    def process_item(self,item,spider):
+        app_name = item['app_name']
+        app = App.get_app_by_app_name(app_name)
+        if not app:
+            #构造分类
+            for category in item['category'].split(","):
+                item['category'] = category + ":1" + ","
+            #插入数据
+            APP_TABLE_INSERT = True
+            item['app_id'] = App.insert_app(item)
+        else:
+            item['app_id'] = app['id']
+            #更新分类
+            #判断author是否为空，如果为空，则更新app表
+            if app['author'] == "" and item['author'] != "":
+                App.update_app_author(app['id'], item['author'])
         return item
 
 '''
 执行顺序ID：102
-文件上传到服务器
-分析Apk信息
-上传到UpYun/BaiduYun
+分析ps_app_detail表中是否存在该App_Detail数据(通过app_id, verison, flatform做唯一标识)
+如果不存在，则记录该App数据
+如果存在，更新一些数据信息，然后将该ItemDrop掉
 '''
-class FileUploadPipeline(object):
+class CheckAppDetailsPipeline(object):
     def process_item(self,item,spider):
-        url = item['apk_url']
+        app_detail = AppDetail.get_app_detail_by_item(item)
+        if not app_detail:
+            #下载Apk | 分析Apk并记录pakage_name | 上传Apk至UpYun
+            apk_operation(item)
+            #插入数据
+            AppDetail.insert_app_detail(item)
+        else:
+            #TODO 可能涉及到更新操作-->rating_point | rating_count | download_times | apk_url | cover | 
+            raise DropItem("Crawled app has been record in databse. No newer version has been found!")
         
+    def apk_operation(self, item):
+        '''
+        执行顺序ID：102
+        文件上传到服务器
+        分析Apk信息,获取pakage_name
+        上传到UpYun/BaiduYun
+        '''
+        url = item['apk_url']
         ##根据获取的apk下载地址将apk文件传至百度云
         #正则匹配文件名
         name = re.compile('^.+/([^/]+)$').match(url).group(1).encode('utf8')
@@ -95,6 +124,34 @@ class FileUploadPipeline(object):
         print '上传完成'
         #上传至UpYun Done
         '''
+
+class UpdateCategoryPipeline(object):
+    def process_item(self,item,spider):
+        if not APP_TABLE_INSERT:
+            #TODO 重新计算category
+            category = ""
+            
+            #更新ps_app表的category
+            App.update_app_category(app['id'], category)
+        return item
+
+
+#'''
+#执行顺序ID：100
+#判断版本号，根据版本号来判断是否进行后续操作
+#'''
+#class VersionCmpPipeline(object):
+#    def process_item(self,item,spider):
+#        con = SqliteUtil.get_conn(Config.SQLITE_PATH)
+#        #如果表不存在，则创建表
+#        SqliteUtil.checkAppInfoExist(con)
+#        oldItem = SqliteUtil.getItemByAppName(con,item['app_name'])
+#        if oldItem == []:
+#            print "数据库中无该App记录，执行插入操作"
+#        elif CommonUtil.cmpVersion(oldItem[0][5], item['version']): 
+#            raise DropItem("Crawled app has been record in databse. No newer version has been found!")
+#        return item
+
 
 '''
 执行顺序ID：103

@@ -11,7 +11,7 @@ class AppItem(Item):
     app_name: 应用名称
     cover: 封面图片url地址
     version: 版本号
-    rating_star: 总评分
+    rating_point: 总评分
     rating_count: 评分总数
     category: 类别
     android_version: 支持的Android版本
@@ -21,13 +21,14 @@ class AppItem(Item):
     description: 应用简介
     imgs_url: 应用截图链接
     """
+    app_id = Field()
     app_url = Field()
     apk_url = Field()
     pakage_name = Field()
     app_name = Field()
     cover = Field()
     version = Field()
-    rating_star = Field()
+    rating_point = Field()
     rating_count = Field()
     category = Field()
     android_version = Field()

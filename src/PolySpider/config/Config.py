@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-  
+import sqlite3
 
 #Sqlite3 Configuration
 SQLITE_PATH = "app.db"
 SHOW_SQL = False #True则会在控制台显示详细的SQL查询
+DB_CON = sqlite3.connect(SQLITE_PATH)
 
 
 #App Star Constant
