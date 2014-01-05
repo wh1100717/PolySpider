@@ -37,7 +37,7 @@ class AppStarSpider(BaseSpider):
             item['app_name'] = CommonUtil.dropBrackets(sel.xpath('//*[@id="appName"]/text()').extract()[0])
             item['cover'] = sel.xpath('//*[@id="appImg"]/@src').extract()[0]
             item['version'] = CommonUtil.normalizeVersion(sel.xpath('//*[@id="appVersion"]/text()').extract()[0][4:-1])
-            item['rating_star'] = sel.xpath('//*[@id="appDetail"]/li[1]/span/text()').extract()[0][1:-2]
+            item['rating_point'] = sel.xpath('//*[@id="appDetail"]/li[1]/span/text()').extract()[0][1:-2]
             item['rating_count'] = sel.xpath('//*[@id="appDetail"]/li[2]/span[1]/text()').extract()[0][:-3]
             item['category'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()').extract()[1][6:]
             item['android_version'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()').extract()[4][5:]

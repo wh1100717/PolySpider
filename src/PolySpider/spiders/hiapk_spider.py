@@ -48,10 +48,10 @@ class AppStarSpider(CrawlSpider):
             item['apk_size'] = sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftSize"]/text()').extract()[0]
             rating_star = sel.xpath('//*[@id="main"]/div/div/div[1]/div[1]/div[2]/div[1]/div[2]/div[3]/@class').extract()[0]
             if len(rating_star) < 21:
-                item['rating_star'] = "0"
+                item['rating_point'] = "0"
                 item['rating_count'] = "0"
             else:
-                item['rating_star'] = rating_star[21:-2] if len(rating_star) > 21 else "0"
+                item['rating_point'] = rating_star[21:-2] if len(rating_star) > 21 else "0"
                 if "half" in item['rating_star']: item['rating_star'] = item['rating_star'][0] + ".5"
                 item['rating_count'] = sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Soft_StarProportion"]/div[2]/div[2]/div[3]/text()').extract()[0][:-3]
             #获取图片地址，通过空格来分割多张图片

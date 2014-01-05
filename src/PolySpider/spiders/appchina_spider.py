@@ -30,7 +30,7 @@ class AppStarSpider(CrawlSpider):
                 item['app_name'] = CommonUtil.dropBrackets(sel.xpath("//h1[@class='ch-name cutoff fl']/text()").extract()[0].strip())
                 item['cover'] = sel.xpath('//div[@class="cf"]/img/@src').extract()[0]
                 item['version'] = CommonUtil.normalizeVersion(CommonUtil.normalizeString(sel.xpath('//*[@id="app-detail-wrap"]/div[2]/div[2]/p[1]/text()').extract()[0]))
-                item['rating_star'] = ""
+                item['rating_point'] = ""
                 item['rating_count'] = sel.xpath('//a[@class="linkmore"]/text()').extract()[0][6:-2]
                 item['category'] = sel.xpath('//*[@id="app-detail-wrap"]/div[2]/ul/li[3]/a/text()').extract()[0]
                 item['android_version'] = sel.xpath('//*[@id="app-detail-wrap"]/div[1]/span[@class="sys"]/text()').extract()[0].replace('\n','')[7:-2].strip()

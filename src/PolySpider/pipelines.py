@@ -71,12 +71,13 @@ class CheckAppDetailsPipeline(object):
         app_detail = AppDetail.get_app_detail_by_item(item)
         if not app_detail:
             #下载Apk | 分析Apk并记录pakage_name | 上传Apk至UpYun
-            apk_operation(item)
+            self.apk_operation(item)
             #插入数据
             AppDetail.insert_app_detail(item)
         else:
             #TODO 可能涉及到更新操作-->rating_point | rating_count | download_times | apk_url | cover | 
             raise DropItem("Crawled app has been record in databse. No newer version has been found!")
+        return item
         
     def apk_operation(self, item):
         '''
@@ -106,7 +107,6 @@ class CheckAppDetailsPipeline(object):
         item['pakage_name'] = ''
         print '分析完成'
         #Done
-        return item
         
         '''
         #上传至百度云
@@ -134,7 +134,7 @@ class UpdateCategoryPipeline(object):
     更新ps_app中的category项
     '''
     def process_item(self,item,spider):
-        if not APP_TABLE_INSERT:
+        if APP_TABLE_INSERT:
             #重新计算category
             item_category = item['category']
             categories = item['app_category'].split(",")

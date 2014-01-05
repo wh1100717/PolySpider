@@ -68,7 +68,7 @@ def dropBrackets(str):
     while '(' in str:
         startPoint = str.find('(')
         endPoint = str.rfind(')')
-        str = str[:startPoint] if endPoint == -1 else str[:satrtPoint] + str[endPoint+1:]
+        str = str[:startPoint] if endPoint == -1 else str[:startPoint] + str[endPoint+1:]
     return str.strip()
 def normalizeString(str):
     normalizedStr = {

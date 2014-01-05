@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-  
 
 from PolySpider.config import Config
+import sqlite3
 
 def check_sql(sql):
     '''
@@ -16,7 +17,8 @@ def is_table_exist(table_name):
     '''
     检查table_name的数据库表是否存在
     '''
-    return True if Config.DB_CON.cursor().execute("SELECT count(*) FROM sqlite_master WHERE type= 'table' and name = ? ",(table_name,)).fetchone()[0] > 0 else False
+    con = sqlite3.connect(Config.SQLITE_PATH)
+    return True if con.cursor().execute("SELECT count(*) FROM sqlite_master WHERE type= 'table' and name = ? ",(table_name,)).fetchone()[0] > 0 else False
 
 def checkTableExist():
     '''
@@ -26,17 +28,17 @@ def checkTableExist():
     if not is_table_exist('ps_app'):
         sql_table_create = '''
             CREATE TABLE ps_app(
-                id INTEGER PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 app_name VARCHAR(32),
                 author VARCHAR(32),
-                category VARCHAR(32),
+                category VARCHAR(32)
             );
         '''
         create_table(sql_table_create)
     if not is_table_exist('ps_app_detail'):
         sql_table_create = '''
             CREATE TABLE ps_app_detail(
-                app_id INTEGER
+                app_id INTEGER,
                 version VARCHAR(32),
                 platform VARCHAR(32),
                 apk_url TEXT,
@@ -69,11 +71,11 @@ def execute_sql(sql, data = ""):
     执行sql语句
     data默认为空,data为list，可执行多条数据操作
     '''
-    con = Config.DB_CON
+    con = sqlite3.connect(Config.SQLITE_PATH)
     if not check_sql(sql): return
     cur = con.cursor()
     if data == "":
-        DB_CUR.execute(sql)
+        cur.execute(sql)
     else:
         for d in data:
             if Config.SHOW_SQL: print('执行sql:[{}],参数:[{}]'.format(sql, d))
@@ -106,6 +108,24 @@ def save(sql, data):
     if not data: return
     execute_sql(sql, data)
     print('插入数据成功!')
+
+def save_return_id(sql, data):
+    '''
+    插入数据
+    data为要插入的数据
+    返回插入生成的id，要求id为INTEGER PRIMARY KEY AUTOINCREMENT格式
+    '''
+    id = 0
+    if not data: return
+    con = sqlite3.connect(Config.SQLITE_PATH)
+    if not check_sql(sql): return
+    cur = con.cursor()
+    if Config.SHOW_SQL: print('执行sql:[{}],参数:[{}]'.format(sql, data))
+    cur.execute(sql, data)
+    id = cur.lastrowid
+    con.commit()
+    close_all(con)
+    return id
     
 def update(sql, data):
     '''

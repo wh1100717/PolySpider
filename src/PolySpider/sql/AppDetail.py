@@ -2,9 +2,12 @@
 # -*- coding: utf-8 -*-  
 from PolySpider.config import Config
 from PolySpider.util import SqliteUtil
+import sqlite3
 
 def get_app_detail_by_item(item):
-    cur = Config.DB_CON.cursor()
+    con = sqlite3.connect(Config.SQLITE_PATH)
+    cur = con.cursor()
+    print item['app_id']
     sql = "select * from ps_app_detail where app_id = ? and version = ? and platform = ?"
     cur.execute(sql,(item['app_id'], item['version'], item['platform']))
     return cur.fetchall()
@@ -12,7 +15,7 @@ def get_app_detail_by_item(item):
 def insert_app_detail(item):
     #插入数据
     print '数据库ps_app_detail插入数据'
-    sql = '''INSERT INTO ps_app values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)'''
+    sql = '''INSERT INTO ps_app_detail values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)'''
     data = [(
          item['app_id'],
          item['version'],
