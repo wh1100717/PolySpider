@@ -5,6 +5,8 @@ Python(v2.7) and Scrapy(v0.20.2) are used in this project, which is mainly desig
 ## Requirements
 *	[Python] v2.7+
 *	[Scrapy] v0.20+
+*	[web.py] v0.37+
+*	Dependencies are listed in [Installation]
 *	ak & sk & bucket name of [BaiYun] or [Upyun] for files upload
 *	Only test in Windows(both 32&64bit), but it should work much better in Linux or Unix I suppose...
 
@@ -34,13 +36,14 @@ Python(v2.7) and Scrapy(v0.20.2) are used in this project, which is mainly desig
 
 
 [AppStar]: http://www.appstar.com.cn/
-[AppChina]:http://www.appchina.com/
-[BaiduApp]:http://as.baidu.com/
-[Hiapk安卓市场]:http://apk.hiapk.com/
-[XiaomiApp]:http://app.xiaomi.com/
+[AppChina]: http://www.appchina.com/
+[BaiduApp]: http://as.baidu.com/
+[Hiapk安卓市场]: http://apk.hiapk.com/
+[XiaomiApp]: http://app.xiaomi.com/
 
 [Python]: http://www.python.org/
 [Scrapy]: http://www.scrapy.org/
+[web.py]: http://webpy.org/
 [BaiYun]: http://developer.baidu.com
 [Upyun]: https://www.upyun.com
 [Getting Involved]: http://wh1100717.github.io/PolyTechDocs/docs/invovled/
