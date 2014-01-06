@@ -52,7 +52,7 @@ class AppStarSpider(CrawlSpider):
                 item['rating_count'] = "0"
             else:
                 item['rating_point'] = rating_star[21:-2] if len(rating_star) > 21 else "0"
-                if "half" in item['rating_star']: item['rating_star'] = item['rating_star'][0] + ".5"
+                if "half" in item['rating_point']: item['rating_point'] = item['rating_point'][0] + ".5"
                 item['rating_count'] = sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Soft_StarProportion"]/div[2]/div[2]/div[3]/text()').extract()[0][:-3]
             #获取图片地址，通过空格来分割多张图片
             imgs =  sel.xpath('//*[@id="main"]/div/div/div[1]/div[1]/div[2]/div[4]/div[3]/ul/li/a/@href').extract()

@@ -21,7 +21,7 @@ urls = (
     '/chart/?', 'chart',
     '/data/?', 'data',
     '/app/get_app_list/data.json', 'get_app_list',
-    '/app/get_app_by_app_name/?','get_app_by_app_name',
+    '/app/count_app_categroy_sum/?','count_app_categroy_sum',
 )
 
 class home:
@@ -42,27 +42,13 @@ class data:
 
 class get_app_list:
     def GET(self):
-        data = '''
-                [
-                    ["Firefox",   45.0],
-                    ["IE",       26.8],
-                    {
-                        "name": "Chrome",
-                        "y": 12.8,
-                        "sliced": true,
-                        "selected": true
-                    },
-                    ["Safari",    8.5],
-                    ["Opera",     6.2],
-                    ["Others",   0.7]
-                ]
-                '''
+        data  = App.count_app_categroy_sum()
         return data
 
-class get_app_by_app_name:
+class count_app_categroy_sum:
     def GET(self):
-        result = App.get_app_by_app_name()
-        print result
+        result = App.count_app_categroy_sum()
+        
         return "Success"
 
 

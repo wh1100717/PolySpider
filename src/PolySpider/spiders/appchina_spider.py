@@ -17,7 +17,7 @@ class AppStarSpider(CrawlSpider):
        # rules = [Rule(SgmlLinkExtractor(allow=("http\://apk\.hiapk\.com/html/[0-9]*/[0-9]*/[0-9]*\.html", )), callback='parse_app'),]
   
         rules = [
-                Rule(SgmlLinkExtractor(allow=('www\.appchina\.com', )),follow=True),
+                Rule(SgmlLinkExtractor(allow=('www\.appchina\.com/category/', )),follow=True),
 		Rule(SgmlLinkExtractor(allow=('www\.appchina\.com/app/.*/$', )),callback='parse_app',follow=True)
 	]
 	def parse_app(self, response):	

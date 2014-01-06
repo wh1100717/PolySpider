@@ -31,6 +31,7 @@ class CategorizingPipeline(object):
     def process_item(self,item,spider):
         #如果category中没有这个类 会报错
         item['category'] = CategoryUtil.getCategoryIds(item['category'].encode('gbk','ignore'))
+         
         return item
 
 class CheckAppPipeline(object):
