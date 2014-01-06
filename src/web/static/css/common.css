@@ -255,7 +255,7 @@ footer {
     filter:alpha(opacity=50);  /* ie 有效*/
     -moz-opacity:0.5; /* Firefox  有效*/
     opacity: 0.5; /* 通用，其他浏览器  有效*/
-    
+
     position:fixed;
     bottom:0;
     width:100%;
@@ -303,4 +303,8 @@ footer ul.footer-nav li a {
 footer ul.footer-nav li a:hover {
     color:#fff;
     text-decoration:none;
+}
+.spacer {
+    height: 20px;
+    clear: both;
 }
