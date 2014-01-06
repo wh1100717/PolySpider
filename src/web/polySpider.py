@@ -12,7 +12,8 @@ from PolySpider.sql import App
 
 from view import render
 
-render = web.template.render('templates/')
+render = web.template.render('templates/', base='layout')
+render_without_layout = web.template.render('templates/')
 
 urls = (
     '/(home/?)?', 'home',
