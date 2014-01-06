@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-  
 
-from PolySpider.config import Config
 import sqlite3
+    
+from PolySpider.config import Config
 
 def check_sql(sql):
     '''

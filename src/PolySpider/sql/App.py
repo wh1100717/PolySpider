@@ -1,14 +1,24 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-  
-from PolySpider.config import Config
-from PolySpider.util import SqliteUtil
 import sqlite3
 
+from PolySpider.config import Config
+from PolySpider.util import SqliteUtil
+
 def get_app_by_app_name(app_name):
+    print SqliteUtil.is_table_exist("ps_app")
     con = sqlite3.connect(Config.SQLITE_PATH)
     cur = con.cursor()
     sql = "select * from ps_app where app_name = ?"
     cur.execute(sql,(app_name,))
+    return cur.fetchall()
+
+def get_app_by_id(id):
+    print SqliteUtil.is_table_exist("ps_app")
+    con = sqlite3.connect(Config.SQLITE_PATH)
+    cur = con.cursor()
+    sql = "select * from ps_app where id = ?"
+    cur.execute(sql,(id,))
     return cur.fetchall()
 
 def insert_app(item):

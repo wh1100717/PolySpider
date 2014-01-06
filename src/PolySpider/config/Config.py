@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-  
-import sqlite3
-
+import os
+import sys
+if sys.path[-1].split("\\")[-1] != "src": 
+    c_path = os.getcwd()
+    sys.path.append(c_path[:c_path.rfind("\\")])
+    
 #Sqlite3 Configuration
-SQLITE_PATH = "app.db"
+SQLITE_PATH = sys.path[-1] + "\\" + "app.db"
 SHOW_SQL = False #True则会在控制台显示详细的SQL查询
 
 #App Star Constant
