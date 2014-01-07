@@ -252,9 +252,6 @@ section.company-updates .latest-tweets {
     }
 }
 footer {
-    filter:alpha(opacity=50);  /* ie 有效*/
-    -moz-opacity:0.5; /* Firefox  有效*/
-    opacity: 0.5; /* 通用，其他浏览器  有效*/
 
     position:fixed;
     bottom:0;
@@ -306,5 +303,19 @@ footer ul.footer-nav li a:hover {
 }
 .spacer {
     height: 20px;
+    clear: both;
+}
+.data-container{
+    padding-left: 10%;
+    padding-right: 10%
+}
+.data-container h1{
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    font-size: 2em;
+    font-weight: normal;
+    line-height: 1.6em;
+    color: #4E6CA3;
+    border-bottom: 1px solid #B0BED9;
     clear: both;
 }

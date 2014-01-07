@@ -2,7 +2,9 @@ $def with (apps)
 <link href="../static/datatables/media/css/demo_page.css" rel="stylesheet">
 <link href="../static/datatables/media/css/demo_table_jui.css" rel="stylesheet">
 <link href="../static/datatables/examples/examples_support/themes/smoothness/jquery-ui-1.8.4.custom.css" rel="stylesheet">
-<div class="demo_jui">
+
+<div class ="data-container">
+    <h1>App列表</h1>
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
         <thead>
             <tr>
@@ -14,12 +16,12 @@ $def with (apps)
         </thead>
         <tbody>
             $for app in apps:
-                <tr class="gradeX">
-                    <td>$app[0]</td>
-                    <td>$app[1]</td>
-                    <td>$app[2]</td>
-                    <td>$app[3]</td>
-                </tr>
+            <tr class="gradeX">
+                <td>$app[0]</td>
+                <td>$app[1]</td>
+                <td>$app[2]</td>
+                <td>$app[3]</td>
+            </tr>
         </tbody>
     </table>
 </div>
@@ -27,6 +29,7 @@ $def with (apps)
 <script type="text/javascript">
     $$(document).ready(function() {
         $$('#example').dataTable({
+            "sTtile": "123",
             "bProcessing": true,
             "bJQueryUI": true
 //            "sPaginationType": "full_numbers"
