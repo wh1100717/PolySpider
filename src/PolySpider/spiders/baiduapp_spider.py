@@ -21,7 +21,7 @@ class AppStarSpider(CrawlSpider):
         rules = [
               
 		Rule(SgmlLinkExtractor(allow=('item\?docid=\d.*', )),callback='parse_app',follow=True),
-                Rule(SgmlLinkExtractor(allow=("as\.baidu\.com", )), follow = True),
+                Rule(SgmlLinkExtractor(allow=('as\.baidu\.com/a/', ),deny=('as\.baidu\.com/a/%')), follow = True),
 	]
 	def parse_app(self, response):	
 		sel = Selector(response)

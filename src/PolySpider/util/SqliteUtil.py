@@ -65,9 +65,10 @@ def checkTableExist():
                 create_date TEXT,
                 crawled_app_count INTEGER,
                 new_app_count INTEGER,
-                update_app_count INTEGER,
+                update_app_count INTEGER
             );
         '''
+        create_table(sql_table_create)
 
 def close_all(con):
     '''

@@ -19,15 +19,15 @@ def get_today_status(platform):
     con = sqlite3.connect(Config.SQLITE_PATH)
     cur = con.cursor()
     today = datetime.date.today()
-    sql = "select * from ps_status where platform = ? and create_time = ?"
+    sql = "select * from ps_status where platform = ? and create_date = ?"
     cur.execute(sql,(platform,today))
-    status = cur.fetchall()[0]
-    if status == "":
+    status = cur.fetchall()
+    if status == []:
         sql = '''INSERT INTO ps_status values(null,?,?,0,0,0)'''
         data = (platform, today)
         id = SqliteUtil.save_return_id(sql, data)
-        status = (id,platform,today,0,0,0)
-    return status
+        status = [(id,platform,today,0,0,0)]
+    return status[0]
 
 def update_status(data):
     sql = '''

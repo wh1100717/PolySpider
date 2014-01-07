@@ -235,7 +235,7 @@ def get_category_id_by_name(category_name):
                     f.write(key + "\n")
         return ""
         
-    return CATEGORY.get(category_name)
+    return CATEGORY_ID.get(category_name)
 
 def get_category_name_by_id(id):
     if not CATEGORY_NAME.get(id):

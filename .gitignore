@@ -40,3 +40,4 @@ nosetests.xml
 .data
 .log
 /src/apk/
+/nbproject

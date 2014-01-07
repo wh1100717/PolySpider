@@ -80,7 +80,7 @@ def count_app_categroy_sum():
     return data
             
             
-def get_app_list(page_index = 1,row_number = 100,sort = "id",order = "asc"):
+def get_app_list(page_index = 1,row_number = 1500,sort = "id",order = "asc"):
     #应用列表
     #page_index代表页数 row_number显示行数sort按某条件排序order升序降序
     con = sqlite3.connect(Config.SQLITE_PATH)
@@ -89,5 +89,9 @@ def get_app_list(page_index = 1,row_number = 100,sort = "id",order = "asc"):
     startnum=(int(page_index)-1)*int(row_number)
     temp = sort+' '+order
     cur.execute(sql,(temp,row_number,startnum,))
-    
-    return cur.fetchall()
+    datas = cur.fetchall()
+    for index in range(len(datas)):
+        data = list(datas[index])
+        data[3]=CategoryUtil.get_category_name_by_id(data[3][0:4])
+        datas[index]=tuple(data)
+    return datas
