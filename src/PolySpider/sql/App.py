@@ -22,8 +22,8 @@ def get_app_by_id(id):
     return cur.fetchall()
 
 def insert_app(item):
-    #²åÈëÊı¾İ
-    print 'Êı¾İ¿âps_app²åÈëÊı¾İ'
+    #æ’å…¥æ•°æ®
+    print 'æ•°æ®åº“ps_appæ’å…¥æ•°æ®'
     sql = '''INSERT INTO ps_app values(null,?,?,?)'''
     data = (item['app_name'], item['author'], item['category'])
     result = SqliteUtil.save_return_id(sql, data)
@@ -31,20 +31,20 @@ def insert_app(item):
     return result
 
 def update_app_author(id, author):
-    #¸üĞÂÊı¾İ
-    print "Êı¾İ¿â¸üĞÂÊı¾İ"
+    #æ›´æ–°æ•°æ®
+    print "æ•°æ®åº“æ›´æ–°æ•°æ®"
     sql = '''UPDATE ps_app set author = ? where id = ?'''
     data = [(author, id)]
     SqliteUtil.update(sql, data)
 
 def update_app_category(id, category):
-    #¸üĞÂÊı¾İ
-    print "Êı¾İ¿â¸üĞÂÊı¾İ"
+    #æ›´æ–°æ•°æ®
+    print "æ•°æ®åº“æ›´æ–°æ•°æ®"
     sql = '''UPDATE ps_app set category = ? where id = ?'''
     data = [(category, id)]
     SqliteUtil.update(sql, data)
 def search_app_category(id):
-    #²éÕÒÄ³¸öappµÄ·ÖÀà
+    #æŸ¥æ‰¾æŸä¸ªappçš„åˆ†ç±»
     con = sqlite3.connect(Config.SQLITE_PATH)
     cur = con.cursor()
     sql = "select category from ps_app where id= ?"
@@ -53,7 +53,7 @@ def search_app_category(id):
     
     return cur.fetchall()
 def count_app_categroy_sum():
-    #Ä³¸ö·ÖÀàÏÂappµÄ×ÜÊı
+    #æŸä¸ªåˆ†ç±»ä¸‹appçš„æ€»æ•°
     sql = '''select category from ps_app '''
     count_categorys={}
     count_categorys['1000']=0
@@ -81,8 +81,8 @@ def count_app_categroy_sum():
             
             
 def get_app_list(page_index,row_number,sort,order):
-    #Ó¦ÓÃÁĞ±í
-    #page_index´ú±íÒ³Êı row_numberÏÔÊ¾ĞĞÊısort°´Ä³Ìõ¼şÅÅĞòorderÉıĞò½µĞò
+    #åº”ç”¨åˆ—è¡¨
+    #page_indexä»£è¡¨é¡µæ•° row_numberæ˜¾ç¤ºè¡Œæ•°sortæŒ‰æŸæ¡ä»¶æ’åºorderå‡åºé™åº
     con = sqlite3.connect(Config.SQLITE_PATH)
     cur = con.cursor()
     sql='''select * from ps_app order by ? limit ? offset ?'''
@@ -91,4 +91,3 @@ def get_app_list(page_index,row_number,sort,order):
     cur.execute(sql,(temp,row_number,startnum,))
     
     return cur.fetchall()
-

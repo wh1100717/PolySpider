@@ -25,118 +25,118 @@ class PolySpiderPipeline(object):
 
 class CategorizingPipeline(object):
     '''
-    Ö´ĞĞË³ĞòID£º100
-    ´¦ÀíÓ¦ÓÃµÄ·ÖÀàµÄPipeline~
+    æ‰§è¡Œé¡ºåºIDï¼š100
+    å¤„ç†åº”ç”¨çš„åˆ†ç±»çš„Pipeline~
     '''
     def process_item(self,item,spider):
-        #Èç¹ûcategoryÖĞÃ»ÓĞÕâ¸öÀà »á±¨´í
+        #å¦‚æœcategoryä¸­æ²¡æœ‰è¿™ä¸ªç±» ä¼šæŠ¥é”™
         item['category'] = CategoryUtil.getCategoryIds(item['category'].encode('gbk','ignore'))
          
         return item
 
 class CheckAppPipeline(object):
     '''
-    Ö´ĞĞË³ĞòID£º101
-    ¼ì²éps_app±íÖĞÊÇ·ñ´æÔÚ¸ÃAppÊı¾İ
-    Èç¹û²»´æÔÚ£¬Ôò¼ÇÂ¼¸ÃAppÊı¾İ
-    Èç¹û´æÔÚ£¬¼ì²éauthor,Èç¹ûÎª¿Õ£¬Ôò¸üĞÂauthor
+    æ‰§è¡Œé¡ºåºIDï¼š101
+    æ£€æŸ¥ps_appè¡¨ä¸­æ˜¯å¦å­˜åœ¨è¯¥Appæ•°æ®
+    å¦‚æœä¸å­˜åœ¨ï¼Œåˆ™è®°å½•è¯¥Appæ•°æ®
+    å¦‚æœå­˜åœ¨ï¼Œæ£€æŸ¥author,å¦‚æœä¸ºç©ºï¼Œåˆ™æ›´æ–°author
     '''
     def process_item(self,item,spider):
         SqliteUtil.checkTableExist()
         app_name = item['app_name']
         app = App.get_app_by_app_name(app_name)
         if not app:
-            #¹¹Ôì·ÖÀà
+            #æ„é€ åˆ†ç±»
             for category in item['category'].split(","):
                 item['category'] = category + ":1" + ","
-            #²åÈëÊı¾İ
+            #æ’å…¥æ•°æ®
             APP_TABLE_INSERT = True
             item['app_id'] = App.insert_app(item)
         else:
             item['app_id'] = app['id']
             item['app_category'] = app['category']
-            #¸üĞÂ·ÖÀà
-            #ÅĞ¶ÏauthorÊÇ·ñÎª¿Õ£¬Èç¹ûÎª¿Õ£¬Ôò¸üĞÂapp±í
+            #æ›´æ–°åˆ†ç±»
+            #åˆ¤æ–­authoræ˜¯å¦ä¸ºç©ºï¼Œå¦‚æœä¸ºç©ºï¼Œåˆ™æ›´æ–°appè¡¨
             if app['author'] == "" and item['author'] != "":
                 App.update_app_author(app['id'], item['author'])
         return item
 
 class CheckAppDetailsPipeline(object):
     '''
-    Ö´ĞĞË³ĞòID£º102
-    ·ÖÎöps_app_detail±íÖĞÊÇ·ñ´æÔÚ¸ÃApp_DetailÊı¾İ(Í¨¹ıapp_id, verison, flatform×öÎ¨Ò»±êÊ¶)
-    Èç¹û²»´æÔÚ£¬Ôò¼ÇÂ¼¸ÃAppÊı¾İ
-    Èç¹û´æÔÚ£¬¸üĞÂÒ»Ğ©Êı¾İĞÅÏ¢£¬È»ºó½«¸ÃItemDropµô
+    æ‰§è¡Œé¡ºåºIDï¼š102
+    åˆ†æps_app_detailè¡¨ä¸­æ˜¯å¦å­˜åœ¨è¯¥App_Detailæ•°æ®(é€šè¿‡app_id, verison, flatformåšå”¯ä¸€æ ‡è¯†)
+    å¦‚æœä¸å­˜åœ¨ï¼Œåˆ™è®°å½•è¯¥Appæ•°æ®
+    å¦‚æœå­˜åœ¨ï¼Œæ›´æ–°ä¸€äº›æ•°æ®ä¿¡æ¯ï¼Œç„¶åå°†è¯¥ItemDropæ‰
     '''
     def process_item(self,item,spider):
         app_detail = AppDetail.get_app_detail_by_item(item)
         if not app_detail:
-            #ÏÂÔØApk | ·ÖÎöApk²¢¼ÇÂ¼pakage_name | ÉÏ´«ApkÖÁUpYun
+            #ä¸‹è½½Apk | åˆ†æApkå¹¶è®°å½•pakage_name | ä¸Šä¼ Apkè‡³UpYun
             self.apk_operation(item)
-            #²åÈëÊı¾İ
+            #æ’å…¥æ•°æ®
             AppDetail.insert_app_detail(item)
         else:
-            #TODO ¿ÉÄÜÉæ¼°µ½¸üĞÂ²Ù×÷-->rating_point | rating_count | download_times | apk_url | cover | 
+            #TODO å¯èƒ½æ¶‰åŠåˆ°æ›´æ–°æ“ä½œ-->rating_point | rating_count | download_times | apk_url | cover | 
             raise DropItem("Crawled app has been record in databse. No newer version has been found!")
         return item
         
     def apk_operation(self, item):
         '''
-        Ö´ĞĞË³ĞòID£º102
-        ÎÄ¼şÉÏ´«µ½·şÎñÆ÷
-        ·ÖÎöApkĞÅÏ¢,»ñÈ¡pakage_name
-        ÉÏ´«µ½UpYun/BaiduYun
+        æ‰§è¡Œé¡ºåºIDï¼š102
+        æ–‡ä»¶ä¸Šä¼ åˆ°æœåŠ¡å™¨
+        åˆ†æApkä¿¡æ¯,è·å–pakage_name
+        ä¸Šä¼ åˆ°UpYun/BaiduYun
         '''
         url = item['apk_url']
-        ##¸ù¾İ»ñÈ¡µÄapkÏÂÔØµØÖ·½«apkÎÄ¼ş´«ÖÁ°Ù¶ÈÔÆ
-        #ÕıÔòÆ¥ÅäÎÄ¼şÃû
+        ##æ ¹æ®è·å–çš„apkä¸‹è½½åœ°å€å°†apkæ–‡ä»¶ä¼ è‡³ç™¾åº¦äº‘
+        #æ­£åˆ™åŒ¹é…æ–‡ä»¶å
         name = re.compile('^.+/([^/]+)$').match(url).group(1).encode('utf8')
-        #ÏÂÔØÎÄ¼şÖÁ±¾µØ
-        print '¿ªÊ¼±¾µØÏÂÔØapk£º %s ' %name
+        #ä¸‹è½½æ–‡ä»¶è‡³æœ¬åœ°
+        print 'å¼€å§‹æœ¬åœ°ä¸‹è½½apkï¼š %s ' %name
         if not os.path.exists('apk/'): os.makedirs('apk/')
-        #¿ªÊ¼ÏÂÔØ
-        #µ÷ÓÃ½ø¶ÈÌõ£¬´«ÈëÏÂÔØurlºÍÎÄ¼şÃû³Æ
+        #å¼€å§‹ä¸‹è½½
+        #è°ƒç”¨è¿›åº¦æ¡ï¼Œä¼ å…¥ä¸‹è½½urlå’Œæ–‡ä»¶åç§°
         #CommonUtil.progressbar(url,'apk/' + name)
-        print 'ÏÂÔØÍê³É'
-        #ÏÂÔØÎÄ¼şÖÁ±¾µØ Done
+        print 'ä¸‹è½½å®Œæˆ'
+        #ä¸‹è½½æ–‡ä»¶è‡³æœ¬åœ° Done
         
-        #·ÖÎöAPKÎÄ¼ş£¬»ñÈ¡ÀïÃæµÄinfo_list
-        #Ä¿Ç°Öµ»ñÈ¡ÁËÀïÃæµÄpakage_name£¬ÒÔºó¿ÉÒÔÔö¼Ó±ğµÄĞèÒªµÄÊôĞÔ
-        print '¿ªÊ¼·ÖÎöApkÄÚÈİ'
+        #åˆ†æAPKæ–‡ä»¶ï¼Œè·å–é‡Œé¢çš„info_list
+        #ç›®å‰å€¼è·å–äº†é‡Œé¢çš„pakage_nameï¼Œä»¥åå¯ä»¥å¢åŠ åˆ«çš„éœ€è¦çš„å±æ€§
+        print 'å¼€å§‹åˆ†æApkå†…å®¹'
         #info_list = ApkUtil.getInfoList(name)
         #item['pakage_name'] = info_list['packageInfo']['orig_package']
         item['pakage_name'] = ''
-        print '·ÖÎöÍê³É'
+        print 'åˆ†æå®Œæˆ'
         #Done
         
         '''
-        #ÉÏ´«ÖÁ°Ù¶ÈÔÆ
+        #ä¸Šä¼ è‡³ç™¾åº¦äº‘
         bcs = pybcs.BCS('http://bcs.duapp.com/', Config.BAIDU_AK, Config.BAIDU_SK, pybcs.HttplibHTTPC) 
         poly_bucket = bcs.bucket(Config.BAIDU_BUCKET)
-        #ÉùÃ÷Ò»¸öobject
-        print '¿ªÊ¼ÉÏ´«apk %s µ½BaiduYun' %name
+        #å£°æ˜ä¸€ä¸ªobject
+        print 'å¼€å§‹ä¸Šä¼ apk %s åˆ°BaiduYun' %name
         obj = poly_bucket.object('/apk/' + name)
         print "%s\n%s\n%s\n%s\n" %(Config.BAIDU_AK,Config.BAIDU_SK,Config.BAIDU_BUCKET,name)
         obj.put_file('apk/' + name)
-        print 'ÉÏ´«Íê³É'
-        #ÉÏ´«ÖÁ°Ù¶ÈÔÆ Done
+        print 'ä¸Šä¼ å®Œæˆ'
+        #ä¸Šä¼ è‡³ç™¾åº¦äº‘ Done
 
-        #ÉÏ´«ÖÁUpYun
-        print '¿ªÊ¼ÉÏ´«apk %s µ½UpYun' %name
+        #ä¸Šä¼ è‡³UpYun
+        print 'å¼€å§‹ä¸Šä¼ apk %s åˆ°UpYun' %name
         up = FileUploadUtil.UpYun()
         up.put('apk/' + name, 'apk/' + name)
-        print 'ÉÏ´«Íê³É'
-        #ÉÏ´«ÖÁUpYun Done
+        print 'ä¸Šä¼ å®Œæˆ'
+        #ä¸Šä¼ è‡³UpYun Done
         '''
 
 class UpdateCategoryPipeline(object):
     '''
-    Ö´ĞĞË³ĞòID£º103
-    ¸üĞÂps_appÖĞµÄcategoryÏî
+    æ‰§è¡Œé¡ºåºIDï¼š103
+    æ›´æ–°ps_appä¸­çš„categoryé¡¹
     '''
     def process_item(self,item,spider):
         if APP_TABLE_INSERT:
-            #ÖØĞÂ¼ÆËãcategory
+            #é‡æ–°è®¡ç®—category
             item_category = item['category']
             categories = item['app_category'].split(",")
             flag = True
@@ -150,7 +150,7 @@ class UpdateCategoryPipeline(object):
                     break
             if flag:
                 item['app_category'] = item['app_category'] + "," + item['category'] + ":1"
-            #¸üĞÂps_app±íµÄcategory
+            #æ›´æ–°ps_appè¡¨çš„category
             App.update_app_category(app['id'], item['app_category'])
         return item
     
@@ -168,32 +168,32 @@ class UpdateCategoryPipeline(object):
 
 
 #'''
-#Ö´ĞĞË³ĞòID£º100
-#ÅĞ¶Ï°æ±¾ºÅ£¬¸ù¾İ°æ±¾ºÅÀ´ÅĞ¶ÏÊÇ·ñ½øĞĞºóĞø²Ù×÷
+#æ‰§è¡Œé¡ºåºIDï¼š100
+#åˆ¤æ–­ç‰ˆæœ¬å·ï¼Œæ ¹æ®ç‰ˆæœ¬å·æ¥åˆ¤æ–­æ˜¯å¦è¿›è¡Œåç»­æ“ä½œ
 #'''
 #class VersionCmpPipeline(object):
 #    def process_item(self,item,spider):
 #        con = SqliteUtil.get_conn(Config.SQLITE_PATH)
-#        #Èç¹û±í²»´æÔÚ£¬Ôò´´½¨±í
+#        #å¦‚æœè¡¨ä¸å­˜åœ¨ï¼Œåˆ™åˆ›å»ºè¡¨
 #        SqliteUtil.checkAppInfoExist(con)
 #        oldItem = SqliteUtil.getItemByAppName(con,item['app_name'])
 #        if oldItem == []:
-#            print "Êı¾İ¿âÖĞÎŞ¸ÃApp¼ÇÂ¼£¬Ö´ĞĞ²åÈë²Ù×÷"
+#            print "æ•°æ®åº“ä¸­æ— è¯¥Appè®°å½•ï¼Œæ‰§è¡Œæ’å…¥æ“ä½œ"
 #        elif CommonUtil.cmpVersion(oldItem[0][5], item['version']): 
 #            raise DropItem("Crawled app has been record in databse. No newer version has been found!")
 #        return item
 
 
 #'''
-#Ö´ĞĞË³ĞòID£º103
-#Êı¾İ¿â²åÈë»òÕß¸üĞÂ²Ù×÷
+#æ‰§è¡Œé¡ºåºIDï¼š103
+#æ•°æ®åº“æ’å…¥æˆ–è€…æ›´æ–°æ“ä½œ
 #'''
 #class DatebasePipeline(object):
 #    def process_item(self,item,spider):
 #        con = SqliteUtil.get_conn(Config.SQLITE_PATH)
 #        if SqliteUtil.getItemByAppName(con,item['app_name']) != []:
-#            #¸üĞÂÊı¾İ
-#            print "Êı¾İ¿â¸üĞÂÊı¾İ"
+#            #æ›´æ–°æ•°æ®
+#            print "æ•°æ®åº“æ›´æ–°æ•°æ®"
 #            sql = '''
 #                UPDATE  app_info SET
 #                    apk_url = ? ,
@@ -230,8 +230,8 @@ class UpdateCategoryPipeline(object):
 #                item['platform'],
 #                item['app_name'])]
 #        else:
-#            #²åÈëÊı¾İ
-#            print 'Êı¾İ¿â²åÈëÊı¾İ'
+#            #æ’å…¥æ•°æ®
+#            print 'æ•°æ®åº“æ’å…¥æ•°æ®'
 #            sql = '''INSERT INTO app_info values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'''
 #            data = [(
 #                    item['apk_url'],
@@ -252,5 +252,5 @@ class UpdateCategoryPipeline(object):
 #                    item['platform'])]
 #                    
 #        SqliteUtil.save_or_update(con, sql, data)
-#        print 'Êı¾İ¿â²Ù×÷½áÊø'
+#        print 'æ•°æ®åº“æ“ä½œç»“æŸ'
 #        return item

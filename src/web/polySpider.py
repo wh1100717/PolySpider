@@ -6,8 +6,10 @@ import os
 import sys
 if sys.path[-1].split("\\")[-1] != "src": 
     c_path = os.getcwd()
-    sys.path.append(c_path[:c_path.rfind("\\")])
-
+    if "win" in sys.platform:
+        sys.path.append(c_path[:c_path.rfind("\\")])
+    else:
+        sys.path.append(c_path[:c_path.rfind("/")])
 from PolySpider.sql import App
 
 from view import render
@@ -38,7 +40,9 @@ class chart:
 
 class data:
     def GET(self):
-        return render.data()
+        apps = App.get_app_list()
+        print apps
+        return render.data(apps)
 
 class get_app_list:
     def GET(self):

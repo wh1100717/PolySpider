@@ -7,7 +7,7 @@ from PolySpider.config import Config
 
 def check_sql(sql):
     '''
-    ¼ì²ésqlÓï¾äÊÇ·ñÎª¿Õ
+    æ£€æŸ¥sqlè¯­å¥æ˜¯å¦ä¸ºç©º
     '''
     if not sql or sql == '': 
         print('the [{}] is empty or equal None!'.format(sql))
@@ -16,15 +16,15 @@ def check_sql(sql):
     
 def is_table_exist(table_name):
     '''
-    ¼ì²étable_nameµÄÊı¾İ¿â±íÊÇ·ñ´æÔÚ
+    æ£€æŸ¥table_nameçš„æ•°æ®åº“è¡¨æ˜¯å¦å­˜åœ¨
     '''
     con = sqlite3.connect(Config.SQLITE_PATH)
     return True if con.cursor().execute("SELECT count(*) FROM sqlite_master WHERE type= 'table' and name = ? ",(table_name,)).fetchone()[0] > 0 else False
 
 def checkTableExist():
     '''
-    ¼ì²éÊı¾İ¿âÖĞÊÇ·ñ´æÔÚ±í
-    Èç¹ûÊı¾İ¿âÖĞÎŞps_appºÍps_app_detail±í£¬Ôò´´½¨±í
+    æ£€æŸ¥æ•°æ®åº“ä¸­æ˜¯å¦å­˜åœ¨è¡¨
+    å¦‚æœæ•°æ®åº“ä¸­æ— ps_appå’Œps_app_detailè¡¨ï¼Œåˆ™åˆ›å»ºè¡¨
     '''
     if not is_table_exist('ps_app'):
         sql_table_create = '''
@@ -60,7 +60,7 @@ def checkTableExist():
 
 def close_all(con):
     '''
-    ¹Ø±ÕÊı¾İ¿âÓÎ±ê¶ÔÏóºÍÊı¾İ¿âÁ¬½Ó¶ÔÏó
+    å…³é—­æ•°æ®åº“æ¸¸æ ‡å¯¹è±¡å’Œæ•°æ®åº“è¿æ¥å¯¹è±¡
     '''
     try:
         if not con.cursor(): con.cursor().close()
@@ -69,8 +69,8 @@ def close_all(con):
 
 def execute_sql(sql, data = ""):
     '''
-    Ö´ĞĞsqlÓï¾ä
-    dataÄ¬ÈÏÎª¿Õ,dataÎªlist£¬¿ÉÖ´ĞĞ¶àÌõÊı¾İ²Ù×÷
+    æ‰§è¡Œsqlè¯­å¥
+    dataé»˜è®¤ä¸ºç©º,dataä¸ºlistï¼Œå¯æ‰§è¡Œå¤šæ¡æ•°æ®æ“ä½œ
     '''
     con = sqlite3.connect(Config.SQLITE_PATH)
     if not check_sql(sql): return
@@ -79,21 +79,21 @@ def execute_sql(sql, data = ""):
         cur.execute(sql)
     else:
         for d in data:
-            if Config.SHOW_SQL: print('Ö´ĞĞsql:[{}],²ÎÊı:[{}]'.format(sql, d))
+            if Config.SHOW_SQL: print('æ‰§è¡Œsql:[{}],å‚æ•°:[{}]'.format(sql, d))
             cur.execute(sql, d)
     con.commit()
     close_all(con)
 
 def create_table(sql):
     '''
-    ´´½¨Êı¾İ¿â±í
+    åˆ›å»ºæ•°æ®åº“è¡¨
     '''
     execute_sql(sql)
-    print('´´½¨Êı¾İ¿â±í³É¹¦!')
+    print('åˆ›å»ºæ•°æ®åº“è¡¨æˆåŠŸ!')
 
 def drop_table(table):
     '''
-    Èç¹û±í´æÔÚ,ÔòÉ¾³ı±í£¬Èç¹û±íÖĞ´æÔÚÊı¾İµÄÊ±ºò£¬Ê¹ÓÃ¸Ã·½·¨µÄÊ±ºòÒªÉ÷ÓÃ£¡
+    å¦‚æœè¡¨å­˜åœ¨,åˆ™åˆ é™¤è¡¨ï¼Œå¦‚æœè¡¨ä¸­å­˜åœ¨æ•°æ®çš„æ—¶å€™ï¼Œä½¿ç”¨è¯¥æ–¹æ³•çš„æ—¶å€™è¦æ…ç”¨ï¼
     '''
     if table is not None and table != '':
         sql = 'DROP TABLE IF EXISTS ' + table
@@ -103,25 +103,25 @@ def drop_table(table):
 
 def save(sql, data):
     '''
-    ²åÈëÊı¾İ
-    dataÎªÒª²åÈëµÄÊı¾İ£¬¸ñÊ½Îªlist£¬¿ÉÒÔ´æ·Å¶àÌõÊı¾İ
+    æ’å…¥æ•°æ®
+    dataä¸ºè¦æ’å…¥çš„æ•°æ®ï¼Œæ ¼å¼ä¸ºlistï¼Œå¯ä»¥å­˜æ”¾å¤šæ¡æ•°æ®
     '''
     if not data: return
     execute_sql(sql, data)
-    print('²åÈëÊı¾İ³É¹¦!')
+    print('æ’å…¥æ•°æ®æˆåŠŸ!')
 
 def save_return_id(sql, data):
     '''
-    ²åÈëÊı¾İ
-    dataÎªÒª²åÈëµÄÊı¾İ
-    ·µ»Ø²åÈëÉú³ÉµÄid£¬ÒªÇóidÎªINTEGER PRIMARY KEY AUTOINCREMENT¸ñÊ½
+    æ’å…¥æ•°æ®
+    dataä¸ºè¦æ’å…¥çš„æ•°æ®
+    è¿”å›æ’å…¥ç”Ÿæˆçš„idï¼Œè¦æ±‚idä¸ºINTEGER PRIMARY KEY AUTOINCREMENTæ ¼å¼
     '''
     id = 0
     if not data: return
     con = sqlite3.connect(Config.SQLITE_PATH)
     if not check_sql(sql): return
     cur = con.cursor()
-    if Config.SHOW_SQL: print('Ö´ĞĞsql:[{}],²ÎÊı:[{}]'.format(sql, data))
+    if Config.SHOW_SQL: print('æ‰§è¡Œsql:[{}],å‚æ•°:[{}]'.format(sql, data))
     cur.execute(sql, data)
     id = cur.lastrowid
     con.commit()
@@ -130,20 +130,20 @@ def save_return_id(sql, data):
     
 def update(sql, data):
     '''
-    ¸üĞÂÊı¾İ
-    dataÎªÒª²åÈëµÄÊı¾İ£¬¸ñÊ½Îªlist£¬¿ÉÒÔ´æ·Å¶àÌõÊı¾İ    
+    æ›´æ–°æ•°æ®
+    dataä¸ºè¦æ’å…¥çš„æ•°æ®ï¼Œæ ¼å¼ä¸ºlistï¼Œå¯ä»¥å­˜æ”¾å¤šæ¡æ•°æ®    
     '''
     if not data: return
     execute_sql(sql, data)
-    print('¸üĞÂÊı¾İ³É¹¦!')
+    print('æ›´æ–°æ•°æ®æˆåŠŸ!')
         
 def delete(sql, data):
     '''
-    É¾³ıÊı¾İ
+    åˆ é™¤æ•°æ®
     '''
     if not data: return
     execute_sql(sql, data)
-    print('É¾³ıÊı¾İ³É¹¦!')
+    print('åˆ é™¤æ•°æ®æˆåŠŸ!')
 
 ###################################################################
 
@@ -157,13 +157,12 @@ def getItemByAppName(con, app_name):
     
 def fetchall(con, sql, conditions):
     '''
-    ²éÑ¯ËùÓĞÊı¾İ
-    conditionsÊÇwhereµÄÏŞÖÆÌõ¼ş
+    æŸ¥è¯¢æ‰€æœ‰æ•°æ®
+    conditionsæ˜¯whereçš„é™åˆ¶æ¡ä»¶
     '''
     if not check_sql(sql): return
     cu,cons = get_cursor(con),(conditions,)
     cu.execute(sql, cons) if data else cu.execute(sql)
-    if Config.SHOW_SQL: print('²éÑ¯ËùÓĞÊı¾İ\nÖ´ĞĞsql:[{}]'.format(sql,conditions))
+    if Config.SHOW_SQL: print('æŸ¥è¯¢æ‰€æœ‰æ•°æ®\næ‰§è¡Œsql:[{}]'.format(sql,conditions))
     return cu.fetchall()
-
 

@@ -5,21 +5,21 @@ from scrapy.item import Item, Field
 
 class AppItem(Item):
     """
-    »ñÈ¡Ó¦ÓÃµÄ¾ßÌåĞÅÏ¢£º
-    apk_url: apkÏÂÔØÁ´½Ó
-    pakage_name: Ó¦ÓÃ°üÃû
-    app_name: Ó¦ÓÃÃû³Æ
-    cover: ·âÃæÍ¼Æ¬urlµØÖ·
-    version: °æ±¾ºÅ
-    rating_point: ×ÜÆÀ·Ö
-    rating_count: ÆÀ·Ö×ÜÊı
-    category: Àà±ğ
-    android_version: Ö§³ÖµÄAndroid°æ±¾
-    download_times: ÏÂÔØ´ÎÊı
-    author: ×÷Õß»ò¹«Ë¾
-    last_update: ×îºó¸üĞÂÊ±¼ä
-    description: Ó¦ÓÃ¼ò½é
-    imgs_url: Ó¦ÓÃ½ØÍ¼Á´½Ó
+    è·å–åº”ç”¨çš„å…·ä½“ä¿¡æ¯ï¼š
+    apk_url: apkä¸‹è½½é“¾æ¥
+    pakage_name: åº”ç”¨åŒ…å
+    app_name: åº”ç”¨åç§°
+    cover: å°é¢å›¾ç‰‡urlåœ°å€
+    version: ç‰ˆæœ¬å·
+    rating_point: æ€»è¯„åˆ†
+    rating_count: è¯„åˆ†æ€»æ•°
+    category: ç±»åˆ«
+    android_version: æ”¯æŒçš„Androidç‰ˆæœ¬
+    download_times: ä¸‹è½½æ¬¡æ•°
+    author: ä½œè€…æˆ–å…¬å¸
+    last_update: æœ€åæ›´æ–°æ—¶é—´
+    description: åº”ç”¨ç®€ä»‹
+    imgs_url: åº”ç”¨æˆªå›¾é“¾æ¥
     """
     app_id = Field()
     app_url = Field()
@@ -40,9 +40,9 @@ class AppItem(Item):
     apk_size = Field()
     platform = Field()
     
-    app_category = Field()#ÓÃÀ´ÁÙÊ±´æ´¢»ñÈ¡µÄappµÄcategory
+    app_category = Field()#ç”¨æ¥ä¸´æ—¶å­˜å‚¨è·å–çš„appçš„category
     
     def __repr__(self):
-        #DebugºÍInfoÄ£Ê½ÏÂ£¬Pipeline´¦ÀíÍê³Éºó²»´òÓ¡ItemÄÚÈİ
+        #Debugå’ŒInfoæ¨¡å¼ä¸‹ï¼ŒPipelineå¤„ç†å®Œæˆåä¸æ‰“å°Itemå†…å®¹
         return "\n"
     

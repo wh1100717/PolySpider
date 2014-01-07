@@ -26,7 +26,7 @@ class AppStarSpider(CrawlSpider):
 	def parse_app(self, response):	
 		sel = Selector(response)
                 item = AppItem()
-                print "×¥È¡¿ªÊ¼£º%s" %response.url
+                print "æŠ“å–å¼€å§‹ï¼š%s" %response.url
                 item['apk_url'] = sel.xpath('//*[@id="down_as_durl"]/@href').extract()[0]
                 item['app_name'] = CommonUtil.dropBrackets(sel.xpath("//*[@id='appname']/text()").extract()[0])
                 item['cover'] = sel.xpath("//*[@id='app-logo']/@src").extract()[0]
@@ -45,11 +45,11 @@ class AppStarSpider(CrawlSpider):
                     destemp=destemp+des+' '
                 item['description']=destemp.strip()
                 item['apk_size'] = sel.xpath('//span[@class="params-size"]/text()').extract()[0]
-                #»ñÈ¡Í¼Æ¬µØÖ·£¬Í¨¹ı¿Õ¸ñÀ´·Ö¸î¶àÕÅÍ¼Æ¬
+                #è·å–å›¾ç‰‡åœ°å€ï¼Œé€šè¿‡ç©ºæ ¼æ¥åˆ†å‰²å¤šå¼ å›¾ç‰‡
                 imgs =  sel.xpath("//ul[@class='screen cls data-screenshots']/li/img/@src").extract()
                 imgs_url = ""
                 for img in imgs: imgs_url += img + " "
                 item['imgs_url'] = imgs_url.strip()
                 item['platform'] = "baiduapp"
-                print "×¥È¡½áÊø£¬½øÈëpipeline½øĞĞÊı¾İ´¦Àí"
+                print "æŠ“å–ç»“æŸï¼Œè¿›å…¥pipelineè¿›è¡Œæ•°æ®å¤„ç†"
 		return item

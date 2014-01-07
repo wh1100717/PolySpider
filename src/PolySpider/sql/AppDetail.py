@@ -13,8 +13,8 @@ def get_app_detail_by_item(item):
     return cur.fetchall()
 
 def insert_app_detail(item):
-    #插入数据
-    print '数据库ps_app_detail插入数据'
+    #鎻掑叆鏁版嵁
+    print '鏁版嵁搴損s_app_detail鎻掑叆鏁版嵁'
     sql = '''INSERT INTO ps_app_detail values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)'''
     data = [(
          item['app_id'],

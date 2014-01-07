@@ -17,9 +17,9 @@ class AppStarSpider(BaseSpider):
         
         def parse(self,response):
             '''
-            ÆäÓ¦ÓÃÏêÏ¸Ò³µÄ¸ñÊ½Îª http://www.appstar.com.cn/ace/store/n.htm
-            n´Ó30¿ªÊ¼£¬×Ü¹²´ó¸ÅÓĞ3W¶à¸ö¡£
-            ËùÒÔÀûÓÃÑ­»··Ö±ğ¹¹Ôì´øÓĞÏàÓ¦urlµÄÇëÇó£¬²¢ÀûÓÃyield·µ»Ø¸øScrapy½øĞĞÄÚÈİ×¥È¡£¬responseÀûÓÃparse_appÀ´¼ÍÄîĞÔ´¦ÀíºÍ½âÎö
+            å…¶åº”ç”¨è¯¦ç»†é¡µçš„æ ¼å¼ä¸º http://www.appstar.com.cn/ace/store/n.htm
+            nä»30å¼€å§‹ï¼Œæ€»å…±å¤§æ¦‚æœ‰3Wå¤šä¸ªã€‚
+            æ‰€ä»¥åˆ©ç”¨å¾ªç¯åˆ†åˆ«æ„é€ å¸¦æœ‰ç›¸åº”urlçš„è¯·æ±‚ï¼Œå¹¶åˆ©ç”¨yieldè¿”å›ç»™Scrapyè¿›è¡Œå†…å®¹æŠ“å–ï¼Œresponseåˆ©ç”¨parse_appæ¥çºªå¿µæ€§å¤„ç†å’Œè§£æ
             '''
             for i in range(1,1 + Config.APPSTAR_MAX_APPS):
                 req = Request(url="http://app.xiaomi.com/detail/"+str(i),callback = self.parse_app)
@@ -28,12 +28,12 @@ class AppStarSpider(BaseSpider):
 
         def parse_app(self, response):	
             '''
-            requestµÄCallback´¦Àíº¯Êı£¬¶ÔÓÚÒ³ÃæÖĞÄÜ×¥µ½µÄÊı¾İ£¬ÀûÓÃxpathÉ¸Ñ¡ÄÚÈİ
-            xpath½Ì³Ì£ºhttp://www.w3school.com.cn/xpath/
+            requestçš„Callbackå¤„ç†å‡½æ•°ï¼Œå¯¹äºé¡µé¢ä¸­èƒ½æŠ“åˆ°çš„æ•°æ®ï¼Œåˆ©ç”¨xpathç­›é€‰å†…å®¹
+            xpathæ•™ç¨‹ï¼šhttp://www.w3school.com.cn/xpath/
             '''
             sel = Selector(response)
             item= AppItem()
-            print "×¥È¡¿ªÊ¼£º%s" %response.url
+            print "æŠ“å–å¼€å§‹ï¼š%s" %response.url
             item['apk_url'] = "http://app.xiaomi.com" +  sel.xpath('/html/body/div[2]/div[1]/div[3]/div[1]/a/@href').extract()[0]
             item['app_name'] = CommonUtil.dropBrackets(sel.xpath('/html/body/div[2]/div[1]/div[2]/h1/text()').extract()[0])
             item['cover'] = sel .xpath("/html/body/div[2]/div[1]/div[3]/div[1]/div[1]/img/@src").extract()[0]
@@ -52,11 +52,11 @@ class AppStarSpider(BaseSpider):
                 
             item['description'] = alldescription.strip()
             item['apk_size'] = sel.xpath('/html/body/div[2]/div[2]/ul[1]/li[5]/h4/text()').extract()[0]
-            #»ñÈ¡Í¼Æ¬µØÖ·£¬Í¨¹ı¿Õ¸ñÀ´·Ö¸î¶àÕÅÍ¼Æ¬
+            #è·å–å›¾ç‰‡åœ°å€ï¼Œé€šè¿‡ç©ºæ ¼æ¥åˆ†å‰²å¤šå¼ å›¾ç‰‡
             imgs =  sel.xpath('//*[@id="J_thumbnail_wrap"]/img').extract()
             imgs_url = ""
             for img in imgs: imgs_url += img + " "
             item['imgs_url'] = imgs_url.strip()
             item['platform'] = "xiaomi"
-            print "×¥È¡½áÊø£¬½øÈëpipeline½øĞĞÊı¾İ´¦Àí"
+            print "æŠ“å–ç»“æŸï¼Œè¿›å…¥pipelineè¿›è¡Œæ•°æ®å¤„ç†"
             return item

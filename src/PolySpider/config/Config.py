@@ -4,23 +4,29 @@ import os
 import sys
 if sys.path[-1].split("\\")[-1] != "src": 
     c_path = os.getcwd()
-    sys.path.append(c_path[:c_path.rfind("\\")])
+    if "\\" in c_path:
+        sys.path.append(c_path[:c_path.rfind("\\")])
+    else:
+        sys.path.append(c_path[:c_path.rfind("/")])
     
 #Sqlite3 Configuration
-SQLITE_PATH = sys.path[-1] + "\\" + "app.db"
-SHOW_SQL = False #TrueÔò»áÔÚ¿ØÖÆÌ¨ÏÔÊ¾ÏêÏ¸µÄSQL²éÑ¯
+if "win" in sys.platform:
+    SQLITE_PATH = sys.path[-1] + "\\" + "app.db"
+else:
+    SQLITE_PATH = sys.path[-1] + "/" + "app.db"
+SHOW_SQL = False #Trueåˆ™ä¼šåœ¨æ§åˆ¶å°æ˜¾ç¤ºè¯¦ç»†çš„SQLæŸ¥è¯¢
 
 #App Star Constant
 APPSTAR_MAX_APPS = 30000
 
 #BaiduYun AK && SK
-'''ÕâÀïĞèÒªÌîĞ´BaiYunµÄ¹«Ô¿AK£¬Ë½Ô¿SKºÍBucket'''
+'''è¿™é‡Œéœ€è¦å¡«å†™BaiYunçš„å…¬é’¥AKï¼Œç§é’¥SKå’ŒBucket'''
 BAIDU_AK = ''
 BAIDU_SK = ''
 BAIDU_BUCKET = ''
 
 #UpYun
-'''ÕâÀïĞèÒªÌîĞ´ÉêÇëÏÂÀ´µÄÓÖÅÄÔÆËù¶ÔÓ¦µÄbucketµÄÓÃ»§ÃûºÍÃÜÂë'''
+'''è¿™é‡Œéœ€è¦å¡«å†™ç”³è¯·ä¸‹æ¥çš„åˆæ‹äº‘æ‰€å¯¹åº”çš„bucketçš„ç”¨æˆ·åå’Œå¯†ç '''
 UPYUN_USERNAME = ''
 UPYUN_PASSWORD = ''
 UPYUN_BUCKET = ''

@@ -4,11 +4,11 @@ import urllib
 from progressbar import *
 def cmpVersion(oldVersion, newVersion):
     '''
-    ±È½Ï°æ±¾ºÅ
-    Èç¹ûoldVersion´óÓÚnewVersion£¬Ôò·µ»ØTrue,·´Ö®Ôò·µ»ØFalse
-    1.1.0ºÍ1.2.0±È½Ï£¬·µ»ØFalse
-    1.1.1.1ºÍ1.1.1±È½Ï£¬·µ»ØTrue
-    1.1ºÍ1.1.1±È½Ï£¬·µ»ØFalse
+    æ¯”è¾ƒç‰ˆæœ¬å·
+    å¦‚æœoldVersionå¤§äºnewVersionï¼Œåˆ™è¿”å›True,åä¹‹åˆ™è¿”å›False
+    1.1.0å’Œ1.2.0æ¯”è¾ƒï¼Œè¿”å›False
+    1.1.1.1å’Œ1.1.1æ¯”è¾ƒï¼Œè¿”å›True
+    1.1å’Œ1.1.1æ¯”è¾ƒï¼Œè¿”å›False
     '''
     old_vs = oldVersion.strip().split(".")
     new_vs = newVersion.strip().split(".")
@@ -17,25 +17,25 @@ def cmpVersion(oldVersion, newVersion):
 	old_v = int(old_vs[i])
 	new_v = int(new_vs[i])
 	if new_v > old_v:
-            print "µ±Ç°°æ±¾£º%s | ×¥È¡µÄÓ¦ÓÃ°æ±¾£º%s : Ö´ĞĞ¸üĞÂ²Ù×÷" %(oldVersion, newVersion)
+            print "å½“å‰ç‰ˆæœ¬ï¼š%s | æŠ“å–çš„åº”ç”¨ç‰ˆæœ¬ï¼š%s : æ‰§è¡Œæ›´æ–°æ“ä½œ" %(oldVersion, newVersion)
             return False
 	elif old_v > new_v:
-            print "µ±Ç°°æ±¾£º%s | ×¥È¡µÄÓ¦ÓÃ°æ±¾£º%s : ²»Ö´ĞĞ¸üĞÂ²Ù×÷" %(oldVersion, newVersion)
+            print "å½“å‰ç‰ˆæœ¬ï¼š%s | æŠ“å–çš„åº”ç”¨ç‰ˆæœ¬ï¼š%s : ä¸æ‰§è¡Œæ›´æ–°æ“ä½œ" %(oldVersion, newVersion)
             return True
     if len(old_vs) < len(new_vs):
-        print "µ±Ç°°æ±¾£º%s | ×¥È¡µÄÓ¦ÓÃ°æ±¾£º%s : Ö´ĞĞ¸üĞÂ²Ù×÷" %(oldVersion, newVersion)
+        print "å½“å‰ç‰ˆæœ¬ï¼š%s | æŠ“å–çš„åº”ç”¨ç‰ˆæœ¬ï¼š%s : æ‰§è¡Œæ›´æ–°æ“ä½œ" %(oldVersion, newVersion)
         return False
     else:
-        print "µ±Ç°°æ±¾£º%s | ×¥È¡µÄÓ¦ÓÃ°æ±¾£º%s : ²»Ö´ĞĞ¸üĞÂ²Ù×÷" %(oldVersion, newVersion)
+        print "å½“å‰ç‰ˆæœ¬ï¼š%s | æŠ“å–çš„åº”ç”¨ç‰ˆæœ¬ï¼š%s : ä¸æ‰§è¡Œæ›´æ–°æ“ä½œ" %(oldVersion, newVersion)
         return True
 
 def normalizeVersion(versionInput):
     '''
-    ¶Ô×¥È¡µ½µÄ°æ±¾ºÅ½øĞĞ¸ñÊ½»¯´¦Àí
-    ±£Ö¤°æ±¾ºÅµÄ¸ñÊ½ÎªXXX.XXX.XXX
-    ÆäÖĞXÎªÊı×Ö
-    ×¢1£º°ÑËùÓĞ·ÇÊı×Ö¹ıÂËµô
-    ×¢2£º¶ÔÓÚ´øÓĞ×ÖÄ¸µÄ°æ±¾ºÅÍ¬ÑùÉáÆú£¬Ä¿Ç°²»ÖªµÀÊÇ·ñÓĞÕâ·½Ãæ°æ±¾ºÅ¼ÇÂ¼µÄĞèÇó
+    å¯¹æŠ“å–åˆ°çš„ç‰ˆæœ¬å·è¿›è¡Œæ ¼å¼åŒ–å¤„ç†
+    ä¿è¯ç‰ˆæœ¬å·çš„æ ¼å¼ä¸ºXXX.XXX.XXX
+    å…¶ä¸­Xä¸ºæ•°å­—
+    æ³¨1ï¼šæŠŠæ‰€æœ‰éæ•°å­—è¿‡æ»¤æ‰
+    æ³¨2ï¼šå¯¹äºå¸¦æœ‰å­—æ¯çš„ç‰ˆæœ¬å·åŒæ ·èˆå¼ƒï¼Œç›®å‰ä¸çŸ¥é“æ˜¯å¦æœ‰è¿™æ–¹é¢ç‰ˆæœ¬å·è®°å½•çš„éœ€æ±‚
     '''
     if not versionInput: return ""
     result = ""
@@ -46,7 +46,7 @@ def normalizeVersion(versionInput):
 
 def progressbar(url,fileName):
     '''
-    ÏÂÔØ½ø¶ÈÌõ£¬ºÍÎÄ¼şÏÂÔØ
+    ä¸‹è½½è¿›åº¦æ¡ï¼Œå’Œæ–‡ä»¶ä¸‹è½½
     '''
     file=urllib.urlopen(url)
     totalSize=file.info().getheader("content-length")
@@ -75,18 +75,18 @@ def normalizeString(str):
         '\t':'',
         '\n':'',
         '\r':'',
-        '£û':'{',
-        '£ı':'}',
-        '£¨':'(',
-        '£©':')',
-        '¡¾':'[',
-        '¡¿':']',
-        '£¿':'?',
-        '¡®':'\'',
-        '¡¯':'\'',
-        '¡°':'"',
-        '¡±':'"',
-        '£º':':'
+        'ï½›':'{',
+        'ï½':'}',
+        'ï¼ˆ':'(',
+        'ï¼‰':')',
+        'ã€':'[',
+        'ã€‘':']',
+        'ï¼Ÿ':'?',
+        'â€˜':'\'',
+        'â€™':'\'',
+        'â€œ':'"',
+        'â€':'"',
+        'ï¼š':':'
     }
     for key in normalizedStr.keys():
         str = str.replace(key,normalizedStr[key])

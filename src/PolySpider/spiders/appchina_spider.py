@@ -23,7 +23,7 @@ class AppStarSpider(CrawlSpider):
 	def parse_app(self, response):	
 		sel = Selector(response)
                 item = AppItem()
-                print "×¥È¡¿ªÊ¼£º%s" %response.url
+                print "æŠ“å–å¼€å§‹ï¼š%s" %response.url
                 apk_url =  sel.xpath('//div[@class="down-box cf"]/a[3]/@href').extract()[0]
                 response= urllib2.urlopen(apk_url)
                 item['apk_url'] = response.url
@@ -43,11 +43,11 @@ class AppStarSpider(CrawlSpider):
                     destemp=destemp+des+' '
                 item['description']=CommonUtil.normalizeString(destemp)
                 item['apk_size'] = CommonUtil.normalizeString(sel.xpath('//*[@id="app-detail-wrap"]/div[2]/ul/li[1]/text()').extract()[0])[5:]
-                #»ñÈ¡Í¼Æ¬µØÖ·£¬Í¨¹ı¿Õ¸ñÀ´·Ö¸î¶àÕÅÍ¼Æ¬
+                #è·å–å›¾ç‰‡åœ°å€ï¼Œé€šè¿‡ç©ºæ ¼æ¥åˆ†å‰²å¤šå¼ å›¾ç‰‡
                 imgs = sel.xpath('//*[@id="makeMeScrollable"]/a/@href').extract()
                 imgs_url = ""
                 for img in imgs: imgs_url += img + " "
                 item['imgs_url'] = imgs_url.strip()
                 item['platform'] = "appchina"
-                print "×¥È¡½áÊø£¬½øÈëpipeline½øĞĞÊı¾İ´¦Àí"
+                print "æŠ“å–ç»“æŸï¼Œè¿›å…¥pipelineè¿›è¡Œæ•°æ®å¤„ç†"
 		return item

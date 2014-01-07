@@ -14,121 +14,121 @@ __version__ = '2.1.1'
 
 
 class Progress(object):
-	def __init__(self):
-		self._seen = 0.0
+        def __init__(self):
+                self._seen = 0.0
 
-	def update(self, pbar, total, size, name):
-		if self._seen == 0.0: 
-			pbar.start()
-			pbar.maxval = total
-		self._seen += size
-		pbar.update(min(self._seen, total))
+        def update(self, pbar, total, size, name):
+                if self._seen == 0.0: 
+                        pbar.start()
+                        pbar.maxval = total
+                self._seen += size
+                pbar.update(min(self._seen, total))
 
 class file_with_callback(file):
-	def __init__(self, pbar, path, mode, callback, *args):
-		file.__init__(self, path, mode)
-		self.seek(0, os.SEEK_END)
-		self._total = self.tell()
-		self.seek(0)
-		self._callback = callback
-		self._args = args
-		self._pbar = pbar
+        def __init__(self, pbar, path, mode, callback, *args):
+                file.__init__(self, path, mode)
+                self.seek(0, os.SEEK_END)
+                self._total = self.tell()
+                self.seek(0)
+                self._callback = callback
+                self._args = args
+                self._pbar = pbar
 
-	def __len__(self):
-		return self._total
+        def __len__(self):
+                return self._total
 
-	def read(self, size):
-		data = file.read(self, size)
-		self._callback(self._pbar, self._total, len(data), *self._args)
-		return data
+        def read(self, size):
+                data = file.read(self, size)
+                self._callback(self._pbar, self._total, len(data), *self._args)
+                return data
 
 def httpdate_rfc1123(dt):
-	"""Return a string representation of a date according to RFC 1123
-	(HTTP/1.1).
+        """Return a string representation of a date according to RFC 1123
+        (HTTP/1.1).
 
-	The supplied date must be in UTC.
+        The supplied date must be in UTC.
 
-	"""
-	weekday = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][dt.weekday()]
-	month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-			 "Oct", "Nov", "Dec"][dt.month - 1]
-	return "%s, %02d %s %04d %02d:%02d:%02d GMT" % \
-		(weekday, dt.day, month, dt.year, dt.hour, dt.minute, dt.second)
+        """
+        weekday = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][dt.weekday()]
+        month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                         "Oct", "Nov", "Dec"][dt.month - 1]
+        return "%s, %02d %s %04d %02d:%02d:%02d GMT" % \
+                (weekday, dt.day, month, dt.year, dt.hour, dt.minute, dt.second)
 
 class UpYunServiceException(Exception):
-	def __init__(self, status, msg, err):
-		self.args = (status, msg, err)
-		self.status = status
-		self.msg = msg
-		self.err = err
+        def __init__(self, status, msg, err):
+                self.args = (status, msg, err)
+                self.status = status
+                self.msg = msg
+                self.err = err
 
 class UpYunClientException(Exception):
-	def __init__(self, msg):
-		self.args = (msg)
-		self.msg = msg
+        def __init__(self, msg):
+                self.args = (msg)
+                self.msg = msg
 
 class UpYun():
 
-        # ²ÎÊı `bucket` Îª¿Õ¼äÃû³Æ,`username` ºÍ `password` ·Ö±ğÎªÊÚÈ¨²Ù×÷Ô±ÕÊºÅºÍÃÜÂë£¬±ØÑ¡¡£
-        # ²ÎÊı `timeout` Îª HTTP ÇëÇó³¬Ê±Ê±¼ä£¬Ä¬ÈÏ 60 Ãë£¬¿ÉÑ¡¡£
-        # ¸ù¾İ¹úÄÚµÄÍøÂçÇé¿ö£¬ÓÖÅÄÔÆ´æ´¢ API Ä¿Ç°Ìá¹©ÁËµçĞÅ¡¢ÁªÍ¨ÍøÍ¨¡¢ÒÆ¶¯ÌúÍ¨Èı¸ö½ÓÈëµã£¬
-        # ÔÚ³õÊ¼»¯Ê±¿ÉÓÉ²ÎÊı `endpoint` ½øĞĞÉèÖÃ£¬Æä¿ÉÑ¡µÄÖµÓĞ£º
-        # v0.api.upyun.com     ¸ù¾İÍøÂçÌõ¼ş×Ô¶¯Ñ¡Ôñ½ÓÈëµã£¬Ä¬ÈÏ
-        # v1.api.upyun.com      µçĞÅ½ÓÈëµã
-        # v2.api.upyun.com      ÁªÍ¨ÍøÍ¨½ÓÈëµã
-        # v3.api.upyun.com      ÒÆ¶¯ÌúÍ¨½ÓÈëµã
-	def __init__(self):
-		self.bucket = Config.UPYUN_BUCKET
-		self.username = Config.UPYUN_USERNAME
-		self.password = hashlib.md5(Config.UPYUN_PASSWORD).hexdigest()
-		self.timeout = 30
-		self.endpoint = "v0.api.upyun.com"
-		self.user_agent = None
+        # å‚æ•° `bucket` ä¸ºç©ºé—´åç§°,`username` å’Œ `password` åˆ†åˆ«ä¸ºæˆæƒæ“ä½œå‘˜å¸å·å’Œå¯†ç ï¼Œå¿…é€‰ã€‚
+        # å‚æ•° `timeout` ä¸º HTTP è¯·æ±‚è¶…æ—¶æ—¶é—´ï¼Œé»˜è®¤ 60 ç§’ï¼Œå¯é€‰ã€‚
+        # æ ¹æ®å›½å†…çš„ç½‘ç»œæƒ…å†µï¼Œåˆæ‹äº‘å­˜å‚¨ API ç›®å‰æä¾›äº†ç”µä¿¡ã€è”é€šç½‘é€šã€ç§»åŠ¨é“é€šä¸‰ä¸ªæ¥å…¥ç‚¹ï¼Œ
+        # åœ¨åˆå§‹åŒ–æ—¶å¯ç”±å‚æ•° `endpoint` è¿›è¡Œè®¾ç½®ï¼Œå…¶å¯é€‰çš„å€¼æœ‰ï¼š
+        # v0.api.upyun.com     æ ¹æ®ç½‘ç»œæ¡ä»¶è‡ªåŠ¨é€‰æ‹©æ¥å…¥ç‚¹ï¼Œé»˜è®¤
+        # v1.api.upyun.com      ç”µä¿¡æ¥å…¥ç‚¹
+        # v2.api.upyun.com      è”é€šç½‘é€šæ¥å…¥ç‚¹
+        # v3.api.upyun.com      ç§»åŠ¨é“é€šæ¥å…¥ç‚¹
+        def __init__(self):
+                self.bucket = Config.UPYUN_BUCKET
+                self.username = Config.UPYUN_USERNAME
+                self.password = hashlib.md5(Config.UPYUN_PASSWORD).hexdigest()
+                self.timeout = 30
+                self.endpoint = "v0.api.upyun.com"
+                self.user_agent = None
 
 
-	def put(self, key, filePath, checksum = False):
-		file = open(filePath, 'r')
-		fileMd5 = md5.new(file.read()).digest()
-		file.close()
-		
-		uri = '/' + self.bucket + (lambda x: x[0] == '/' and x or '/'+x)(key)
-		if isinstance(uri, unicode): uri = uri.encode('utf-8')
-		uri = urllib.quote(uri, safe="~/")
-		method = 'PUT'
+        def put(self, key, filePath, checksum = False):
+                file = open(filePath, 'r')
+                fileMd5 = md5.new(file.read()).digest()
+                file.close()
+                
+                uri = '/' + self.bucket + (lambda x: x[0] == '/' and x or '/'+x)(key)
+                if isinstance(uri, unicode): uri = uri.encode('utf-8')
+                uri = urllib.quote(uri, safe="~/")
+                method = 'PUT'
 
-		length = os.path.getsize(filePath)
+                length = os.path.getsize(filePath)
 
-		dt = httpdate_rfc1123(datetime.datetime.utcnow())
+                dt = httpdate_rfc1123(datetime.datetime.utcnow())
 
-		signature = self.__make_signature(method, uri, dt, length)
+                signature = self.__make_signature(method, uri, dt, length)
 
-		userAgent= self.user_agent if self.user_agent else "upyun-python-sdk/" + __version__
-		
-		url = "http://" + self.endpoint + uri
+                userAgent= self.user_agent if self.user_agent else "upyun-python-sdk/" + __version__
+                
+                url = "http://" + self.endpoint + uri
 
-		widgets = [' <<<', Bar(), '>>> ',Percentage(),' ', ETA() ,' ' ,  FileTransferSpeed()]
-		pbar = ProgressBar(widgets=widgets)
+                widgets = [' <<<', Bar(), '>>> ',Percentage(),' ', ETA() ,' ' ,  FileTransferSpeed()]
+                pbar = ProgressBar(widgets=widgets)
 
-		progress = Progress()
-		stream = file_with_callback(pbar,filePath, 'rb', progress.update, filePath)
-		req = urllib2.Request(url, stream)
-		req.add_header('Mkdir', 'true')
-		req.add_header('Content-MD5', fileMd5)
-		req.add_header('Date', dt)
-		req.add_header('Content-Length', length)
-		req.add_header('Authorization', signature)
-		req.add_header('User-Agent', userAgent)
-		req.get_method = lambda: 'PUT'
+                progress = Progress()
+                stream = file_with_callback(pbar,filePath, 'rb', progress.update, filePath)
+                req = urllib2.Request(url, stream)
+                req.add_header('Mkdir', 'true')
+                req.add_header('Content-MD5', fileMd5)
+                req.add_header('Date', dt)
+                req.add_header('Content-Length', length)
+                req.add_header('Authorization', signature)
+                req.add_header('User-Agent', userAgent)
+                req.get_method = lambda: 'PUT'
 
-		try:
+                try:
 
-			response = urllib2.urlopen(req, timeout=self.timeout)
-		except urllib2.HTTPError as e:
-			print e.code
-			print e.read()
-		print "Upload Success"
+                        response = urllib2.urlopen(req, timeout=self.timeout)
+                except urllib2.HTTPError as e:
+                        print e.code
+                        print e.read()
+                print "Upload Success"
 
-	def __make_signature(self, method, uri, date, length):
-		signstr = '&'.join([method, uri, date, str(length), self.password])
-		signature = hashlib.md5(signstr).hexdigest()
-		return 'UpYun ' + self.username + ':' + signature
+        def __make_signature(self, method, uri, date, length):
+                signstr = '&'.join([method, uri, date, str(length), self.password])
+                signature = hashlib.md5(signstr).hexdigest()
+                return 'UpYun ' + self.username + ':' + signature

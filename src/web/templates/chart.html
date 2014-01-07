@@ -17,6 +17,9 @@
                 title: {
                     text: '分类应用数据分析'
                 },
+                subtitle: {
+                    text: 'PolySpider爬取应用所属分类饼状图'
+                },
                 tooltip: {
                     pointFormat: '{series.name.percent}: <b>{point.percentage:.1f}%</b><br>{series.name.count}: <b>{point.y}</b><br>'
                 },
@@ -25,7 +28,10 @@
                         allowPointSelect: true,
                         cursor: 'pointer',
                         dataLabels: {
-                            enabled: false
+                            enabled: true,
+                            color: '#000000',
+                            connectorColor: '#000000',
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
                         },
                         showInLegend: true
                     }
@@ -35,7 +41,7 @@
 
             $$.getJSON('/app/get_app_list/data.json', function(data) {
                 options.series[0].type = 'pie';
-                options.series[0].name = {'percent':'百分比','count':'应用数'};
+                options.series[0].name = {'percent': '百分比', 'count': '应用数'};
                 options.series[0].data = data;
                 var chart = new Highcharts.Chart(options);
             });

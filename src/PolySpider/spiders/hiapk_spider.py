@@ -21,7 +21,7 @@ class AppStarSpider(CrawlSpider):
 	def parse_app(self, response):	
             sel = Selector(response)
             item = AppItem()
-            print "×¥È¡¿ªÊ¼£º%s" %response.url
+            print "æŠ“å–å¼€å§‹ï¼š%s" %response.url
             req=urllib2.Request("http://apk.hiapk.com" +   sel.xpath('//*[@id="main"]/div/div/div[1]/div[2]/div[1]/div[10]/a/@href').extract()[0])
             req.add_header('referer', response.url)
 
@@ -54,11 +54,11 @@ class AppStarSpider(CrawlSpider):
                 item['rating_point'] = rating_star[21:-2] if len(rating_star) > 21 else "0"
                 if "half" in item['rating_point']: item['rating_point'] = item['rating_point'][0] + ".5"
                 item['rating_count'] = sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Soft_StarProportion"]/div[2]/div[2]/div[3]/text()').extract()[0][:-3]
-            #»ñÈ¡Í¼Æ¬µØÖ·£¬Í¨¹ı¿Õ¸ñÀ´·Ö¸î¶àÕÅÍ¼Æ¬
+            #è·å–å›¾ç‰‡åœ°å€ï¼Œé€šè¿‡ç©ºæ ¼æ¥åˆ†å‰²å¤šå¼ å›¾ç‰‡
             imgs =  sel.xpath('//*[@id="main"]/div/div/div[1]/div[1]/div[2]/div[4]/div[3]/ul/li/a/@href').extract()
             imgs_url = ""
             for img in imgs: imgs_url += img + " "
             item['imgs_url'] = imgs_url.strip()
             item['platform'] = "hiapk"
-            print "×¥È¡½áÊø£¬½øÈëpipeline½øĞĞÊı¾İ´¦Àí"
+            print "æŠ“å–ç»“æŸï¼Œè¿›å…¥pipelineè¿›è¡Œæ•°æ®å¤„ç†"
             return item

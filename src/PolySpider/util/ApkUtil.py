@@ -12,7 +12,7 @@ def apkTool(apk_name):
     return True
 
 def unzipApk(apk_name):
-    #Ôö¼ÓÏµÍ³ÅĞ¶Ï£¬Èç¹ûÎªWindowsÏµÍ³£¬Ôòµ÷ÓÃPolySpider/tools/unzip.exe½øĞĞ½âÑ¹Ëõ
+    #å¢åŠ ç³»ç»Ÿåˆ¤æ–­ï¼Œå¦‚æœä¸ºWindowsç³»ç»Ÿï¼Œåˆ™è°ƒç”¨PolySpider/tools/unzip.exeè¿›è¡Œè§£å‹ç¼©
     if platform.system() == 'Windows':
         os.system('PolySpider\\tools\\unzip.exe apk\\' + apk_name +  '"AndroidManifest.xml" -d apk\\unzip\\' + apk_name)
     else:
