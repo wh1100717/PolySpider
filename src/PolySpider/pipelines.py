@@ -30,7 +30,7 @@ class CategorizingPipeline(object):
     '''
     def process_item(self,item,spider):
         #如果category中没有这个类 会报错
-        item['category'] = CategoryUtil.getCategoryIds(item['category'].encode('gbk','ignore'))
+        item['category'] = CategoryUtil.getCategoryIds(item['category'].encode('utf8','ignore'))
          
         return item
 
@@ -53,12 +53,13 @@ class CheckAppPipeline(object):
             APP_TABLE_INSERT = True
             item['app_id'] = App.insert_app(item)
         else:
-            item['app_id'] = app['id']
-            item['app_category'] = app['category']
+            app = app[0]
+            item['app_id'] = app[0]
+            item['app_category'] = app[3]
             #更新分类
             #判断author是否为空，如果为空，则更新app表
-            if app['author'] == "" and item['author'] != "":
-                App.update_app_author(app['id'], item['author'])
+            if app[2] == "" and item['author'] != "":
+                App.update_app_author(app[0], item['author'])
         return item
 
 class CheckAppDetailsPipeline(object):
