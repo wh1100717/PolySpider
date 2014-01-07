@@ -11,6 +11,7 @@ if sys.path[-1].split("\\")[-1] != "src":
     else:
         sys.path.append(c_path[:c_path.rfind("/")])
 from PolySpider.sql import App
+from PolySpider.sql import AppDetail
 
 from view import render
 
@@ -22,8 +23,10 @@ urls = (
     '/state/?', 'state',
     '/chart/?', 'chart',
     '/data/?', 'data',
-    '/app/get_app_list/data.json', 'get_app_list',
-    '/app/count_app_categroy_sum/?','count_app_categroy_sum',
+    '/app/get_category_chart/?', 'get_category_chart',
+    '/app/get_platform_chart/?','get_platform_chart',
+    '/app/get_platform_chart_unique/?','get_platform_chart_unique',
+    
 )
 
 class home:
@@ -44,16 +47,19 @@ class data:
         print apps
         return render.data(apps)
 
-class get_app_list:
+class get_category_chart:
     def GET(self):
         data  = App.count_app_categroy_sum()
         return data
 
-class count_app_categroy_sum:
+class get_platform_chart:
     def GET(self):
-        result = App.count_app_categroy_sum()
-        
-        return "Success"
+        data = AppDetail.get_platform_app_count()
+        return data
+class get_platform_chart_unique:
+    def GET(self):
+        data = AppDetail.get_platform_app_count_unique()
+        return data
 
 
 if __name__ == "__main__":

@@ -1,54 +1,135 @@
 <div class ="data-container">
     <h1>分类数据饼状图</h1>
-    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="container-category" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+</div>
+<div class="spacer"></div>
+<div class ="data-container">
+    <h1>平台数据饼状图(忽略应用版本)</h1>
+    <div id="container-platform" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+</div>
+<div class="spacer"></div>
+<div class ="data-container">
+    <h1>平台数据饼状图</h1>
+    <div id="container-platform-unique" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 </div>
 <script src="../static/highcharts/js/highcharts.js"></script>
 <script src="../static/highcharts/js/modules/exporting.js"></script>
 <script type="text/javascript">
     $$(function() {
-        var chart;
         $$(document).ready(function() {
+            //分类数据饼状图Ajax初始化
+            $$.getJSON('/app/get_category_chart/', function(data) {
 
-            var options = {
-                chart: {
-                    renderTo: 'container',
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false
-                },
-                title: {
-                    text: '分类应用数据分析'
-                },
-                subtitle: {
-                    text: 'PolySpider爬取应用所属分类饼状图'
-                },
-                tooltip: {
-                    pointFormat: '{series.name.percent}: <b>{point.percentage:.1f}%</b><br>{series.name.count}: <b>{point.y}</b><br>'
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            color: '#000000',
-                            connectorColor: '#000000',
-                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                        },
-                        showInLegend: true
-                    }
-                },
-                series: [{}]
-            };
-
-            $$.getJSON('/app/get_app_list/data.json', function(data) {
-                options.series[0].type = 'pie';
-                options.series[0].name = {'percent': '百分比', 'count': '应用数'};
-                options.series[0].data = data;
-                var chart = new Highcharts.Chart(options);
+                $$('#container-category').highcharts({
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    title: {
+                        text: '分类应用数据分析'
+                    },
+                    subtitle: {
+                        text: 'PolySpider爬取应用所属分类饼状图'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name.percent}: <b>{point.percentage:.1f}%</b><br>{series.name.count}: <b>{point.y}</b><br>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                color: '#000000',
+                                connectorColor: '#000000',
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                            type: 'pie',
+                            name: {'percent': '百分比', 'count': '应用数'},
+                            data: data
+                        }]
+                });
+            });
+            //平台数据饼状图Ajax初始化
+            $$.getJSON('/app/get_platform_chart/', function(data) {
+                $$('#container-platform').highcharts({
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    title: {
+                        text: '平台应用数据分析'
+                    },
+                    subtitle: {
+                        text: 'PolySpider爬取应用所属平台饼状图(忽略版本)'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name.percent}: <b>{point.percentage:.1f}%</b><br>{series.name.count}: <b>{point.y}</b><br>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                color: '#000000',
+                                connectorColor: '#000000',
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                            type: 'pie',
+                            name: {'percent': '百分比', 'count': '应用数'},
+                            data: data
+                        }]
+                });
             });
 
-
+            //平台数据饼状图Ajax初始化
+            $$.getJSON('/app/get_platform_chart_unique/', function(data) {
+                $$('#container-platform-unique').highcharts({
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false
+                    },
+                    title: {
+                        text: '平台应用数据分析'
+                    },
+                    subtitle: {
+                        text: 'PolySpider爬取应用所属平台饼状图'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name.percent}: <b>{point.percentage:.1f}%</b><br>{series.name.count}: <b>{point.y}</b><br>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                color: '#000000',
+                                connectorColor: '#000000',
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                            },
+                            showInLegend: true
+                        }
+                    },
+                    series: [{
+                            type: 'pie',
+                            name: {'percent': '百分比', 'count': '应用数'},
+                            data: data
+                        }]
+                });
+            });
         });
 
     });

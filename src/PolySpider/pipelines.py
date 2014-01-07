@@ -30,7 +30,7 @@ class CategorizingPipeline(object):
     '''
     def process_item(self,item,spider):
         #如果category中没有这个类 会报错
-        item['category'] = CategoryUtil.getCategoryIds(item['category'].encode('utf8','ignore'))
+        item['category'] = CategoryUtil.get_category_id_by_name(item['category'].encode('utf8','ignore'))
          
         return item
 

@@ -57,7 +57,7 @@
 #比如将其分类设置为需要额外一些工作来进行确认的分类
 #比如一个应用如果是办公分类，首先查看其是否已经gab到数据库中，如果数据库中对这个应用已经有记录，那么直接那个记录来分类
 #如果没有记录，则指定某个默认分类来记录，等待别的应用商店上传该应用，来分类，或者该应用进行人工分类的操作等等
-CATEGORY = {
+CATEGORY_ID = {
     ## Common
     '其他'      :   '1000',
     ## App_star分类字典 By Eric Wang
@@ -177,7 +177,7 @@ CATEGORY = {
     '原创-竞技':'1900',
 
 }
-DISCATEGORY = {
+CATEGORY_NAME = {
 '1000':'其它工具',
 '1100':'系统工具',
 '1200':'日常应用',
@@ -217,8 +217,8 @@ DISCATEGORY = {
 '4600':'游戏'        
 }
 
-def getCategoryIds(category_name):
-    if not CATEGORY.get(category_name):
+def get_category_id_by_name(category_name):
+    if not CATEGORY_ID.get(category_name):
         #如果没有，则un_record_category.yml记录该分类
         print "分类：%s" %category_name
         flag = True
@@ -236,3 +236,9 @@ def getCategoryIds(category_name):
         return ""
         
     return CATEGORY.get(category_name)
+
+def get_category_name_by_id(id):
+    if not CATEGORY_NAME.get(id):
+        return "无"
+    else:
+        return CATEGORY_NAME.get(id)
