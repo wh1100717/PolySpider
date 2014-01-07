@@ -57,6 +57,17 @@ def checkTableExist():
             );
         '''
         create_table(sql_table_create)
+    if not is_table_exist('ps_status'):
+        sql_table_create = '''
+            CREATE TABLE ps_status(
+                id INTEGER PRIMARY KEY,
+                platform VARCHAR(32),
+                create_date TEXT,
+                crawled_app_count INTEGER,
+                new_app_count INTEGER,
+                update_app_count INTEGER,
+            );
+        '''
 
 def close_all(con):
     '''

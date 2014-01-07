@@ -8,6 +8,7 @@ from PolySpider.util import CategoryUtil
 from PolySpider.util import SqliteUtil
 from PolySpider.sql import App
 from PolySpider.sql import AppDetail
+from PolySpider.sql import Status
 
 import urllib
 import pybcs
@@ -16,8 +17,10 @@ from PolySpider.util import FileUploadUtil
 from PolySpider.util import CommonUtil
 from PolySpider.config import Config
 
+DROP_APP = False
+NEW_APP = False
+UPDATE_APP = False
 
-APP_TABLE_INSERT = False
 
 class PolySpiderPipeline(object):
     def process_item(self, item, spider):
@@ -50,8 +53,8 @@ class CheckAppPipeline(object):
             for category in item['category'].split(","):
                 item['category'] = category + ":1" + ","
             #插入数据
-            APP_TABLE_INSERT = True
             item['app_id'] = App.insert_app(item)
+            NEW_APP = True
         else:
             app = app[0]
             item['app_id'] = app[0]
@@ -76,12 +79,14 @@ class CheckAppDetailsPipeline(object):
             self.apk_operation(item)
             #插入数据
             AppDetail.insert_app_detail(item)
+            UPDATE_APP = True
         else:
             #TODO 可能涉及到更新操作-->rating_point | rating_count | download_times | apk_url | cover | 
-            raise DropItem("Crawled app has been record in databse. No newer version has been found!")
+            DROP_APP = True
         return item
         
     def apk_operation(self, item):
+        if DROP_APP: return item
         '''
         执行顺序ID：102
         文件上传到服务器
@@ -136,7 +141,8 @@ class UpdateCategoryPipeline(object):
     更新ps_app中的category项
     '''
     def process_item(self,item,spider):
-        if APP_TABLE_INSERT:
+        if DROP_APP: return item
+        if NEW_APP:
             #重新计算category
             item_category = item['category']
             categories = item['app_category'].split(",")
@@ -166,6 +172,17 @@ class UpdateCategoryPipeline(object):
                 if cmp_category_value > order_category_value:
                     categories[i],categories[j] = categories[j],categories[i]
         return categories
+
+class StatusRecordPipeline(object):
+    '''
+    执行顺序ID：104
+    更新ps_status记录
+    '''
+    def process_item(self, item, spider):
+        status = Status.get_today_status(item['platform'])
+        data = [(status[3] + 1, status[4] + 1 if NEW_APP else status[4], status[5] + 1 if UPDATE_APP else status[5], status[0])]
+        Status.update_status(data)
+        return item
 
 
 #'''

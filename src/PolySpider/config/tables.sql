@@ -21,3 +21,12 @@ CREATE TABLE ps_app_detail(
     last_update TEXT,
     primary key (app_id, version, platform)
 );
+
+CREATE TABLE ps_status(
+    id INTEGER PRIMARY KEY,
+    platform VARCHAR(32),
+    create_date TEXT,
+    crawled_app_count INTEGER,
+    new_app_count INTEGER,
+    update_app_count INTEGER
+);
