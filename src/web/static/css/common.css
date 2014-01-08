@@ -319,3 +319,11 @@ footer ul.footer-nav li a:hover {
     border-bottom: 1px solid #B0BED9;
     clear: both;
 }
+.modal-body img{
+    margin-top: 20px;
+    margin-left: 17px;
+    width: 46%;
+}
+.modal-dialog{
+    width: 800px;
+}
