@@ -138,6 +138,7 @@ def save_return_id(sql, data):
     id = cur.lastrowid
     con.commit()
     close_all(con)
+    print "save_return_id :%d" %id 
     return id
     
 def update(sql, data):

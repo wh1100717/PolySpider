@@ -27,7 +27,6 @@ def insert_app(item):
     sql = '''INSERT INTO ps_app values(null,?,?,?)'''
     data = (item['app_name'], item['author'], item['category'])
     result = SqliteUtil.save_return_id(sql, data)
-    print result
     return result
 
 def update_app_author(id, author):
@@ -76,7 +75,6 @@ def count_app_categroy_sum():
     for count_category in count_categorys:
         data=data+'["'+unicode(str(CategoryUtil.get_category_name_by_id(count_category)))+'",'+str(count_categorys[count_category])+"],"
     data=data[:-1]+"]"
-    print data
     return data
             
             

@@ -41,6 +41,9 @@ class AppItem(Item):
     platform = Field()
     
     app_category = Field()#用来临时存储获取的app的category
+    DROP_APP = Field()
+    NEW_APP = Field()
+    UPDATE_APP = Field() 
     
     def __repr__(self):
         #Debug和Info模式下，Pipeline处理完成后不打印Item内容

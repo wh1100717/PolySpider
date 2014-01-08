@@ -12,11 +12,12 @@ class HiapkSpider(CrawlSpider):
 	name = "hiapk"
 	allowed_domains = ["apk.hiapk.com"]
 	start_urls = [
-                "http://apk.hiapk.com"
+                "http://apk.hiapk.com",
+                "http://game.hiapk.com"
 	]
         rules = [
-            Rule(SgmlLinkExtractor(allow=("apk\.hiapk\.com/html/[0-9]*/[0-9]*/[0-9]*\.html", )),callback='parse_app'),
-            Rule(SgmlLinkExtractor(allow=("apk\.hiapk\.com", ),deny=("down\.apk\.hiapk\.com","apk\.hiapk\.com/Download\.aspx", )), follow = True),
+            Rule(SgmlLinkExtractor(allow=("apk\.hiapk\.com/html/[0-9]*/[0-9]*/[0-9]*\.html", "game\.hiapk\.com/[a-z]*/[0-9]*/[0-9]*\.html")),callback='parse_app'),
+            Rule(SgmlLinkExtractor(allow=("apk\.hiapk\.com", "game\.hiapk\.com"),deny=("down\.apk\.hiapk\.com","apk\.hiapk\.com/Download\.aspx", )), follow = True),
         ]
 	def parse_app(self, response):	
             sel = Selector(response)
