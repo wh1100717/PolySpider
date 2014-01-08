@@ -1,11 +1,11 @@
-$def with (apps)
+$def with (data)
 <link href="../static/datatables/media/css/demo_page.css" rel="stylesheet">
 <link href="../static/datatables/media/css/demo_table_jui.css" rel="stylesheet">
 <link href="../static/datatables/examples/examples_support/themes/smoothness/jquery-ui-1.8.4.custom.css" rel="stylesheet">
 
 <div class ="data-container">
     <h1>App列表</h1>
-    <table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+    <table cellpadding="0" cellspacing="0" border="0" class="display" id="app_list">
         <thead>
             <tr>
                 <th>ID</th>
@@ -15,7 +15,7 @@ $def with (apps)
             </tr>
         </thead>
         <tbody>
-            $for app in apps:
+            $for app in data[0]:
             <tr class="gradeX">
                 <td>$app[0]</td>
                 <td>$app[1]</td>
@@ -25,11 +25,55 @@ $def with (apps)
         </tbody>
     </table>
 </div>
+<div class ="data-container">
+    <h1>App_Details列表</h1>
+    <table cellpadding="0" cellspacing="0" border="0" class="display" id="app_detail_list">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Version</th>
+                <th>Platform</th>
+                <th>apk_size</th>
+                <th>packname</th>
+                <th>rating_point</th>
+                <th>rating_count</th>
+                <th>android_version</th>
+                <th>download_times</th>
+                <th>last_update</th>
+                
+                
+            </tr>
+        </thead>
+        <tbody>
+            $for app in data[1]:
+            <tr class="gradeX">
+                <td>$app[1]</td>
+                <td>$app[2]</td>
+                <td>$app[3]</td>
+                <td>$app[5]</td>
+                <td>$app[6]</td>
+                <td>$app[8]</td>
+                <td>$app[11]</td>
+                <td>$app[12]</td>
+                <td>$app[13]</td>
+                <td>$app[14]</td>
+                <td>$app[17]</td>
+                
+            </tr>
+        </tbody>
+    </table>
+</div>
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
     $$(document).ready(function() {
-        $$('#example').dataTable({
-            "sTtile": "123",
+        $$('#app_list').dataTable({
+            "bProcessing": true,
+            "bJQueryUI": true
+//            "sPaginationType": "full_numbers"
+        });
+        $$('#app_detail_list').dataTable({
             "bProcessing": true,
             "bJQueryUI": true
 //            "sPaginationType": "full_numbers"

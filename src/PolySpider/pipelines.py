@@ -55,7 +55,7 @@ class CheckAppPipeline(object):
         if not app:
             #构造分类
             for category in item['category'].split(","):
-                item['category'] = category + ":1" + ","
+                item['category'] = category + ":1"
             #插入数据
             item['app_id'] = App.insert_app(item)
             item['NEW_APP'] = True
@@ -150,8 +150,8 @@ class UpdateCategoryPipeline(object):
         if not item['NEW_APP']:
             #重新计算category
             item_category = item['category']
-            print item['category']
-            print item['app_category']
+            print item['category']#4600
+            print item['app_category']#4600:1,
             categories = item['app_category'].split(",")
             flag = True
             for index in range(len(categories)):

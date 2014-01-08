@@ -44,7 +44,9 @@ class chart:
 class data:
     def GET(self):
         apps = App.get_app_list()
-        return render.data(apps)
+        app_details=AppDetail.get_app_detail_list()
+        data=[apps,app_details]
+        return render.data(data)
 
 class get_category_chart:
     def GET(self):

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-  
 from PolySpider.config import Config
 from PolySpider.util import SqliteUtil
+from PolySpider.util import CategoryUtil
 import sqlite3
 
 def get_app_detail_by_item(item):
@@ -77,4 +78,23 @@ def get_platform_app_count_unique():
     platform_appnum=platform_appnum[:-1]+"]"
     
     return platform_appnum
+
+
+
+
+
+def get_app_detail_list():
+    #应用列表
+    #page_index代表页数 row_number显示行数sort按某条件排序order升序降序
+    con = sqlite3.connect(Config.SQLITE_PATH)
+    cur = con.cursor()
+    sql='''select * from ps_app join ps_app_detail where ps_app.id=ps_app_detail.app_id limit 100'''
+    
+    cur.execute(sql)
+    datas = cur.fetchall()
+    for index in range(len(datas)):
+        data = list(datas[index])
+        data[3]=CategoryUtil.get_category_name_by_id(data[3][0:4])
+        datas[index]=tuple(data)
+    return datas
 
