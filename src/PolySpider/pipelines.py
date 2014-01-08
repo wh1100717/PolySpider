@@ -30,6 +30,9 @@ class CategorizingPipeline(object):
     处理应用的分类的Pipeline~
     '''
     def process_item(self,item,spider):
+        #判断item是否为空，如果为空，则drop item
+        if item['app_name'] == "":
+            raise DropItem(item)
         #如果category中没有这个类 会报错
         item['category'] = CategoryUtil.get_category_id_by_name(item['category'].encode('utf8','ignore'))
         item['DROP_APP'] = False
@@ -147,6 +150,8 @@ class UpdateCategoryPipeline(object):
         if not item['NEW_APP']:
             #重新计算category
             item_category = item['category']
+            print item['category']
+            print item['app_category']
             categories = item['app_category'].split(",")
             flag = True
             for index in range(len(categories)):
@@ -160,7 +165,7 @@ class UpdateCategoryPipeline(object):
             if flag:
                 item['app_category'] = item['app_category'] + "," + item['category'] + ":1"
             #更新ps_app表的category
-            App.update_app_category(app['id'], item['app_category'])
+            App.update_app_category(item['app_id'], item['app_category'])
         return item
     
     def category_reorder(self,categories):

@@ -33,26 +33,31 @@ class AppStarSpider(BaseSpider):
             sel = Selector(response)
             item= AppItem()
             print "抓取开始：%s" %response.url
-            item['apk_url'] = "http://www.appstar.com.cn" + sel.xpath("//*[@id='appDetail']/li[1]/a/@href").extract()[0]
-            item['app_name'] = CommonUtil.dropBrackets(sel.xpath('//*[@id="appName"]/text()').extract()[0])
-            item['cover'] = sel.xpath('//*[@id="appImg"]/@src').extract()[0]
-            item['version'] = CommonUtil.normalizeVersion(sel.xpath('//*[@id="appVersion"]/text()').extract()[0][4:-1])
-            item['rating_point'] = sel.xpath('//*[@id="appDetail"]/li[1]/span/text()').extract()[0][1:-2]
-            item['rating_count'] = sel.xpath('//*[@id="appDetail"]/li[2]/span[1]/text()').extract()[0][:-3]
-            item['category'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()').extract()[1][6:]
-            item['android_version'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()').extract()[4][5:]
-            item['download_times'] = sel.xpath('//*[@id="appDetail"]/li[2]/text()').extract()[1][5:-1]
-            item['author'] = sel.xpath('//*[@id="appDetail"]/li[2]/text()').extract()[2][3:]
-            item['last_update'] = sel.xpath('//*[@id="appDetail"]/li[2]/span[2]/text()').extract()[0][6:]
-            description = sel.xpath('//*[@id="appDes"]/p/text()').extract()
-            item['description'] = "" if description == [] else description[0].strip()
-            item['apk_size'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()[3]').extract()[0][5:]
-            
-            #获取图片地址，通过空格来分割多张图片
-            imgs =  sel.xpath('//li/img/@src').extract()
-            imgs_url = ""
-            for i in range(2,len(imgs)): imgs_url += imgs[i] + " "
-            item['imgs_url'] = imgs_url.strip()
-            item['platform'] = "appstar"
-            print "抓取结束，进入pipeline进行数据处理"
-            return item
+            print len(sel.xpath("//*[@id='appDetail']/li[1]/a/@href").extract())
+            if len(sel.xpath("//*[@id='appDetail']/li[1]/a/@href").extract())==0 :
+                item['app_name']="" 
+                return item
+            else:
+                item['apk_url'] = "http://www.appstar.com.cn" + sel.xpath("//*[@id='appDetail']/li[1]/a/@href").extract()[0]
+                item['app_name'] = CommonUtil.dropBrackets(sel.xpath('//*[@id="appName"]/text()').extract()[0])
+                item['cover'] = sel.xpath('//*[@id="appImg"]/@src').extract()[0]
+                item['version'] = CommonUtil.normalizeVersion(sel.xpath('//*[@id="appVersion"]/text()').extract()[0][4:-1])
+                item['rating_point'] = sel.xpath('//*[@id="appDetail"]/li[1]/span/text()').extract()[0][1:-2]
+                item['rating_count'] = sel.xpath('//*[@id="appDetail"]/li[2]/span[1]/text()').extract()[0][:-3]
+                item['category'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()').extract()[1][6:]
+                item['android_version'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()').extract()[4][5:]
+                item['download_times'] = sel.xpath('//*[@id="appDetail"]/li[2]/text()').extract()[1][5:-1]
+                item['author'] = sel.xpath('//*[@id="appDetail"]/li[2]/text()').extract()[2][3:]
+                item['last_update'] = sel.xpath('//*[@id="appDetail"]/li[2]/span[2]/text()').extract()[0][6:]
+                description = sel.xpath('//*[@id="appDes"]/p/text()').extract()
+                item['description'] = "" if description == [] else description[0].strip()
+                item['apk_size'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()[3]').extract()[0][5:]
+
+                #获取图片地址，通过空格来分割多张图片
+                imgs =  sel.xpath('//li/img/@src').extract()
+                imgs_url = ""
+                for i in range(2,len(imgs)): imgs_url += imgs[i] + " "
+                item['imgs_url'] = imgs_url.strip()
+                item['platform'] = "appstar"
+                print "抓取结束，进入pipeline进行数据处理"
+                return item

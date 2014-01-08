@@ -23,7 +23,7 @@ class BaiduSpider(CrawlSpider):
 		Rule(SgmlLinkExtractor(allow=('item\?docid=\d.*', )),callback='parse_app',follow=True),
                 Rule(SgmlLinkExtractor(allow=('as\.baidu\.com/a/', ),deny=('as\.baidu\.com/a/%','as\.baidu\.com/a/cooperation','as\.baidu\.com/a/appsearch','as\.baidu\.com/a/declare')), follow = True),
 	]
-	]
+	
 	def parse_app(self, response):	
 		sel = Selector(response)
                 item = AppItem()

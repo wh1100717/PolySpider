@@ -64,13 +64,14 @@ def count_app_categroy_sum():
         
         for temp in category[0].split(','):
             app_category = temp.split(':')[0]
-            if app_category!='':
-                if not count_categorys.get(app_category):
-                    count_categorys[app_category]=1
+            if temp:
+                if app_category!='':
+                    if not count_categorys.get(app_category):
+                        count_categorys[app_category]=1
+                    else:
+                        count_categorys[app_category]=int(count_categorys[app_category])+1
                 else:
-                    count_categorys[app_category]=int(count_categorys[app_category])+1
-            else:
-                count_categorys['1000']=count_categorys['1000']+1
+                    count_categorys['1000']=count_categorys['1000']+1
     data="["
     for count_category in count_categorys:
         data=data+'["'+unicode(str(CategoryUtil.get_category_name_by_id(count_category)))+'",'+str(count_categorys[count_category])+"],"
@@ -78,7 +79,7 @@ def count_app_categroy_sum():
     return data
             
             
-def get_app_list(page_index = 1,row_number = 1500,sort = "id",order = "asc"):
+def get_app_list(page_index = 1,row_number = 13000,sort = "id",order = "asc"):
     #应用列表
     #page_index代表页数 row_number显示行数sort按某条件排序order升序降序
     con = sqlite3.connect(Config.SQLITE_PATH)
