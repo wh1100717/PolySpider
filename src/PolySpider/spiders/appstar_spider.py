@@ -9,7 +9,7 @@ from PolySpider.config import Config
 from PolySpider.util import CommonUtil
 
 class AppStarSpider(BaseSpider):
-	name = "app_star"
+	name = "appstar"
 	allowed_domains = ["appstar.com.cn"]
 	start_urls = [
                 "http://appstar.com.cn/"

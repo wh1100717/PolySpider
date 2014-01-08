@@ -1,0 +1,146 @@
+2014-01-08 11:29:53,874 CRIT Supervisor running as root (no user in config file)
+2014-01-08 11:29:53,878 INFO daemonizing the supervisord process
+2014-01-08 11:29:53,878 INFO supervisord started with pid 8040
+2014-01-08 11:29:54,881 INFO spawned: 'theprogramname' with pid 8041
+2014-01-08 11:29:55,882 INFO success: theprogramname entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-01-08 11:33:36,281 WARN received SIGTERM indicating exit request
+2014-01-08 11:33:36,282 INFO waiting for theprogramname to die
+2014-01-08 11:33:36,282 INFO stopped: theprogramname (terminated by SIGTERM)
+2014-01-08 12:47:35,876 CRIT Supervisor running as root (no user in config file)
+2014-01-08 12:48:28,823 CRIT Supervisor running as root (no user in config file)
+2014-01-08 12:48:34,044 INFO daemonizing the supervisord process
+2014-01-08 12:48:34,045 INFO supervisord started with pid 8733
+2014-01-08 12:48:35,047 INFO spawnerr: can't find command '/bin/env'
+2014-01-08 12:48:36,048 INFO spawnerr: can't find command '/bin/env'
+2014-01-08 12:48:38,051 INFO spawnerr: can't find command '/bin/env'
+2014-01-08 12:48:41,055 INFO spawnerr: can't find command '/bin/env'
+2014-01-08 12:48:41,055 INFO gave up: polySpider entered FATAL state, too many start retries too quickly
+2014-01-08 12:50:03,682 WARN received SIGTERM indicating exit request
+2014-01-08 12:50:56,350 CRIT Supervisor running as root (no user in config file)
+2014-01-08 12:51:01,608 INFO daemonizing the supervisord process
+2014-01-08 12:51:01,609 INFO supervisord started with pid 8860
+2014-01-08 12:51:02,607 INFO spawned: 'polySpider' with pid 8903
+2014-01-08 12:51:04,045 INFO success: polySpider entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-01-08 12:51:04,066 INFO exited: polySpider (exit status 0; expected)
+2014-01-08 12:52:19,473 WARN received SIGTERM indicating exit request
+2014-01-08 12:52:42,419 CRIT Supervisor running as root (no user in config file)
+2014-01-08 12:52:47,669 INFO daemonizing the supervisord process
+2014-01-08 12:52:47,670 INFO supervisord started with pid 8927
+2014-01-08 12:52:48,672 INFO spawned: 'polySpider' with pid 8928
+2014-01-08 12:52:49,697 INFO success: polySpider entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-01-08 12:54:02,752 INFO exited: polySpider (exit status 0; expected)
+2014-01-08 12:54:21,841 WARN received SIGTERM indicating exit request
+2014-01-08 13:01:26,265 CRIT Supervisor running as root (no user in config file)
+2014-01-08 13:01:31,476 INFO RPC interface 'supervisor' initialized
+2014-01-08 13:01:31,476 CRIT Server 'inet_http_server' running without any HTTP authentication checking
+2014-01-08 13:01:31,477 INFO daemonizing the supervisord process
+2014-01-08 13:01:31,477 INFO supervisord started with pid 8990
+2014-01-08 13:03:17,132 CRIT Supervisor running as root (no user in config file)
+2014-01-08 13:03:22,346 INFO RPC interface 'supervisor' initialized
+2014-01-08 13:03:22,346 CRIT Server 'inet_http_server' running without any HTTP authentication checking
+2014-01-08 13:03:22,346 INFO daemonizing the supervisord process
+2014-01-08 13:03:22,347 INFO supervisord started with pid 9014
+2014-01-08 13:03:42,855 CRIT Supervisor running as root (no user in config file)
+2014-01-08 13:03:48,108 INFO RPC interface 'supervisor' initialized
+2014-01-08 13:03:48,108 CRIT Server 'inet_http_server' running without any HTTP authentication checking
+2014-01-08 13:03:48,109 INFO daemonizing the supervisord process
+2014-01-08 13:03:48,109 INFO supervisord started with pid 9023
+2014-01-08 13:04:09,493 CRIT Supervisor running as root (no user in config file)
+2014-01-08 13:04:14,707 CRIT Server 'inet_http_server' running without any HTTP authentication checking
+2014-01-08 13:04:14,708 INFO daemonizing the supervisord process
+2014-01-08 13:04:14,708 INFO supervisord started with pid 9032
+2014-01-08 13:04:42,102 CRIT Supervisor running as root (no user in config file)
+2014-01-08 13:04:47,312 CRIT Server 'inet_http_server' running without any HTTP authentication checking
+2014-01-08 13:04:47,312 INFO daemonizing the supervisord process
+2014-01-08 13:04:47,313 INFO supervisord started with pid 9048
+2014-01-08 13:05:13,824 CRIT Supervisor running as root (no user in config file)
+2014-01-08 13:05:19,044 CRIT Server 'inet_http_server' running without any HTTP authentication checking
+2014-01-08 13:05:19,045 INFO daemonizing the supervisord process
+2014-01-08 13:05:19,045 INFO supervisord started with pid 9060
+2014-01-08 13:05:20,048 INFO spawned: 'hiapk_spider' with pid 9061
+2014-01-08 13:05:22,034 INFO success: hiapk_spider entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-01-08 13:05:54,104 INFO exited: hiapk_spider (exit status 0; expected)
+2014-01-08 13:06:21,207 CRIT Supervisor running as root (no user in config file)
+2014-01-08 13:06:34,601 WARN received SIGTERM indicating exit request
+2014-01-08 13:06:37,652 CRIT Supervisor running as root (no user in config file)
+2014-01-08 13:06:42,874 CRIT Server 'inet_http_server' running without any HTTP authentication checking
+2014-01-08 13:06:42,875 INFO daemonizing the supervisord process
+2014-01-08 13:06:42,876 INFO supervisord started with pid 9089
+2014-01-08 13:07:47,439 CRIT Supervisor running as root (no user in config file)
+2014-01-08 13:07:52,691 CRIT Server 'inet_http_server' running without any HTTP authentication checking
+2014-01-08 13:07:52,691 INFO daemonizing the supervisord process
+2014-01-08 13:07:52,692 INFO supervisord started with pid 9111
+2014-01-08 13:08:34,199 CRIT Supervisor running as root (no user in config file)
+2014-01-08 13:08:39,465 INFO daemonizing the supervisord process
+2014-01-08 13:08:39,465 INFO supervisord started with pid 9126
+2014-01-08 13:11:23,865 CRIT Supervisor running as root (no user in config file)
+2014-01-08 13:11:29,146 INFO daemonizing the supervisord process
+2014-01-08 13:11:29,146 INFO supervisord started with pid 9149
+2014-01-08 13:13:41,299 CRIT Supervisor running as root (no user in config file)
+2014-01-08 13:13:46,571 INFO daemonizing the supervisord process
+2014-01-08 13:13:46,571 INFO supervisord started with pid 9167
+2014-01-08 13:13:47,574 INFO spawned: 'hiapk_spider' with pid 9168
+2014-01-08 13:13:49,500 INFO success: hiapk_spider entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-01-08 13:46:45,497 WARN received SIGTERM indicating exit request
+2014-01-08 13:46:45,498 INFO waiting for hiapk_spider to die
+2014-01-08 13:46:48,913 INFO waiting for hiapk_spider to die
+2014-01-08 13:46:52,413 INFO waiting for hiapk_spider to die
+2014-01-08 13:46:53,281 WARN received SIGTERM indicating exit request
+2014-01-08 13:46:56,285 WARN killing 'hiapk_spider' (9168) with SIGKILL
+2014-01-08 13:46:56,285 INFO waiting for hiapk_spider to die
+2014-01-08 13:46:56,289 INFO stopped: hiapk_spider (terminated by SIGKILL)
+2014-01-08 13:47:20,975 CRIT Supervisor running as root (no user in config file)
+2014-01-08 13:47:26,241 INFO daemonizing the supervisord process
+2014-01-08 13:47:26,242 INFO supervisord started with pid 9264
+2014-01-08 13:47:27,243 INFO spawned: 'hiapk_spider' with pid 9265
+2014-01-08 13:47:29,082 INFO success: hiapk_spider entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-01-08 13:48:24,475 WARN killing 'hiapk_spider' (9265) with SIGKILL
+2014-01-08 13:48:24,479 INFO stopped: hiapk_spider (terminated by SIGKILL)
+2014-01-08 13:51:57,264 WARN received SIGTERM indicating exit request
+2014-01-08 13:54:04,517 CRIT Supervisor running as root (no user in config file)
+2014-01-08 13:54:09,789 INFO daemonizing the supervisord process
+2014-01-08 13:54:09,789 INFO supervisord started with pid 9563
+2014-01-08 13:54:10,792 INFO spawned: 'appchina_spider' with pid 9565
+2014-01-08 13:54:10,794 INFO spawned: 'hiapk_spider' with pid 9566
+2014-01-08 13:54:10,796 INFO spawned: 'xiaomi_spider' with pid 9567
+2014-01-08 13:54:10,797 INFO spawned: 'appstar_spider' with pid 9568
+2014-01-08 13:54:10,799 INFO spawned: 'baidu_spider' with pid 9569
+2014-01-08 13:54:12,267 INFO success: appchina_spider entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-01-08 13:54:12,267 INFO success: hiapk_spider entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-01-08 13:54:12,267 INFO success: xiaomi_spider entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-01-08 13:54:12,267 INFO success: appstar_spider entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-01-08 13:54:12,267 INFO success: baidu_spider entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2014-01-08 13:58:17,696 WARN received SIGTERM indicating exit request
+2014-01-08 13:58:17,704 INFO waiting for appchina_spider, hiapk_spider, xiaomi_spider, appstar_spider, baidu_spider to die
+2014-01-08 13:58:21,095 INFO waiting for appchina_spider, hiapk_spider, xiaomi_spider, appstar_spider, baidu_spider to die
+2014-01-08 13:58:21,424 WARN received SIGTERM indicating exit request
+2014-01-08 13:58:22,448 WARN received SIGTERM indicating exit request
+2014-01-08 13:58:25,076 INFO waiting for appchina_spider, hiapk_spider, xiaomi_spider, appstar_spider, baidu_spider to die
+2014-01-08 13:58:28,104 WARN killing 'baidu_spider' (9569) with SIGKILL
+2014-01-08 13:58:28,105 INFO waiting for appchina_spider, hiapk_spider, xiaomi_spider, appstar_spider, baidu_spider to die
+2014-01-08 13:58:28,109 INFO stopped: baidu_spider (terminated by SIGKILL)
+2014-01-08 13:58:31,535 INFO waiting for appchina_spider, hiapk_spider, xiaomi_spider, appstar_spider to die
+2014-01-08 13:58:34,376 WARN received SIGTERM indicating exit request
+2014-01-08 13:58:34,798 INFO waiting for appchina_spider, hiapk_spider, xiaomi_spider, appstar_spider to die
+2014-01-08 13:58:37,918 INFO waiting for appchina_spider, hiapk_spider, xiaomi_spider, appstar_spider to die
+2014-01-08 13:58:39,035 WARN killing 'appstar_spider' (9568) with SIGKILL
+2014-01-08 13:58:39,048 INFO stopped: appstar_spider (terminated by SIGKILL)
+2014-01-08 13:58:40,104 WARN received SIGTERM indicating exit request
+2014-01-08 13:58:41,134 INFO waiting for appchina_spider, hiapk_spider, xiaomi_spider to die
+2014-01-08 13:58:44,754 INFO waiting for appchina_spider, hiapk_spider, xiaomi_spider to die
+2014-01-08 13:58:47,993 INFO waiting for appchina_spider, hiapk_spider, xiaomi_spider to die
+2014-01-08 13:58:49,150 WARN killing 'xiaomi_spider' (9567) with SIGKILL
+2014-01-08 13:58:49,163 INFO stopped: xiaomi_spider (terminated by SIGKILL)
+2014-01-08 13:58:51,166 INFO waiting for appchina_spider, hiapk_spider to die
+2014-01-08 13:58:54,171 INFO waiting for appchina_spider, hiapk_spider to die
+2014-01-08 13:58:56,312 WARN received SIGTERM indicating exit request
+2014-01-08 13:58:57,520 WARN received SIGTERM indicating exit request
+2014-01-08 13:58:57,520 INFO waiting for appchina_spider, hiapk_spider to die
+2014-01-08 13:58:59,357 WARN killing 'hiapk_spider' (9566) with SIGKILL
+2014-01-08 13:58:59,361 INFO stopped: hiapk_spider (terminated by SIGKILL)
+2014-01-08 13:59:00,655 INFO waiting for appchina_spider to die
+2014-01-08 13:59:03,936 INFO waiting for appchina_spider to die
+2014-01-08 13:59:07,247 INFO waiting for appchina_spider to die
+2014-01-08 13:59:08,952 WARN received SIGTERM indicating exit request
+2014-01-08 13:59:09,953 WARN killing 'appchina_spider' (9565) with SIGKILL
+2014-01-08 13:59:09,958 INFO stopped: appchina_spider (terminated by SIGKILL)

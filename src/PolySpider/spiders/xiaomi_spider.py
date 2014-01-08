@@ -8,7 +8,7 @@ from PolySpider.items import AppItem
 from PolySpider.config import Config
 from PolySpider.util import CommonUtil
 
-class AppStarSpider(BaseSpider):
+class XiaomiSpider(BaseSpider):
 	name = "xiaomi"
 	allowed_domains = ["xiaomi.com"]
 	start_urls = [

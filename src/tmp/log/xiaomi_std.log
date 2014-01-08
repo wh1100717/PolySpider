@@ -1,0 +1,411 @@
+2014-01-08 13:54:11+0800 [scrapy] INFO: Scrapy 0.20.2 started (bot: PolySpider)
+2014-01-08 13:54:11+0800 [scrapy] DEBUG: Optional features available: ssl, http11, boto, django
+2014-01-08 13:54:11+0800 [scrapy] DEBUG: Overridden settings: {'NEWSPIDER_MODULE': 'PolySpider.spiders', 'SPIDER_MODULES': ['PolySpider.spiders'], 'USER_AGENT': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.54 Safari/536.5', 'DOWNLOAD_DELAY': 2, 'BOT_NAME': 'PolySpider'}
+2014-01-08 13:54:11+0800 [scrapy] DEBUG: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, SpiderState
+2014-01-08 13:54:11+0800 [scrapy] DEBUG: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2014-01-08 13:54:11+0800 [scrapy] DEBUG: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2014-01-08 13:54:11+0800 [scrapy] DEBUG: Enabled item pipelines: PolySpiderPipeline, CategorizingPipeline, CheckAppPipeline, CheckAppDetailsPipeline, UpdateCategoryPipeline, StatusRecordPipeline
+2014-01-08 13:54:11+0800 [xiaomi] INFO: Spider opened
+2014-01-08 13:54:11+0800 [xiaomi] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2014-01-08 13:54:11+0800 [scrapy] DEBUG: Telnet console listening on 0.0.0.0:6025
+2014-01-08 13:54:11+0800 [scrapy] DEBUG: Web service listening on 0.0.0.0:6081
+2014-01-08 13:54:12+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/> (referer: None)
+2014-01-08 13:54:13+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/47>
+2014-01-08 13:54:16+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/46>
+2014-01-08 13:54:16+0800 [xiaomi] DEBUG: Filtered duplicate request: <GET http://app.xiaomi.com/detail/> - no more duplicates will be shown (see DUPEFILTER_CLASS)
+2014-01-08 13:54:18+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/45>
+2014-01-08 13:54:20+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/44> (referer: http://app.xiaomi.com/)
+2014-01-08 13:54:20+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/44>
+	
+	
+2014-01-08 13:54:23+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/43>
+2014-01-08 13:54:26+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/42> (referer: http://app.xiaomi.com/)
+2014-01-08 13:54:26+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/42>
+	
+	
+2014-01-08 13:54:28+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/41>
+2014-01-08 13:54:30+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/40> (referer: http://app.xiaomi.com/)
+2014-01-08 13:54:31+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/40>
+	
+	
+2014-01-08 13:54:32+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/39> (referer: http://app.xiaomi.com/)
+2014-01-08 13:54:32+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/39>
+	
+	
+2014-01-08 13:54:35+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/38>
+2014-01-08 13:54:38+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/37> (referer: http://app.xiaomi.com/)
+2014-01-08 13:54:38+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/37>
+	
+	
+2014-01-08 13:54:40+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/36>
+2014-01-08 13:54:43+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/35>
+2014-01-08 13:54:45+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/34>
+2014-01-08 13:54:48+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/33>
+2014-01-08 13:54:50+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/32>
+2014-01-08 13:54:53+0800 [xiaomi] DEBUG: Crawled (404) <GET http://app.xiaomi.com/detail/> (referer: http://app.xiaomi.com/)
+2014-01-08 13:54:56+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/27693> (referer: http://app.xiaomi.com/)
+2014-01-08 13:54:57+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/27693>
+	
+	
+2014-01-08 13:54:58+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/30000> (referer: http://app.xiaomi.com/)
+2014-01-08 13:54:58+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/30000>
+	
+	
+2014-01-08 13:55:00+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29999> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:00+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29999>
+	
+	
+2014-01-08 13:55:02+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29998> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:02+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29998>
+	
+	
+2014-01-08 13:55:05+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29997> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:05+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29997>
+	
+	
+2014-01-08 13:55:08+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29996> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:08+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29996>
+	
+	
+2014-01-08 13:55:11+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29995> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:11+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29995>
+	
+	
+2014-01-08 13:55:11+0800 [xiaomi] INFO: Crawled 14 pages (at 14 pages/min), scraped 12 items (at 12 items/min)
+2014-01-08 13:55:13+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29994> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:13+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29994>
+	
+	
+2014-01-08 13:55:16+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29993> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:16+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29993>
+	
+	
+2014-01-08 13:55:19+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29992> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:19+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29992>
+	
+	
+2014-01-08 13:55:21+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29991> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:22+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29991>
+	
+	
+2014-01-08 13:55:24+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29990> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:24+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29990>
+	
+	
+2014-01-08 13:55:27+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/29989>
+2014-01-08 13:55:29+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29988> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:30+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29988>
+	
+	
+2014-01-08 13:55:32+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29987> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:32+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29987>
+	
+	
+2014-01-08 13:55:34+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29986> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:35+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29986>
+	
+	
+2014-01-08 13:55:37+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29985> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:37+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29985>
+	
+	
+2014-01-08 13:55:40+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29984> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:40+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29984>
+	
+	
+2014-01-08 13:55:42+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29983> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:42+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29983>
+	
+	
+2014-01-08 13:55:44+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29982> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:45+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29982>
+	
+	
+2014-01-08 13:55:46+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/29981>
+2014-01-08 13:55:48+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29980> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:48+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29980>
+	
+	
+2014-01-08 13:55:51+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29979> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:51+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29979>
+	
+	
+2014-01-08 13:55:54+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/29978>
+2014-01-08 13:55:56+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29977> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:56+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29977>
+	
+	
+2014-01-08 13:55:59+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29976> (referer: http://app.xiaomi.com/)
+2014-01-08 13:55:59+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29976>
+	
+	
+2014-01-08 13:56:02+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29975> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:02+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29975>
+	
+	
+2014-01-08 13:56:04+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29974> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:04+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29974>
+	
+	
+2014-01-08 13:56:07+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29973> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:07+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29973>
+	
+	
+2014-01-08 13:56:09+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29972> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:09+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29972>
+	
+	
+2014-01-08 13:56:11+0800 [xiaomi] INFO: Crawled 34 pages (at 20 pages/min), scraped 32 items (at 20 items/min)
+2014-01-08 13:56:12+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29971> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:12+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29971>
+	
+	
+2014-01-08 13:56:14+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/29970>
+2014-01-08 13:56:17+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29969> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:18+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29969>
+	
+	
+2014-01-08 13:56:20+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29968> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:20+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29968>
+	
+	
+2014-01-08 13:56:23+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29967> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:23+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29967>
+	
+	
+2014-01-08 13:56:25+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29966> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:26+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29966>
+	
+	
+2014-01-08 13:56:27+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29965> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:27+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29965>
+	
+	
+2014-01-08 13:56:29+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29964> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:30+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29964>
+	
+	
+2014-01-08 13:56:32+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29963> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:32+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29963>
+	
+	
+2014-01-08 13:56:34+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29962> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:34+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29962>
+	
+	
+2014-01-08 13:56:36+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29961> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:37+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29961>
+	
+	
+2014-01-08 13:56:39+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29960> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:39+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29960>
+	
+	
+2014-01-08 13:56:42+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29959> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:42+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29959>
+	
+	
+2014-01-08 13:56:45+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29958> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:45+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29958>
+	
+	
+2014-01-08 13:56:48+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29957> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:48+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29957>
+	
+	
+2014-01-08 13:56:50+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/29956>
+2014-01-08 13:56:51+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29955> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:52+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29955>
+	
+	
+2014-01-08 13:56:54+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29954> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:54+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29954>
+	
+	
+2014-01-08 13:56:56+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29953> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:56+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29953>
+	
+	
+2014-01-08 13:56:58+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29952> (referer: http://app.xiaomi.com/)
+2014-01-08 13:56:59+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29952>
+	
+	
+2014-01-08 13:57:01+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29951> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:01+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29951>
+	
+	
+2014-01-08 13:57:03+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29950> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:03+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29950>
+	
+	
+2014-01-08 13:57:05+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29949> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:05+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29949>
+	
+	
+2014-01-08 13:57:08+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29948> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:08+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29948>
+	
+	
+2014-01-08 13:57:10+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29947> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:11+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29947>
+	
+	
+2014-01-08 13:57:11+0800 [xiaomi] INFO: Crawled 57 pages (at 23 pages/min), scraped 55 items (at 23 items/min)
+2014-01-08 13:57:13+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29946> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:13+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29946>
+	
+	
+2014-01-08 13:57:15+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29945> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:15+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29945>
+	
+	
+2014-01-08 13:57:18+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29944> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:18+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29944>
+	
+	
+2014-01-08 13:57:21+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29943> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:21+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29943>
+	
+	
+2014-01-08 13:57:23+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29942> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:23+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29942>
+	
+	
+2014-01-08 13:57:24+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29941> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:24+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29941>
+	
+	
+2014-01-08 13:57:27+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29940> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:28+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29940>
+	
+	
+2014-01-08 13:57:30+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29939> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:30+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29939>
+	
+	
+2014-01-08 13:57:31+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/29938>
+2014-01-08 13:57:33+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29937> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:33+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29937>
+	
+	
+2014-01-08 13:57:35+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29936> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:35+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29936>
+	
+	
+2014-01-08 13:57:37+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/29935>
+2014-01-08 13:57:40+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29934> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:40+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29934>
+	
+	
+2014-01-08 13:57:42+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29933> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:42+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29933>
+	
+	
+2014-01-08 13:57:44+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29932> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:44+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29932>
+	
+	
+2014-01-08 13:57:47+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29931> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:47+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29931>
+	
+	
+2014-01-08 13:57:49+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29930> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:49+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29930>
+	
+	
+2014-01-08 13:57:51+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29929> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:51+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29929>
+	
+	
+2014-01-08 13:57:54+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29928> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:54+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29928>
+	
+	
+2014-01-08 13:57:56+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29927> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:57+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29927>
+	
+	
+2014-01-08 13:57:59+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29926> (referer: http://app.xiaomi.com/)
+2014-01-08 13:57:59+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29926>
+	
+	
+2014-01-08 13:58:02+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29925> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:02+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29925>
+	
+	
+2014-01-08 13:58:04+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29924> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:04+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29924>
+	
+	
+2014-01-08 13:58:06+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29923> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:06+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29923>
+	
+	
+2014-01-08 13:58:09+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29922> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:09+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29922>
+	
+	
+2014-01-08 13:58:11+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29921> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:11+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29921>
+	
+	
+2014-01-08 13:58:11+0800 [xiaomi] INFO: Crawled 81 pages (at 24 pages/min), scraped 79 items (at 24 items/min)
+2014-01-08 13:58:13+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29920> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:13+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29920>
+	
+	
+2014-01-08 13:58:15+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29919> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:15+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29919>
+	
+	
+2014-01-08 13:58:18+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29918> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:18+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29918>
+	
+	
+2014-01-08 13:58:21+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29917> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:21+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29917>
+	
+	
+2014-01-08 13:58:23+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29916> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:23+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29916>
+	
+	
+2014-01-08 13:58:25+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29915> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:25+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29915>
+	
+	
+2014-01-08 13:58:27+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29914> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:27+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29914>
+	
+	
+2014-01-08 13:58:29+0800 [xiaomi] DEBUG: Redirecting (302) to <GET http://app.xiaomi.com/detail/> from <GET http://app.xiaomi.com/detail/29913>
+2014-01-08 13:58:32+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29912> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:32+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29912>
+	
+	
+2014-01-08 13:58:35+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29911> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:35+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29911>
+	
+	
+2014-01-08 13:58:37+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29910> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:38+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29910>
+	
+	
+2014-01-08 13:58:39+0800 [scrapy] INFO: Received SIGTERM, shutting down gracefully. Send again to force 
+2014-01-08 13:58:39+0800 [xiaomi] INFO: Closing spider (shutdown)
+2014-01-08 13:58:39+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29909> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:39+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29909>
+	
+	
+2014-01-08 13:58:41+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29908> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:41+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29908>
+	
+	
+2014-01-08 13:58:44+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29907> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:44+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29907>
+	
+	
+2014-01-08 13:58:47+0800 [xiaomi] DEBUG: Crawled (200) <GET http://app.xiaomi.com/detail/29906> (referer: http://app.xiaomi.com/)
+2014-01-08 13:58:47+0800 [xiaomi] DEBUG: Scraped from <200 http://app.xiaomi.com/detail/29906>
+	
+	

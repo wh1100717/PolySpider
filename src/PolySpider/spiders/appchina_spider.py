@@ -8,7 +8,7 @@ from PolySpider.items import AppItem
 
 from PolySpider.util import CommonUtil
 
-class AppStarSpider(CrawlSpider):
+class AppChinaSpider(CrawlSpider):
 	name = "appchina"
 	allowed_domains = ["appchina.com"]
 	start_urls = [

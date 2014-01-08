@@ -8,7 +8,7 @@ from PolySpider.items import AppItem
 
 from PolySpider.util import CommonUtil
 
-class AppStarSpider(CrawlSpider):
+class HiapkSpider(CrawlSpider):
 	name = "hiapk"
 	allowed_domains = ["apk.hiapk.com"]
 	start_urls = [
