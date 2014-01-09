@@ -42,9 +42,8 @@ def normalizeVersion(versionInput):
     for digit in versionInput:
         if digit in "1234567890.":
             result += digit
-    result=result.encode('utf8')
-    result=result.replace("及以上固件版本","")
-    return result.decode('utf8')
+
+    return result
 
 def progressbar(url,fileName):
     '''
