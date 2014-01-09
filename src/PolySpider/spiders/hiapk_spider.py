@@ -16,11 +16,6 @@ class HiapkSpider(BaseSpider):
                 "http://apk.hiapk.com/apps",
                 "http://apk.hiapk.com/games",
 	]
-#        rules = [
-#            Rule(SgmlLinkExtractor(allow=("apk\.hiapk\.com/html/[0-9]*/[0-9]*/[0-9]*\.html",)),callback='parse_app'),
-#            Rule(SgmlLinkExtractor(allow=("apk\.hiapk\.com"),deny=("down\.apk\.hiapk\.com","apk\.hiapk\.com/Download\.aspx", )), follow = True),
-#            
-#        ]
         def parse(self,response):
             if re.match(r".*/html/\d{4}/\d{2}/\d+\.html",response.url):
                 item = self.parse_app(response)
@@ -29,7 +24,6 @@ class HiapkSpider(BaseSpider):
                 sel = Selector(response)
                 urls = sel.xpath('//li/dl/dt/span/a/@href').extract()
                 for url in urls:
-                    print url
                     yield Request(url,callback = self.parse_app)
             else:
                 apps_categories=[
@@ -42,23 +36,19 @@ class HiapkSpider(BaseSpider):
                 index=1
                 for app_category in apps_categories:
 
-#                    for a in range(1,101):
-#                        for b in range(1,4):
-#                            for c in [0,1,2,4]:
-#                                for d in [0,1,2]:
-#                                    for e in range(4):
-#                                        for f in range(6):
-#                                            for g in range(4): 
-#                                                url = 'http://apk.hiapk.com/App.aspx?action=FindAppSoftList'
-#                                                currentHash=str(a)+"_"+str(b)+"_"+str(c)+"_"+str(d)+"_"+str(e)+"_"+str(f)+"_"+str(g)
-#                                                yield FormRequest(url,formdata={"currentHash":currentHash},headers={"referer":"http://apk.hiapk.com/"})
+                    for a in range(1,101):
+                        for b in range(1,4):
+                            for c in [0,1,2,4]:
+                                for d in [0,1,2]:
+                                    for e in range(4):
+                                        for f in range(6):
+                                            for g in range(4): 
                     
-                    url = 'http://apk.hiapk.com/App.aspx?action=FindAppSoftList&'+str(index)
-                    currentHash=str(1)+"_"+str(1)+"_"+str(0)+"_"+str(0)+"_"+str(0)+"_"+str(0)+"_"+str(0)
-                    index+=1
-                    yield FormRequest(url,formdata={"currentHash":currentHash,"categoryId":app_category.split("_")[1]},headers={"referer":"http://apk.hiapk.com/"+app_category,"host":"apk.hiapk.com","Origin":"http://apk.hiapk.com","cookie":"bdshare_firstime=1388402901321; g4O_367d_saltkey=Wo7H2524; g4O_367d_lastvisit=1389240791; g4O_367d_sid=l66oav; g4O_367d_lastact=1389245384%09index3.php%09; Hm_lvt_16e06478135e116d53878ff0cebb48aa=1389245390; Hm_lpvt_16e06478135e116d53878ff0cebb48aa=1389245390; cyan_uv=C5FDE18E66F0000161A1362040EB1018; Hm_lvt_94dab3141b56951a239543750f02672a=1389244089; Hm_lpvt_94dab3141b56951a239543750f02672a=1389245398;"})
+                                                url = 'http://apk.hiapk.com/App.aspx?action=FindAppSoftList&'+str(index)
+                                                currentHash=str(a)+"_"+str(b)+"_"+str(c)+"_"+str(d)+"_"+str(e)+"_"+str(f)+"_"+str(g)
+                                                index+=1
+                                                yield FormRequest(url,formdata={"currentHash":currentHash,"categoryId":app_category.split("_")[1]},headers={"referer":"http://apk.hiapk.com/"+app_category,"host":"apk.hiapk.com","Origin":"http://apk.hiapk.com"})
 
-                                                #req.add_header('referer', "http://apk.hiapk.com/"+app_category)
         def return_item(self, item):
             return item
            
