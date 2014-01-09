@@ -7,14 +7,6 @@ import datetime
 from PolySpider.config import Config
 from PolySpider.util import SqliteUtil
 
-def get_app_by_app_name(app_name):
-    print SqliteUtil.is_table_exist("ps_app")
-    con = sqlite3.connect(Config.SQLITE_PATH)
-    cur = con.cursor()
-    sql = "select * from ps_app where app_name = ?"
-    cur.execute(sql,(app_name,))
-    return cur.fetchall()
-
 def get_today_status(platform):
     con = sqlite3.connect(Config.SQLITE_PATH)
     cur = con.cursor()
@@ -37,3 +29,26 @@ def update_status(data):
                 update_app_count = ?
             where id = ?'''
     SqliteUtil.update(sql, data)
+    
+def get_status_list():
+    con = sqlite3.connect(Config.SQLITE_PATH)
+    cur = con.cursor()
+    sql = "select * from ps_status"
+    cur.execute(sql)
+    status = cur.fetchall()
+    return status
+
+def get_status_list_by_platform(platform):
+    con = sqlite3.connect(Config.SQLITE_PATH)
+    cur = con.cursor()
+    sql = "select * from ps_status where platform = ?"
+    cur.execute(sql,(platform,))
+    status = cur.fetchall()
+    return status
+
+def create_fade_status(startdate):
+    sql = '''INSERT INTO ps_status values(null,?,?,0,0,0)'''
+    data = (platform, today)
+    id = SqliteUtil.save_return_id(sql, data)
+    status = [(id,platform,today,0,0,0)]
+

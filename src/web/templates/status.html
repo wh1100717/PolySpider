@@ -1,6 +1,6 @@
 <div class ="data-container">
     <h1>demo1</h1>
-    <div id="container-state" style="height: 500px; min-width: 600px"></div>
+    <div id="container-status-list" style="height: 500px; min-width: 600px"></div>
 </div>
 <div class="spacer"></div>
 <div class ="data-container">
@@ -14,39 +14,39 @@
     $$(function() {
         var seriesOptions = [],
                 yAxisOptions = [],
-                seriesCounter = 0,
-                names = ['MSFT', 'AAPL', 'GOOG'],
                 colors = Highcharts.getOptions().colors;
-
-        $$.each(names, function(i, name) {
-
-            $$.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=' + name.toLowerCase() + '-c.json&callback=?', function(data) {
-
-                seriesOptions[i] = {
-                    name: name,
-                    data: data
-                };
-
-                // As we're loading the data asynchronously, we don't know what order it will arrive. So
-                // we keep a counter and create the chart when all the data is loaded.
-                seriesCounter++;
-
-                if (seriesCounter == names.length) {
-                    createChart();
-                }
+        $$.getJSON('/status/get_status_list_by_platform/xiaomi', function(data) {
+            var data_crawled = [];
+            var data_new = [];
+            var data_update = [];
+            $$.each(data, function(i, item) {
+                date = item[2].split('-');
+                date = Date.UTC(date[0], date[1] - 1, date[2]);
+                data_crawled.push([date, item[3]]);
+                data_new.push([date, item[4]]);
+                data_update.push([date, item[5]]);
             });
+//            data_crawled = JSON.stringify(data_crawled);
+//            data_new = JSON.stringify(data_new);
+//            data_update = JSON.stringify(data_update);
+            seriesOptions[0] = {name: 'Crawled', data: data_crawled};
+            seriesOptions[1] = {name: 'New', data: data_new};
+            seriesOptions[2] = {name: 'Update', data: data_update};
+            console.log(data_crawled);
+            console.log(data_new);
+            console.log(data_update);
+            createChart();
         });
-
-
-
         // create the chart when all data is loaded
         function createChart() {
-
-            $$('#container-state').highcharts('StockChart', {
+            $$('#container-status-list').highcharts('StockChart', {
                 chart: {
                 },
                 rangeSelector: {
-                    selected: 4
+                    selected: 1
+                },
+                title: {
+                    text: '小米爬虫数据分析'
                 },
                 yAxis: {
                     labels: {
@@ -59,11 +59,6 @@
                             width: 2,
                             color: 'silver'
                         }]
-                },
-                plotOptions: {
-                    series: {
-                        compare: 'percent'
-                    }
                 },
                 tooltip: {
                     pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',

@@ -36,7 +36,7 @@ $def with (content)
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li id ='naviHome'><a href="/home/">Home</a></li>
-                        <li id ='naviState'><a href="/state/">State</a></li>
+                        <li id ='naviStatus'><a href="/status/">Status</a></li>
                         <li id ='naviChart'><a href="/chart/">Chart</a></li>
                         <li id ='naviData'><a href="/data/">Data</a></li>
                     </ul>
@@ -54,16 +54,17 @@ $def with (content)
                 <li><a href="/">Home</a></li>
                 <li><a href="/contact">Contact</a></li>
             </ul>
-        </footer>        
+        </footer>
         <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../static/js/json2.js"></script>
         <script type="text/javascript">
             $$(document).ready(function() {
                 naviCheck();
             });
             function naviCheck() {
                 var url = location.href;
-                if (url.indexOf("/state") >= 0) {
-                    $$("#naviState").addClass("active");
+                if (url.indexOf("/status") >= 0) {
+                    $$("#naviStatus").addClass("active");
                 } else if (url.indexOf("/chart") >= 0) {
                     $$("#naviChart").addClass("active");
                 } else if (url.indexOf("/data") >= 0) {
