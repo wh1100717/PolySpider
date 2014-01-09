@@ -64,6 +64,7 @@ def progressbar(url,fileName):
     pbar.finish()
 
 def dropBrackets(str):
+    str=str.encode('utf8')
     str = normalizeString(str)
     while '(' in str:
         startPoint = str.find('(')
@@ -71,6 +72,7 @@ def dropBrackets(str):
         str = str[:startPoint] if endPoint == -1 else str[:startPoint] + str[endPoint+1:]
     return str.strip()
 def normalizeString(str):
+    str=str.encode('utf8')
     normalizedStr = {
         '\t':'',
         '\n':'',
@@ -91,21 +93,22 @@ def normalizeString(str):
     for key in normalizedStr.keys():
         str = str.replace(key,normalizedStr[key])
     return str
-def download_time_normalize(str):
-    str=str.replace('+','')
-    str=str.replace('小于','')
-    if str.find('.')<0:
-        str=str.replace('万','0000')
-        str=str.replace('千','000')
-        str=str.replace('千万','00000000')
-        str=str.replace('亿','000000000')
-    elif str.find('万')>0:
-        str=str(int(float(str[0:str.find('万')])*10000))
-    elif str.find('千')>0:
-        str=str(int(float(str[0:str.find('千')])*1000))
-    elif str.find('千万')>0:
-        str=str(int(float(str[0:str.find('千万')])*10000000))
-    elif str.find('亿')>0:
-        str=str(int(float(str[0:str.find('万')])*100000000))
-    return str
+def download_time_normalize(download_time):
+    download_time=download_time.encode('utf8')
+    download_time=download_time.replace('+','')
+    download_time=download_time.replace('小于','')
+    if download_time.find('.')<0:
+        download_time=download_time.replace('万','0000')
+        download_time=download_time.replace('千','000')
+        download_time=download_time.replace('千万','00000000')
+        download_time=download_time.replace('亿','000000000')
+    if download_time.find('千万')>0:
+        download_time=str(int(float(download_time[0:download_time.find('千')])*10000000))
+    if download_time.find('千')>0:
+        download_time=str(int(float(download_time[0:download_time.find('千')])*1000))
+    if download_time.find('万')>0:
+        download_time=str(int(float(download_time[0:download_time.find('万')])*10000))
+    if download_time.find('亿')>0:
+        download_time=str(int(float(download_time[0:download_time.find('亿')])*100000000))
+    return download_time
     
