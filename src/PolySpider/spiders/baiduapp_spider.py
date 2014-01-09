@@ -42,7 +42,7 @@ class BaiduSpider(CrawlSpider):
                     item['rating_count'] = sel.xpath("//*[@id='score-participants']/text()").extract()[0][3:-4]
                     item['category'] =  sel.xpath("//span[@class='params-catename']/text()").extract()[0]
                     item['android_version'] =sel.xpath("//*/tr[2]/td[2]/span/text()").extract()[0][7:-3]
-                    item['download_times'] = sel.xpath("//*/tr[2]/td[1]/span/text()").extract()[0]
+                    item['download_times'] = CommonUtil.download_time_normalize(sel.xpath("//*/tr[2]/td[1]/span/text()").extract()[0])
                     item['author'] =  ''
                     item['last_update'] =   sel.xpath("//*/tr[3]/td[1]/span/text()").extract()[0]
 

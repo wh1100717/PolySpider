@@ -43,10 +43,7 @@ def get_app_detail_by_id(id):
     con = sqlite3.connect(Config.SQLITE_PATH)
     cur = con.cursor()
     sql='''select * from ps_app_detail where app_id = ?'''
-   
     cur.execute(sql,id)
-    
-    print cur.fetchall()
     return cur.fetchall()
 
 def get_platform_app_count():
@@ -56,13 +53,7 @@ def get_platform_app_count():
     sql='''select platform,count(app_id) from ps_app_detail group by platform'''
     platform_appnum="["
     cur.execute(sql)
-    totalnums = cur.fetchall()
-    for totalnum in totalnums:
-        platform_appnum=platform_appnum+'["'+totalnum[0]+'",'+ str(totalnum[1])+"],"
-        
-    platform_appnum=platform_appnum[:-1]+"]"
-    
-    return platform_appnum
+    return cur.fetchall()
 
 def get_platform_app_count_unique():
     #查询不同平台app数量 不同版本算一个
@@ -71,17 +62,7 @@ def get_platform_app_count_unique():
     sql='''select platform,count(*) from (select platform,app_id from ps_app_detail group by app_id) group by platform'''
     platform_appnum="["
     cur.execute(sql)
-    totalnums = cur.fetchall()
-    for totalnum in totalnums:
-        platform_appnum=platform_appnum+'["'+totalnum[0]+'",'+ str(totalnum[1])+"],"
-        
-    platform_appnum=platform_appnum[:-1]+"]"
-    
-    return platform_appnum
-
-
-
-
+    return cur.fetchall()
 
 def get_app_detail_list():
     #应用列表
@@ -89,12 +70,6 @@ def get_app_detail_list():
     con = sqlite3.connect(Config.SQLITE_PATH)
     cur = con.cursor()
     sql='''select * from ps_app join ps_app_detail where ps_app.id=ps_app_detail.app_id limit 100'''
-    
     cur.execute(sql)
-    datas = cur.fetchall()
-    for index in range(len(datas)):
-        data = list(datas[index])
-        data[3]=CategoryUtil.get_category_name_by_id(data[3][0:4])
-        datas[index]=tuple(data)
-    return datas
+    return cur.fetchall()
 

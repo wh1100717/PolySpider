@@ -5,6 +5,7 @@ import sys
 import web
 import os
 
+
 reload(sys)
 sys.setdefaultencoding('utf8')
 if sys.path[-1].split("\\")[-1] != "src": 
@@ -17,6 +18,7 @@ from PolySpider.sql import App
 from PolySpider.sql import AppDetail
 from PolySpider.sql import Status
 from PolySpider.util import StringUtil
+from PolySpider.util import CategoryUtil
 
 from view import render
 
@@ -50,23 +52,50 @@ class chart:
 class data:
     def GET(self):
         apps = App.get_app_list()
+        for index in range(len(apps)):
+            data = list(apps[index])
+            data[3]=CategoryUtil.get_category_name_by_id(data[3][0:4])
+            apps[index]=tuple(data)
         app_details=AppDetail.get_app_detail_list()
+        for index in range(len(app_details)):
+            data = list(app_details[index])
+            data[3]=CategoryUtil.get_category_name_by_id(data[3][0:4])
+            app_details[index]=tuple(data)
         data=[apps,app_details]
         return render.data(data)
 
 class get_category_chart:
     def GET(self):
         data  = App.count_app_categroy_sum()
+        count_categorys={}
+        count_categorys['1000']=0
+        for category in data:
+            for temp in category[0].split(','):
+                app_category = temp.split(':')[0]
+                if temp:
+                    if app_category!='':
+                        if not count_categorys.get(app_category):
+                            count_categorys[app_category]=1
+                        else:
+                            count_categorys[app_category]=int(count_categorys[app_category])+1
+                    else:
+                        count_categorys['1000']=count_categorys['1000']
+        data="["
+        for count_category in count_categorys:
+            data=data+'["'+unicode(str(CategoryUtil.get_category_name_by_id(count_category)))+'",'+str(count_categorys[count_category])+"],"
+        data=data[:-1]+"]"
         return data
 
 class get_platform_chart:
     def GET(self):
         data = AppDetail.get_platform_app_count()
+        data =StringUtil.item_to_json(data)
         return data
 
 class get_platform_chart_unique:
     def GET(self):
         data = AppDetail.get_platform_app_count_unique()
+        data = StringUtil.item_to_json(data)
         return data
 
 class get_status_list_by_platform:

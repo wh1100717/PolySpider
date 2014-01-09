@@ -39,7 +39,7 @@ class AppChinaSpider(CrawlSpider):
                         item['rating_count'] = sel.xpath('//a[@class="linkmore"]/text()').extract()[0][6:-2]
                         item['category'] = sel.xpath('//*[@id="app-detail-wrap"]/div[2]/ul/li[3]/a/text()').extract()[0]
                         item['android_version'] = sel.xpath('//*[@id="app-detail-wrap"]/div[1]/span[@class="sys"]/text()').extract()[0].replace('\n','')[7:-2].strip()
-                        item['download_times']=sel.xpath('//*[@id="app-detail-wrap"]/div[2]/ul/li[2]/em/text()').extract()[0]
+                        item['download_times']=CommonUtil.download_time_normalize(sel.xpath('//*[@id="app-detail-wrap"]/div[2]/ul/li[2]/em/text()').extract()[0])
                         author=sel.xpath('//span[@class="dl authon-name"]/text()').extract()
                         if len(author)==0:
                             author = ''

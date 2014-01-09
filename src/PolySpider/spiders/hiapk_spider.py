@@ -29,6 +29,7 @@ class HiapkSpider(BaseSpider):
                 sel = Selector(response)
                 urls = sel.xpath('//li/dl/dt/span/a/@href').extract()
                 for url in urls:
+                    print url
                     yield Request(url,callback = self.parse_app)
             else:
                 apps_categories=[
@@ -38,7 +39,7 @@ class HiapkSpider(BaseSpider):
                     'apps_31_1_1','apps_289_1_1','apps_291_1_1','apps_290_1_1','apps_29_1_1','apps_81_1_1',
                     'apps_30_1_1','apps_80_1_1','apps_292_1_1','apps_79_1_1','apps_288_1_1'
                     ]
-
+                index=1
                 for app_category in apps_categories:
 
 #                    for a in range(1,101):
@@ -51,9 +52,11 @@ class HiapkSpider(BaseSpider):
 #                                                url = 'http://apk.hiapk.com/App.aspx?action=FindAppSoftList'
 #                                                currentHash=str(a)+"_"+str(b)+"_"+str(c)+"_"+str(d)+"_"+str(e)+"_"+str(f)+"_"+str(g)
 #                                                yield FormRequest(url,formdata={"currentHash":currentHash},headers={"referer":"http://apk.hiapk.com/"})
-                    url = 'http://apk.hiapk.com/App.aspx?action=FindAppSoftList'
+                    
+                    url = 'http://apk.hiapk.com/App.aspx?action=FindAppSoftList&'+str(index)
                     currentHash=str(1)+"_"+str(1)+"_"+str(0)+"_"+str(0)+"_"+str(0)+"_"+str(0)+"_"+str(0)
-                    yield FormRequest(url,formdata={"currentHash":currentHash,"categoryId":app_category.split("_")[0]})
+                    index+=1
+                    yield FormRequest(url,formdata={"currentHash":currentHash,"categoryId":app_category.split("_")[1]},headers={"referer":"http://apk.hiapk.com/"+app_category,"host":"apk.hiapk.com","Origin":"http://apk.hiapk.com","cookie":"bdshare_firstime=1388402901321; g4O_367d_saltkey=Wo7H2524; g4O_367d_lastvisit=1389240791; g4O_367d_sid=l66oav; g4O_367d_lastact=1389245384%09index3.php%09; Hm_lvt_16e06478135e116d53878ff0cebb48aa=1389245390; Hm_lpvt_16e06478135e116d53878ff0cebb48aa=1389245390; cyan_uv=C5FDE18E66F0000161A1362040EB1018; Hm_lvt_94dab3141b56951a239543750f02672a=1389244089; Hm_lpvt_94dab3141b56951a239543750f02672a=1389245398;"})
 
                                                 #req.add_header('referer', "http://apk.hiapk.com/"+app_category)
         def return_item(self, item):
@@ -69,10 +72,12 @@ class HiapkSpider(BaseSpider):
             item['apk_url'] = urllib2.urlopen(req).url
             item['app_name'] = CommonUtil.dropBrackets(sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftName"]/text()').extract()[0])
             item['cover'] = sel.xpath('//*[@id="main"]/div/div/div[1]/div[1]/div[2]/div[1]/div[1]/img/@src').extract()[0]
-            item['version'] = CommonUtil.normalizeVersion(sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftVersionName"]/text()').extract()[0])
+            version=CommonUtil.normalizeVersion(sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftVersionName"]/text()').extract()[0])
+            version=version.replace('及以上固件版本','+')[0:version.find('至')]
+            item['version'] =version
             item['category'] =  sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftCategory"]/text()').extract()[0]
             item['android_version'] =sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftSuitSdk"]/text()').extract()[0]
-            item['download_times'] = sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_Download"]/text()').extract()[0]
+            item['download_times'] = CommonUtil.download_time_normalize(sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_Download"]/text()').extract()[0])
             author =  sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftDeveloper"]/text()').extract()
             if len(author)==0:
                 author = ''

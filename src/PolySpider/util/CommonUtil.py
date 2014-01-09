@@ -91,3 +91,21 @@ def normalizeString(str):
     for key in normalizedStr.keys():
         str = str.replace(key,normalizedStr[key])
     return str
+def download_time_normalize(str):
+    str=str.replace('+','')
+    str=str.replace('小于','')
+    if str.find('.')<0:
+        str=str.replace('万','0000')
+        str=str.replace('千','000')
+        str=str.replace('千万','00000000')
+        str=str.replace('亿','000000000')
+    elif str.find('万')>0:
+        str=str(int(float(a[0:a.find('万')])*10000))
+    elif str.find('千')>0:
+        str=str(int(float(a[0:a.find('千')])*1000))
+    elif str.find('千万')>0:
+        str=str(int(float(a[0:a.find('千万')])*10000000))
+    elif str.find('亿')>0:
+        str=str(int(float(a[0:a.find('万')])*100000000))
+    return str
+    

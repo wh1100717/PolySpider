@@ -46,7 +46,7 @@ class AppStarSpider(BaseSpider):
                 item['rating_count'] = sel.xpath('//*[@id="appDetail"]/li[2]/span[1]/text()').extract()[0][:-3]
                 item['category'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()').extract()[1][6:]
                 item['android_version'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()').extract()[4][5:]
-                item['download_times'] = sel.xpath('//*[@id="appDetail"]/li[2]/text()').extract()[1][5:-1]
+                item['download_times'] = CommonUtil.download_time_normalize(sel.xpath('//*[@id="appDetail"]/li[2]/text()').extract()[1][5:-1])
                 author=sel.xpath('//*[@id="appDetail"]/li[2]/text()').extract()
                 if len(author)==0:
                     author = ''
