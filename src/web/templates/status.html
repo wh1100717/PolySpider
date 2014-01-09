@@ -1,11 +1,11 @@
 <div class ="data-container">
     <h1>demo1</h1>
-    <div id="container-status-list" style="height: 500px; min-width: 600px"></div>
+    <div id="container-xiaomi-status-list" style="height: 500px; min-width: 600px"></div>
 </div>
 <div class="spacer"></div>
 <div class ="data-container">
     <h1>demo2</h1>
-    <div id="container-state1" style="height: 500px; min-width: 600px"></div>
+    <div id="container-xiaomi-status" style="height: 500px; min-width: 600px"></div>
 </div>
 <script src="../static/highstock/js/highstock.js"></script>
 <script src="../static/highstock/js/modules/exporting.js"></script>
@@ -39,7 +39,7 @@
         });
         // create the chart when all data is loaded
         function createChart() {
-            $$('#container-status-list').highcharts('StockChart', {
+            $$('#container-xiaomi-status-list').highcharts('StockChart', {
                 chart: {
                 },
                 rangeSelector: {
@@ -77,26 +77,33 @@
             });
 
             var chart;
-            $$('#container-state1').highcharts({
+            init_data = 
+            $$('#container-xiaomi-status').highcharts({
                 chart: {
                     type: 'spline',
                     animation: Highcharts.svg, // don't animate in old IE
                     marginRight: 10,
                     events: {
                         load: function() {
-
+                            var series = this.series;
                             // set up the updating of the chart each second
-                            var series = this.series[0];
                             setInterval(function() {
-                                var x = (new Date()).getTime(), // current time
-                                        y = Math.random();
-                                series.addPoint([x, y], true, true);
+                                var x = (new Date()).getTime(); // current time
+                                var y = Math.random();
+                                $$.getJSON('/status/get_current_status_by_platform/xiaomi', function(data) {
+                                    console.log("Data Loaded: " + data);
+//                                    console.log(y);
+                                    series[0].addPoint([x, data[3]], true, true);
+                                    series[1].addPoint([x, data[4]], true, true);
+                                    series[2].addPoint([x, data[5]], true, true);
+                                });
+
                             }, 1000);
                         }
                     }
                 },
                 title: {
-                    text: 'Live random data'
+                    text: '小米实时数据分析'
                 },
                 xAxis: {
                     type: 'datetime',
@@ -107,8 +114,6 @@
                         text: 'Value'
                     },
                     plotLines: [{
-                            value: 0,
-                            width: 1,
                             color: '#808080'
                         }]
                 },
@@ -116,7 +121,7 @@
                     formatter: function() {
                         return '<b>' + this.series.name + '</b><br/>' +
                                 Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                                Highcharts.numberFormat(this.y, 2);
+                                Highcharts.numberFormat(this.y, 0);
                     }
                 },
                 legend: {
@@ -125,8 +130,9 @@
                 exporting: {
                     enabled: false
                 },
-                series: [{
-                        name: 'Random data',
+                series: [
+                    {
+                        name: 'Crawled App',
                         data: (function() {
                             // generate an array of random data
                             var data = [],
@@ -136,12 +142,47 @@
                             for (i = -19; i <= 0; i++) {
                                 data.push({
                                     x: time + i * 1000,
-                                    y: Math.random()
+                                    y: 0
                                 });
                             }
                             return data;
                         })()
-                    }]
+                    },
+                    {
+                        name: 'New App',
+                        data: (function() {
+                            // generate an array of random data
+                            var data = [],
+                                    time = (new Date()).getTime(),
+                                    i;
+
+                            for (i = -19; i <= 0; i++) {
+                                data.push({
+                                    x: time + i * 1000,
+                                    y: 0
+                                });
+                            }
+                            return data;
+                        })()
+                    },
+                    {
+                        name: 'Update App',
+                        data: (function() {
+                            // generate an array of random data
+                            var data = [],
+                                    time = (new Date()).getTime(),
+                                    i;
+
+                            for (i = -19; i <= 0; i++) {
+                                data.push({
+                                    x: time + i * 1000,
+                                    y: 0
+                                });
+                            }
+                            return data;
+                        })()
+                    }
+                ]
             });
         });
     });

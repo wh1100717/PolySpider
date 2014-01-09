@@ -6,7 +6,7 @@ from PolySpider.util import CategoryUtil
 import sqlite3
 
 def get_app_detail_by_item(item):
-    con = sqlite3.connect(Config.SQLITE_PATH)
+    con = sqlite3.connect(Config.get_sqlite_path())
     cur = con.cursor()
     print item['app_id']
     sql = "select * from ps_app_detail where app_id = ? and version = ? and platform = ?"
@@ -40,7 +40,7 @@ def insert_app_detail(item):
 
 def get_app_detail_by_id(id):
     #根据id查询app_detail
-    con = sqlite3.connect(Config.SQLITE_PATH)
+    con = sqlite3.connect(Config.get_sqlite_path())
     cur = con.cursor()
     sql='''select * from ps_app_detail where app_id = ?'''
     cur.execute(sql,id)
@@ -48,7 +48,7 @@ def get_app_detail_by_id(id):
 
 def get_platform_app_count():
     #查询不同平台app数量 不同版本算多个
-    con = sqlite3.connect(Config.SQLITE_PATH)
+    con = sqlite3.connect(Config.get_sqlite_path())
     cur = con.cursor()
     sql='''select platform,count(app_id) from ps_app_detail group by platform'''
     platform_appnum="["
@@ -57,7 +57,7 @@ def get_platform_app_count():
 
 def get_platform_app_count_unique():
     #查询不同平台app数量 不同版本算一个
-    con = sqlite3.connect(Config.SQLITE_PATH)
+    con = sqlite3.connect(Config.get_sqlite_path())
     cur = con.cursor()
     sql='''select platform,count(*) from (select platform,app_id from ps_app_detail group by app_id) group by platform'''
     platform_appnum="["
@@ -67,7 +67,7 @@ def get_platform_app_count_unique():
 def get_app_detail_list():
     #应用列表
     #page_index代表页数 row_number显示行数sort按某条件排序order升序降序
-    con = sqlite3.connect(Config.SQLITE_PATH)
+    con = sqlite3.connect(Config.get_sqlite_path())
     cur = con.cursor()
     sql='''select * from ps_app join ps_app_detail where ps_app.id=ps_app_detail.app_id limit 100'''
     cur.execute(sql)

@@ -7,7 +7,7 @@ from PolySpider.util import SqliteUtil
 from PolySpider.util import CategoryUtil
 def get_app_by_app_name(app_name):
     print SqliteUtil.is_table_exist("ps_app")
-    con = sqlite3.connect(Config.SQLITE_PATH)
+    con = sqlite3.connect(Config.get_sqlite_path())
     cur = con.cursor()
     sql = "select * from ps_app where app_name = ?"
     cur.execute(sql,(app_name,))
@@ -15,7 +15,7 @@ def get_app_by_app_name(app_name):
 
 def get_app_by_id(id):
     print SqliteUtil.is_table_exist("ps_app")
-    con = sqlite3.connect(Config.SQLITE_PATH)
+    con = sqlite3.connect(Config.get_sqlite_path())
     cur = con.cursor()
     sql = "select * from ps_app where id = ?"
     cur.execute(sql,(id,))
@@ -45,24 +45,24 @@ def update_app_category(id, category):
     
 def search_app_category(id):
     #查找某个app的分类
-    con = sqlite3.connect(Config.SQLITE_PATH)
+    con = sqlite3.connect(Config.get_sqlite_path())
     cur = con.cursor()
     sql = "select category from ps_app where id= ?"
     cur.execute(sql,(id,))
     return cur.fetchall()
-
+    
 def count_app_categroy_sum():
     #某个分类下app的总数
     sql = '''select category from ps_app '''
-    con = sqlite3.connect(Config.SQLITE_PATH)
+    con = sqlite3.connect(Config.get_sqlite_path())
     cur = con.cursor()
     cur.execute(sql)
     return cur.fetchall()
-
+            
 def get_app_list(page_index = 1,row_number = 100,sort = "id",order = "asc"):
     #应用列表
     #page_index代表页数 row_number显示行数sort按某条件排序order升序降序
-    con = sqlite3.connect(Config.SQLITE_PATH)
+    con = sqlite3.connect(Config.get_sqlite_path())
     cur = con.cursor()
     sql='''select * from ps_app order by ? limit ? offset ?'''
     startnum=(int(page_index)-1)*int(row_number)

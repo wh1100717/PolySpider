@@ -2,18 +2,26 @@
 # -*- coding: utf-8 -*-  
 import os
 import sys
-if sys.path[-1].split("\\")[-1] != "src": 
+
+def get_base_path():
+    '''
+    如果有则说明是在scrapy环境下
+    如果没有说明是在web.py环境下
+    '''
+    for p in sys.path:
+        if 'PolySpider' in p and 'src' in p and not 'web' in p:
+            return p
     c_path = os.getcwd()
-    if "\\" in c_path:
-        sys.path.append(c_path[:c_path.rfind("\\")])
+    base_path = c_path[:c_path.rfind("src")+3]
+    sys.path.append(base_path)
+    return base_path
+
+def get_sqlite_path():
+    if "win" in sys.platform:
+        return get_base_path() + "\\" + "app.db"
     else:
-        sys.path.append(c_path[:c_path.rfind("/")])
-    
-#Sqlite3 Configuration
-if "win" in sys.platform:
-    SQLITE_PATH = sys.path[-1] + "\\" + "app.db"
-else:
-    SQLITE_PATH = sys.path[-1] + "/" + "app.db"
+        return get_base_path() + "/" + "app.db"
+
 SHOW_SQL = False #True则会在控制台显示详细的SQL查询
 
 #App Star Constant

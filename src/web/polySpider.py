@@ -8,12 +8,9 @@ import os
 
 reload(sys)
 sys.setdefaultencoding('utf8')
-if sys.path[-1].split("\\")[-1] != "src": 
-    c_path = os.getcwd()
-    if "win" in sys.platform:
-        sys.path.append(c_path[:c_path.rfind("\\")])
-    else:
-        sys.path.append(c_path[:c_path.rfind("/")])
+c_path = os.getcwd()
+sys.path.append(c_path[:c_path.rfind("src")+3])
+
 from PolySpider.sql import App
 from PolySpider.sql import AppDetail
 from PolySpider.sql import Status
@@ -34,6 +31,7 @@ urls = (
     '/app/get_platform_chart/?','get_platform_chart',
     '/app/get_platform_chart_unique/?','get_platform_chart_unique',
     '/status/get_status_list_by_platform/(.+)','get_status_list_by_platform',
+    '/status/get_current_status_by_platform/(.+)','get_current_status_by_platform',
     
 )
 
@@ -102,6 +100,11 @@ class get_status_list_by_platform:
     def GET(self, platform):
         data = StringUtil.item_to_json(Status.get_status_list_by_platform(platform))
         data = '[[3,"xiaomi","2014-01-07",85,0,0],[5,"xiaomi","2014-01-08",100,15,17],[10,"xiaomi","2014-01-09",115,235,64],[10,"xiaomi","2014-01-10",125,343,132],[10,"xiaomi","2014-01-11",135,253,523],[10,"xiaomi","2014-01-12",145,546,654],[10,"xiaomi","2014-01-13",135,324,313],[10,"xiaomi","2014-01-14",165,231,653],[10,"xiaomi","2014-01-15",185,165,756],[10,"xiaomi","2014-01-16",125,111,432],[10,"xiaomi","2014-01-17",115,753,422],[10,"xiaomi","2014-01-18",145,234,814],[10,"xiaomi","2014-01-19",215,523,257],[10,"xiaomi","2014-01-20",245,423,857],[10,"xiaomi","2014-01-21",535,234,147],[10,"xiaomi","2014-01-22",645,132,457],[10,"xiaomi","2014-01-23",345,564,167]]'
+        return data
+
+class get_current_status_by_platform:
+    def GET(self,platform):
+        data = StringUtil.item_to_json(Status.get_current_status_by_platform(platform))
         return data
 
 if __name__ == "__main__":

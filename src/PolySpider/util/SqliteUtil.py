@@ -18,7 +18,7 @@ def is_table_exist(table_name):
     '''
     检查table_name的数据库表是否存在
     '''
-    con = sqlite3.connect(Config.SQLITE_PATH)
+    con = sqlite3.connect(Config.get_sqlite_path())
     return True if con.cursor().execute("SELECT count(*) FROM sqlite_master WHERE type= 'table' and name = ? ",(table_name,)).fetchone()[0] > 0 else False
 
 def checkTableExist():
@@ -84,7 +84,7 @@ def execute_sql(sql, data = ""):
     执行sql语句
     data默认为空,data为list，可执行多条数据操作
     '''
-    con = sqlite3.connect(Config.SQLITE_PATH)
+    con = sqlite3.connect(Config.get_sqlite_path())
     if not check_sql(sql): return
     cur = con.cursor()
     if data == "":
@@ -130,7 +130,7 @@ def save_return_id(sql, data):
     '''
     id = 0
     if not data: return
-    con = sqlite3.connect(Config.SQLITE_PATH)
+    con = sqlite3.connect(Config.get_sqlite_path())
     if not check_sql(sql): return
     cur = con.cursor()
     if Config.SHOW_SQL: print('执行sql:[{}],参数:[{}]'.format(sql, data))

@@ -31,7 +31,7 @@ class CategorizingPipeline(object):
     '''
     def process_item(self,item,spider):
         #判断item是否为空，如果为空，则drop item
-        if not item or item['app_name'] == "":  
+        if not item or item['app_name'] == "":
             raise DropItem(item)
         #如果category中没有这个类 会报错
         item['category'] = CategoryUtil.get_category_id_by_name(item['category'].encode('utf8','ignore'))
@@ -164,7 +164,6 @@ class UpdateCategoryPipeline(object):
                     categories[index] = app_category_name + ":" + str(int(category[(category.find(":") + 1):]) + 1)
                     item['app_category'] = ",".join(self.category_reorder(categories))
                     flag = False
-                    break
             if flag:
                 item['app_category'] = item['app_category'] + "," + item['category'] + ":1"
             #更新ps_app表的category
@@ -201,7 +200,7 @@ class StatusRecordPipeline(object):
 #'''
 #class VersionCmpPipeline(object):
 #    def process_item(self,item,spider):
-#        con = SqliteUtil.get_conn(Config.SQLITE_PATH)
+#        con = SqliteUtil.get_conn(Config.get_sqlite_path())
 #        #如果表不存在，则创建表
 #        SqliteUtil.checkAppInfoExist(con)
 #        oldItem = SqliteUtil.getItemByAppName(con,item['app_name'])
@@ -218,7 +217,7 @@ class StatusRecordPipeline(object):
 #'''
 #class DatebasePipeline(object):
 #    def process_item(self,item,spider):
-#        con = SqliteUtil.get_conn(Config.SQLITE_PATH)
+#        con = SqliteUtil.get_conn(Config.get_sqlite_path())
 #        if SqliteUtil.getItemByAppName(con,item['app_name']) != []:
 #            #更新数据
 #            print "数据库更新数据"
