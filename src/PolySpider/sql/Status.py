@@ -60,6 +60,15 @@ def get_current_status_by_platform(platform):
         status = [(id,platform,today,0,0,0)]
     return status[0]
 
+def get_current_status():
+    con = sqlite3.connect(Config.get_sqlite_path())
+    cur = con.cursor()
+    today = datetime.date.today()
+    sql = "select * from ps_status where create_date = ?"
+    cur.execute(sql,(today,))
+    status = cur.fetchall()
+    return status
+
 def create_fade_status(startdate):
     sql = '''INSERT INTO ps_status values(null,?,?,0,0,0)'''
     data = (platform, today)
