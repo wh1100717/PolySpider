@@ -54,8 +54,11 @@ class CheckAppPipeline(object):
         
         if not app:
             #构造分类
+            temp=""
             for category in item['category'].split(","):
-                item['category'] = category + ":1"
+                temp = temp + category + ":1,"
+            
+            item['category']=temp[:-1]
             #插入数据
             item['app_id'] = App.insert_app(item)
             item['NEW_APP'] = True
@@ -63,6 +66,7 @@ class CheckAppPipeline(object):
             app = app[0]
             item['app_id'] = app[0]
             item['app_category'] = app[3]
+            item['UPDATE_APP'] = True
             #更新分类
             #判断author是否为空，如果为空，则更新app表
             if app[2] == "" and item['author'] != "":
@@ -83,7 +87,6 @@ class CheckAppDetailsPipeline(object):
             self.apk_operation(item)
             #插入数据
             AppDetail.insert_app_detail(item)
-            item['UPDATE_APP'] = True
         else:
             #TODO 可能涉及到更新操作-->rating_point | rating_count | download_times | apk_url | cover | 
             item['DROP_APP'] = True
@@ -150,14 +153,14 @@ class UpdateCategoryPipeline(object):
         if not item['NEW_APP']:
             #重新计算category
             item_category = item['category']
-            print item['category']#4600
-            print item['app_category']#4600:1,
+            print item['category']#2200,3800
+            print item['app_category']#2200:1,3800:1,
             categories = item['app_category'].split(",")
             flag = True
             for index in range(len(categories)):
-                category = categories[index]
-                app_category_name = category[:category.find(":")]
-                if app_category_name == item_category:
+                category = categories[index]#2200:1
+                app_category_name = category[:category.find(":")]#2200
+                if app_category_name in item_category:
                     categories[index] = app_category_name + ":" + str(int(category[(category.find(":") + 1):]) + 1)
                     item['app_category'] = ",".join(self.category_reorder(categories))
                     flag = False

@@ -100,12 +100,12 @@ def download_time_normalize(str):
         str=str.replace('千万','00000000')
         str=str.replace('亿','000000000')
     elif str.find('万')>0:
-        str=str(int(float(a[0:a.find('万')])*10000))
+        str=str(int(float(str[0:str.find('万')])*10000))
     elif str.find('千')>0:
-        str=str(int(float(a[0:a.find('千')])*1000))
+        str=str(int(float(str[0:str.find('千')])*1000))
     elif str.find('千万')>0:
-        str=str(int(float(a[0:a.find('千万')])*10000000))
+        str=str(int(float(str[0:str.find('千万')])*10000000))
     elif str.find('亿')>0:
-        str=str(int(float(a[0:a.find('万')])*100000000))
+        str=str(int(float(str[0:str.find('万')])*100000000))
     return str
     
