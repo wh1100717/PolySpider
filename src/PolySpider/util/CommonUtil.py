@@ -42,7 +42,9 @@ def normalizeVersion(versionInput):
     for digit in versionInput:
         if digit in "1234567890.":
             result += digit
-    return result
+    result=result.encode('utf8')
+    result=result.replace("及以上固件版本","")
+    return result.decode('utf8')
 
 def progressbar(url,fileName):
     '''
@@ -70,7 +72,7 @@ def dropBrackets(str):
         startPoint = str.find('(')
         endPoint = str.rfind(')')
         str = str[:startPoint] if endPoint == -1 else str[:startPoint] + str[endPoint+1:]
-    return str.strip()
+    return str.strip().decode('utf8')
 def normalizeString(str):
     str=str.encode('utf8')
     normalizedStr = {
@@ -92,7 +94,7 @@ def normalizeString(str):
     }
     for key in normalizedStr.keys():
         str = str.replace(key,normalizedStr[key])
-    return str
+    return str.decode('utf8')
 def download_time_normalize(download_time):
     download_time=download_time.encode('utf8')
     download_time=download_time.replace('+','')
@@ -110,5 +112,5 @@ def download_time_normalize(download_time):
         download_time=str(int(float(download_time[0:download_time.find('万')])*10000))
     if download_time.find('亿')>0:
         download_time=str(int(float(download_time[0:download_time.find('亿')])*100000000))
-    return download_time
+    return download_time.decode('utf8')
     
