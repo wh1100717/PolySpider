@@ -58,10 +58,16 @@ table.display tfoot th {
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title" id="myModalLabel"><img src1="$app[10]" width="50" height="50" alt="111">$app[1]</h4>
+                                    <h2 class="modal-title" id="myModalLabel"><img src1="$app[10]" width="50" height="50" alt="111">$app[1]</h2>
                                 </div>
                                 <div class="modal-body">
-                                    $app[15] <br>
+                                    <li><b>文件大小：</b>$app[8]</li>
+                                    <li><b>评分：</b>$app[11]分</li>
+                                    <li><b>评论数：</b>$app[12]</li>
+                                    <li><b>支持Android版本：</b>$app[13]</li>
+                                    <li><b>下载量：</b>$app[14]</li>
+                                    <li><b>最后更新日期：</b>$app[17]</li>
+                                    <h1><b>详细介绍：</b></h1>$app[15] <br>
                                     $ imgs = app[16].split()
                                     $for img in imgs: 
                                         <img src1="$img">
