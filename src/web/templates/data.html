@@ -41,12 +41,6 @@ table.display tfoot th {
                 <th>Category</th>
                 <th>Version</th>
                 <th>Platform</th>
-                <th>apk_size</th>
-                <th>rating_point</th>
-                <th>rating_count</th>
-                <th>android_version</th>
-                <th>download_times</th>
-                <th>last_update</th>
                 <th>more</th>
             </tr>
         </thead>
@@ -58,13 +52,7 @@ table.display tfoot th {
                     <td>$app[3]</td>
                     <td>$app[5]</td>
                     <td>$app[6]</td>
-                    <td>$app[8]</td>
-                    <td>$app[11]</td>
-                    <td>$app[12]</td>
-                    <td>$app[13]</td>
-                    <td>$app[14]</td>
-                    <td>$app[17]</td>
-                    <td><button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#app_detail_modal_$app[0]">more</button></td>
+                    <td><button class="btn btn-info" data-toggle="modal" data-target="#app_detail_modal_$app[0]">more</button></td>
                     <div class="modal fade" id="app_detail_modal_$app[0]" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -93,12 +81,6 @@ table.display tfoot th {
                 <th><input type="text" name="filter_category" value=" filter" class="search_init" /></th>
                 <th><input type="text" name="filter_version" value=" filter" class="search_init" /></th>
                 <th><input type="text" name="filter_platform" value=" filter" class="search_init" /></th>
-                <th><input type="text" name="filter_apk_size" value=" filter" class="search_init" /></th>
-                <th><input type="text" name="filter_rating_point" value=" filter" class="search_init" /></th>
-                <th><input type="text" name="filter_rating_count" value=" filter" class="search_init" /></th>
-                <th><input type="text" name="filter_android_version" value=" filter" class="search_init" /></th>
-                <th><input type="text" name="filter_download_times" value=" filter " class="search_init" /></th>
-                <th><input type="text" name="filter_last_update" value=" filter" class="search_init" /></th>
                 <th></th>
             </tr>
 	</tfoot>
