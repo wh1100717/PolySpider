@@ -1,24 +1,64 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-  
 import urllib2
-from scrapy.contrib.spiders import CrawlSpider, Rule
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
+import re
 from scrapy.selector import Selector
 from PolySpider.items import AppItem
+from scrapy.http import Request,FormRequest
+from scrapy.spider import BaseSpider
 
 from PolySpider.util import CommonUtil
 
-class HiapkSpider(CrawlSpider):
+class HiapkSpider(BaseSpider):
 	name = "hiapk"
-	allowed_domains = ["apk.hiapk.com"]
+	allowed_domains = ["hiapk.com"]
 	start_urls = [
-                "http://apk.hiapk.com",
-                "http://game.hiapk.com"
+                "http://apk.hiapk.com/apps",
+                "http://apk.hiapk.com/games",
 	]
-        rules = [
-            Rule(SgmlLinkExtractor(allow=("apk\.hiapk\.com/html/[0-9]*/[0-9]*/[0-9]*\.html", "game\.hiapk\.com/[a-z]*/[0-9]*/[0-9]*\.html")),callback='parse_app'),
-            Rule(SgmlLinkExtractor(allow=("apk\.hiapk\.com", "game\.hiapk\.com"),deny=("down\.apk\.hiapk\.com","apk\.hiapk\.com/Download\.aspx", )), follow = True),
-        ]
+#        rules = [
+#            Rule(SgmlLinkExtractor(allow=("apk\.hiapk\.com/html/[0-9]*/[0-9]*/[0-9]*\.html",)),callback='parse_app'),
+#            Rule(SgmlLinkExtractor(allow=("apk\.hiapk\.com"),deny=("down\.apk\.hiapk\.com","apk\.hiapk\.com/Download\.aspx", )), follow = True),
+#            
+#        ]
+        def parse(self,response):
+            if re.match(r".*/html/\d{4}/\d{2}/\d+\.html",response.url):
+                item = self.parse_app(response)
+                yield self.return_item(item)
+            elif re.match(ur"http\://.*SoftList",response.url):
+                sel = Selector(response)
+                urls = sel.xpath('//li/dl/dt/span/a/@href').extract()
+                for url in urls:
+                    yield Request(url,callback = self.parse_app)
+            else:
+                apps_categories=[
+                    'apps_281_1_1','apps_52_1_1','apps_285_1_1','apps_282_1_1','apps_71_1_1','apps_283_1_1',
+                    'apps_37_1_1','apps_42_1_1','apps_284_1_1','apps_39_1_1','apps_287_1_1','apps_286_1_1',
+                    'apps_46_1_1','apps_35_1_1','apps_36_1_1','apps_40_1_1','apps_49_1_1','apps_45_1_1',
+                    'apps_31_1_1','apps_289_1_1','apps_291_1_1','apps_290_1_1','apps_29_1_1','apps_81_1_1',
+                    'apps_30_1_1','apps_80_1_1','apps_292_1_1','apps_79_1_1','apps_288_1_1'
+                    ]
+
+                for app_category in apps_categories:
+
+#                    for a in range(1,101):
+#                        for b in range(1,4):
+#                            for c in [0,1,2,4]:
+#                                for d in [0,1,2]:
+#                                    for e in range(4):
+#                                        for f in range(6):
+#                                            for g in range(4): 
+#                                                url = 'http://apk.hiapk.com/App.aspx?action=FindAppSoftList'
+#                                                currentHash=str(a)+"_"+str(b)+"_"+str(c)+"_"+str(d)+"_"+str(e)+"_"+str(f)+"_"+str(g)
+#                                                yield FormRequest(url,formdata={"currentHash":currentHash},headers={"referer":"http://apk.hiapk.com/"})
+                    url = 'http://apk.hiapk.com/App.aspx?action=FindAppSoftList'
+                    currentHash=str(1)+"_"+str(1)+"_"+str(0)+"_"+str(0)+"_"+str(0)+"_"+str(0)+"_"+str(0)
+                    yield FormRequest(url,formdata={"currentHash":currentHash,"categoryId":app_category.split("_")[0]})
+
+                                                #req.add_header('referer', "http://apk.hiapk.com/"+app_category)
+        def return_item(self, item):
+            return item
+           
 	def parse_app(self, response):	
             sel = Selector(response)
             item = AppItem()
