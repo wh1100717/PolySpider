@@ -34,29 +34,39 @@ class XiaomiSpider(BaseSpider):
             sel = Selector(response)
             item= AppItem()
             print "抓取开始：%s" %response.url
-            item['apk_url'] = "http://app.xiaomi.com" +  sel.xpath('/html/body/div[2]/div[1]/div[3]/div[1]/a/@href').extract()[0]
-            item['app_name'] = CommonUtil.dropBrackets(sel.xpath('/html/body/div[2]/div[1]/div[2]/h1/text()').extract()[0])
-            item['cover'] = sel .xpath("/html/body/div[2]/div[1]/div[3]/div[1]/div[1]/img/@src").extract()[0]
-            item['version'] = CommonUtil.normalizeVersion(sel.xpath('/html/body/div[2]/div[2]/ul[1]/li[2]/h4/text()').extract()[0])
-            item['rating_point'] = sel.xpath('/html/body/div[2]/div[1]/div[3]/div[1]/div[2]/@class').extract()[0][11:]
-            item['rating_count'] = '0'
-            item['category'] = sel.xpath('/html/body/div[2]/div[2]/ul[1]/li[1]/h4/text()').extract()[0]
-            item['android_version'] = '0'
-            item['download_times'] = '0'
-            item['author'] = sel.xpath('/html/body/div[2]/div[2]/ul[1]/li[6]/h4/text()').extract()[0]
-            item['last_update'] =  sel.xpath('/html/body/div[2]/div[2]/ul[1]/li[3]/h4/text()').extract()[0]
-            descriptions = sel.xpath('/html/body/div[2]/div[1]/div[3]/div[2]/div[1]/p/text()').extract()
-            alldescription=''
-            for description in descriptions:
-                alldescription=alldescription+description
-                
-            item['description'] = alldescription.strip()
-            item['apk_size'] = sel.xpath('/html/body/div[2]/div[2]/ul[1]/li[5]/h4/text()').extract()[0]
-            #获取图片地址，通过空格来分割多张图片
-            imgs =  sel.xpath('//*[@id="J_thumbnail_wrap"]/img').extract()
-            imgs_url = ""
-            for img in imgs: imgs_url += img + " "
-            item['imgs_url'] = imgs_url.strip()
-            item['platform'] = "xiaomi"
-            print "抓取结束，进入pipeline进行数据处理"
-            return item
+            apk_url = sel.xpath('/html/body/div[2]/div[1]/div[3]/div[1]/a/@href').extract()
+            if len(apk_url)==0:
+                item['app_name']=''
+                return item
+            else:
+                item['apk_url'] = "http://app.xiaomi.com" +  apk_url[0]
+                item['app_name'] = CommonUtil.dropBrackets(sel.xpath('/html/body/div[2]/div[1]/div[2]/h1/text()').extract()[0])
+                item['cover'] = sel .xpath("/html/body/div[2]/div[1]/div[3]/div[1]/div[1]/img/@src").extract()[0]
+                version=sel.xpath('/html/body/div[2]/div[2]/ul[1]/li[2]/h4/text()').extract()
+                if len(version)==0:
+                    version = ''
+                else:
+                    version = CommonUtil.normalizeVersion(version[0])
+                item['version'] = version
+                item['rating_point'] = sel.xpath('/html/body/div[2]/div[1]/div[3]/div[1]/div[2]/@class').extract()[0][11:]
+                item['rating_count'] = '0'
+                item['category'] = sel.xpath('/html/body/div[2]/div[2]/ul[1]/li[1]/h4/text()').extract()[0]
+                item['android_version'] = '0'
+                item['download_times'] = '0'
+                item['author'] = sel.xpath('/html/body/div[2]/div[2]/ul[1]/li[6]/h4/text()').extract()[0]
+                item['last_update'] =  sel.xpath('/html/body/div[2]/div[2]/ul[1]/li[3]/h4/text()').extract()[0]
+                descriptions = sel.xpath('/html/body/div[2]/div[1]/div[3]/div[2]/div[1]/p/text()').extract()
+                alldescription=''
+                for description in descriptions:
+                    alldescription=alldescription+description
+
+                item['description'] = alldescription.strip()
+                item['apk_size'] = sel.xpath('/html/body/div[2]/div[2]/ul[1]/li[5]/h4/text()').extract()[0]
+                #获取图片地址，通过空格来分割多张图片
+                imgs =  sel.xpath('//*[@id="J_thumbnail_wrap"]/img').extract()
+                imgs_url = ""
+                for img in imgs: imgs_url += img + " "
+                item['imgs_url'] = imgs_url.strip()
+                item['platform'] = "xiaomi"
+                print "抓取结束，进入pipeline进行数据处理"
+                return item

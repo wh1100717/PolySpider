@@ -37,7 +37,7 @@ class HiapkSpider(CrawlSpider):
             if len(author)==0:
                 author = ''
             else:
-                author = sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftDeveloper"]/text()').extract()[0]
+                author = author[0]
             item['author'] = author
             item['last_update'] =   sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_SoftPublishTime"]/text()').extract()[0]
             description=sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Apk_Description"]/text()').extract()
@@ -54,7 +54,11 @@ class HiapkSpider(CrawlSpider):
             else:
                 item['rating_point'] = rating_star[21:-2] if len(rating_star) > 21 else "0"
                 if "half" in item['rating_point']: item['rating_point'] = item['rating_point'][0] + ".5"
-                item['rating_count'] = sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Soft_StarProportion"]/div[2]/div[2]/div[3]/text()').extract()[0][:-3]
+                rating_count=sel.xpath('//*[@id="ctl00_AndroidMaster_Content_Soft_StarProportion"]/div[2]/div[2]/div[3]/text()').extract()
+                if len(rating_count)==0:
+                    item['rating_count']=''
+                else:
+                    item['rating_count'] = rating_count[0][:-3]
             #获取图片地址，通过空格来分割多张图片
             imgs =  sel.xpath('//*[@id="main"]/div/div/div[1]/div[1]/div[2]/div[4]/div[3]/ul/li/a/@href').extract()
             imgs_url = ""

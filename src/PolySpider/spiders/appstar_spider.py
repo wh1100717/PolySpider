@@ -47,7 +47,12 @@ class AppStarSpider(BaseSpider):
                 item['category'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()').extract()[1][6:]
                 item['android_version'] = sel.xpath('//*[@id="appDetail"]/li[1]/text()').extract()[4][5:]
                 item['download_times'] = sel.xpath('//*[@id="appDetail"]/li[2]/text()').extract()[1][5:-1]
-                item['author'] = sel.xpath('//*[@id="appDetail"]/li[2]/text()').extract()[2][3:]
+                author=sel.xpath('//*[@id="appDetail"]/li[2]/text()').extract()
+                if len(author)==0:
+                    author = ''
+                else:
+                    author = author[2][3:]
+                item['author'] = author
                 item['last_update'] = sel.xpath('//*[@id="appDetail"]/li[2]/span[2]/text()').extract()[0][6:]
                 description = sel.xpath('//*[@id="appDes"]/p/text()').extract()
                 item['description'] = "" if description == [] else description[0].strip()
