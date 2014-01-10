@@ -25,7 +25,7 @@ def get_sqlite_path():
 SHOW_SQL = False #True则会在控制台显示详细的SQL查询
 
 #App Star Constant
-APPSTAR_MAX_APPS = 30000
+APPSTAR_MAX_APPS = 3000
 
 #BaiduYun AK && SK
 '''这里需要填写BaiYun的公钥AK，私钥SK和Bucket'''
