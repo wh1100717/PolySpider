@@ -2,6 +2,8 @@
 ==========
 Python(v2.7) and Scrapy(v0.20.2) are used in this project, which is mainly designed for Android app synchronizing and categorizing by focusing on grabing data from Android Markets.
 
+This project also contains a website project using web.py as the web framework, which is really easy-use, and bootstrap as fronten framework. Hightcharts, Highstock and Datatables are also included in this project. The website focus on showing data in different views and dimensions.
+
 ## Requirements
 *	[Python] v2.7+
 *	[Scrapy] v0.20+
