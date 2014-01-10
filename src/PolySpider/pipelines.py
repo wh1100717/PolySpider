@@ -150,38 +150,42 @@ class UpdateCategoryPipeline(object):
     def process_item(self,item,spider):
         
         if item['DROP_APP']: return item
-        if not item['NEW_APP']:
+        if item['UPDATE_APP']:
             #重新计算category
-            item_category = item['category']
+            item_category_ids = item['category'].split(",")
             print item['category']#2200,3800
             print item['app_category']#2200:1,3800:1,
             categories = item['app_category'].split(",")
-            flag = True
-            for index in range(len(categories)):
-                category = categories[index]#2200:1
-                app_category_name = category[:category.find(":")]#2200
-                if app_category_name in item_category:
-                    categories[index] = app_category_name + ":" + str(int(category[(category.find(":") + 1):]) + 1)
-                    item['app_category'] = ",".join(self.category_reorder(categories))
-                    flag = False
-            if flag:
-                item['app_category'] = item['app_category'] + "," + item['category'] + ":1"
+            for item_category_id in item_category_ids:
+                flag = True
+                for index in range(len(categories)):
+                    category = categories[index]#2200:1
+                    app_category_id = category[:category.find(":")]#2200
+                    if app_category_id == item_category_id:
+                        categories[index] = app_category_id + ":" + str(int(category[(category.find(":") + 1):]) + 1)
+                        flag = False
+                        break
+                if flag:
+                    categories.append(item_category_id + ":1")
+            item['app_category'] = ",".join(self.category_reorder(categories))
+
             #更新ps_app表的category
             App.update_app_category(item['app_id'], item['app_category'])
         return item
     
     def category_reorder(self,categories):
         length = len(categories)
-        for i in range(length):
-            order_category = categories[i]
-            order_category_value = int(order_category[(order_category.find(":")+1):])
-            for j in range(1,length-i):
-                cmp_category = categories[j]
+        print categories
+        for i in range(length-1):
+            for j in range(length-i-1):
+                order_category = categories[j]
+                order_category_value = int(order_category[(order_category.find(":")+1):])
+                cmp_category = categories[j+1]
                 cmp_category_value = int(cmp_category[(cmp_category.find(":")+1):])
                 if cmp_category_value > order_category_value:
-                    categories[i],categories[j] = categories[j],categories[i]
+                    categories[i],categories[i+1] = categories[i+1],categories[i]
         return categories
-
+                
 class StatusRecordPipeline(object):
     '''
     执行顺序ID：104

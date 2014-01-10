@@ -59,6 +59,7 @@
 #如果没有记录，则指定某个默认分类来记录，等待别的应用商店上传该应用，来分类，或者该应用进行人工分类的操作等等
 CATEGORY_ID = {
     ## Common
+    '未分类'    :  '0',
     '其他'      :   '1000',
     ## App_star分类字典 By Eric Wang
     '阅读资讯'  :   '1900',
@@ -182,7 +183,8 @@ CATEGORY_ID = {
     '原创-穿越':'1900',
     '游戏':'4600',
     '原创-惊悚':'1900',
-    '原创-军事 ':'1900',
+    '原创-军事':'1900',
+    '原创-网络':'1900',
     
     '原创-科幻':'1900',
     '出版-时尚娱乐':'1900',
@@ -194,6 +196,7 @@ CATEGORY_ID = {
 
 }
 CATEGORY_NAME = {
+'0'   :'未分类',  
 '1000':'其它工具',
 '1100':'系统工具',
 '1200':'日常应用',
@@ -249,8 +252,7 @@ def get_category_id_by_name(category_name):
             with open('un_record_category.txt','w') as f: 
                 for key in category_map.keys(): 
                     f.write(key + "\n")
-        return ""
-        
+        return "0"
     return CATEGORY_ID.get(category_name)
 
 def get_category_name_by_id(id):
