@@ -63,7 +63,7 @@ class XiaomiSpider(BaseSpider):
                 item['description'] = alldescription.strip()
                 item['apk_size'] = sel.xpath('/html/body/div[2]/div[2]/ul[1]/li[5]/h4/text()').extract()[0]
                 #获取图片地址，通过空格来分割多张图片
-                imgs =  sel.xpath('//*[@id="J_thumbnail_wrap"]/img').extract()
+                imgs =  sel.xpath('//*[@id="J_thumbnail_wrap"]/img/@src').extract()
                 imgs_url = ""
                 for img in imgs: imgs_url += img + " "
                 item['imgs_url'] = imgs_url.strip()

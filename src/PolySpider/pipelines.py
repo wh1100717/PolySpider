@@ -51,13 +51,11 @@ class CheckAppPipeline(object):
         SqliteUtil.checkTableExist()
         app_name = item['app_name']
         app = App.get_app_by_app_name(app_name)
-        
         if not app:
             #构造分类
             temp=""
             for category in item['category'].split(","):
                 temp = temp + category + ":1,"
-            
             item['category']=temp[:-1]
             #插入数据
             item['app_id'] = App.insert_app(item)
