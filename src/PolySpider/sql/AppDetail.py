@@ -68,7 +68,7 @@ def get_platform_app_count_unique():
     sql='''select platform,count(*) from (select platform,app_id from ps_app_detail group by app_id) group by platform'''
     cur.execute(sql)
     return cur.fetchall()
-def get_app_detail_list():
+def get_app_detail_list(page_index = 1,row_number = 100,sort = "id",order = "asc"):
     '''
     ##查询不同平台app数量 不同版本算一个
     *   page_index代表页数 | row_number显示行数 | sort按某条件排序 | order升序降序
@@ -76,6 +76,9 @@ def get_app_detail_list():
     '''
     con = sqlite3.connect(Config.get_sqlite_path())
     cur = con.cursor()
-    sql='''select * from ps_app join ps_app_detail where ps_app.id=ps_app_detail.app_id limit 100'''
-    cur.execute(sql)
+    sql='''select * from ps_app join ps_app_detail where ps_app.id=ps_app_detail.app_id order by ? limit ? offset ? '''
+    startnum=(int(page_index)-1)*int(row_number)
+    temp = sort+' '+order
+    
+    cur.execute(sql,(temp,row_number,startnum))
     return cur.fetchall()
