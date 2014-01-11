@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-  
-
 import re
 import os
 from scrapy.exceptions import DropItem
@@ -10,20 +9,21 @@ from PolySpider.sql import App
 from PolySpider.sql import AppDetail
 from PolySpider.sql import Status
 
+'''
+#以下类库分别用于文件上传、下载、apk分析等方面的操作，目前已经完成，但是还不需要使用
 import urllib
 import pybcs
 from PolySpider.util import ApkUtil
 from PolySpider.util import FileUploadUtil
 from PolySpider.util import CommonUtil
 from PolySpider.config import Config
+'''
 
-
-
+#关于pipeline对item数据的处理，专门撰写了一个文档进行描述，包含了详细的流程图和处理过程
 
 class PolySpiderPipeline(object):
     def process_item(self, item, spider):
         return item
-
 class CategorizingPipeline(object):
     '''
     执行顺序ID：100
@@ -39,7 +39,6 @@ class CategorizingPipeline(object):
         item['NEW_APP'] = False
         item['UPDATE_APP'] = False
         return item
-
 class CheckAppPipeline(object):
     '''
     执行顺序ID：101
@@ -97,26 +96,28 @@ class CheckAppDetailsPipeline(object):
         分析Apk信息,获取pakage_name
         上传到UpYun/BaiduYun
         '''
+        '''暂时不需要apk下载及分析流程(功能已实现并测试)
         url = item['apk_url']
         ##根据获取的apk下载地址将apk文件传至百度云
         #正则匹配文件名
         name = re.compile('^.+/([^/]+)$').match(url).group(1).encode('utf8')
         #下载文件至本地
-        print '开始本地下载apk： %s ' %name
+        print 'Download apk file locally： %s ' %name
         if not os.path.exists('apk/'): os.makedirs('apk/')
         #开始下载
         #调用进度条，传入下载url和文件名称
-        #CommonUtil.progressbar(url,'apk/' + name)
-        print '下载完成'
+        CommonUtil.progressbar(url,'apk/' + name)
+        print 'Download finish'
         #下载文件至本地 Done
         
         #分析APK文件，获取里面的info_list
         #目前值获取了里面的pakage_name，以后可以增加别的需要的属性
-        print '开始分析Apk内容'
-        #info_list = ApkUtil.getInfoList(name)
-        #item['pakage_name'] = info_list['packageInfo']['orig_package']
+        print 'Start parsing apk file'
+        info_list = ApkUtil.getInfoList(name)
+        item['pakage_name'] = info_list['packageInfo']['orig_package']
+        print 'parsing finish'
+        '''
         item['pakage_name'] = ''
-        print '分析完成'
         #Done
         return item
         
@@ -125,19 +126,18 @@ class CheckAppDetailsPipeline(object):
         bcs = pybcs.BCS('http://bcs.duapp.com/', Config.BAIDU_AK, Config.BAIDU_SK, pybcs.HttplibHTTPC) 
         poly_bucket = bcs.bucket(Config.BAIDU_BUCKET)
         #声明一个object
-        print '开始上传apk %s 到BaiduYun' %name
+        print 'Start upload apk %s to BaiduYun' %name
         obj = poly_bucket.object('/apk/' + name)
         print "%s\n%s\n%s\n%s\n" %(Config.BAIDU_AK,Config.BAIDU_SK,Config.BAIDU_BUCKET,name)
         obj.put_file('apk/' + name)
-        print '上传完成'
         #上传至百度云 Done
 
         #上传至UpYun
-        print '开始上传apk %s 到UpYun' %name
+        print 'Start upload apk %s to UpYun' %name
         up = FileUploadUtil.UpYun()
         up.put('apk/' + name, 'apk/' + name)
-        print '上传完成'
         #上传至UpYun Done
+        print 'Upload Finish'
         '''
 
 class UpdateCategoryPipeline(object):
@@ -151,8 +151,6 @@ class UpdateCategoryPipeline(object):
         if item['UPDATE_APP']:
             #重新计算category
             item_category_ids = item['category'].split(",")
-            print item['category']#2200,3800
-            print item['app_category']#2200:1,3800:1,
             categories = item['app_category'].split(",")
             for item_category_id in item_category_ids:
                 flag = True
@@ -173,7 +171,6 @@ class UpdateCategoryPipeline(object):
     
     def category_reorder(self,categories):
         length = len(categories)
-        print categories
         for i in range(length-1):
             for j in range(length-i-1):
                 order_category = categories[j]
@@ -196,6 +193,7 @@ class StatusRecordPipeline(object):
         return item
 
 
+#########################以前版本中对item的一些处理函数，暂时弃用###############################################
 #'''
 #执行顺序ID：100
 #判断版本号，根据版本号来判断是否进行后续操作

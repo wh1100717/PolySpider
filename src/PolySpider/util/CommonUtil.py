@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-  
 import urllib
 from progressbar import *
+
 def cmpVersion(oldVersion, newVersion):
     '''
     比较版本号
@@ -17,16 +18,16 @@ def cmpVersion(oldVersion, newVersion):
 	old_v = int(old_vs[i])
 	new_v = int(new_vs[i])
 	if new_v > old_v:
-            print "当前版本：%s | 抓取的应用版本：%s : 执行更新操作" %(oldVersion, newVersion)
+            print "Current Version：%s | Crawled App Version：%s : Take Update Action" %(oldVersion, newVersion)
             return False
 	elif old_v > new_v:
-            print "当前版本：%s | 抓取的应用版本：%s : 不执行更新操作" %(oldVersion, newVersion)
+            print "Current Version：%s | Crawled App Version：%s : Do Not Take Update Action" %(oldVersion, newVersion)
             return True
     if len(old_vs) < len(new_vs):
-        print "当前版本：%s | 抓取的应用版本：%s : 执行更新操作" %(oldVersion, newVersion)
+        print "Current Version：%s | Crawled App Version：%s : Take Update Action" %(oldVersion, newVersion)
         return False
     else:
-        print "当前版本：%s | 抓取的应用版本：%s : 不执行更新操作" %(oldVersion, newVersion)
+        print "Current Version：%s | Crawled App Version：%s : Do Not Take Update Action" %(oldVersion, newVersion)
         return True
 
 def normalizeVersion(versionInput):
@@ -65,6 +66,10 @@ def progressbar(url,fileName):
     pbar.finish()
 
 def dropBrackets(str):
+    '''
+    抓取的应用名经常会出现一些括号对应用进行注释，而实际上我们需要的是应用名本身
+    该方法主要是对抓取到的应用名进行分析，将括号及里面的内容都删去
+    '''
     str=str.encode('utf8')
     str = normalizeString(str)
     while '(' in str:
@@ -73,6 +78,9 @@ def dropBrackets(str):
         str = str[:startPoint] if endPoint == -1 else str[:startPoint] + str[endPoint+1:]
     return str.strip().decode('utf8')
 def normalizeString(str):
+    '''
+    对字符串进行过滤，将里面的中文符号进行替换
+    '''
     str=str.encode('utf8')
     normalizedStr = {
         '\t':'',
@@ -95,6 +103,9 @@ def normalizeString(str):
         str = str.replace(key,normalizedStr[key])
     return str.decode('utf8')
 def download_time_normalize(download_time):
+    '''
+    有些网站中的下载次数不是纯数字，所以要对其中的字符串进行替换操作，从而可以统一格式
+    '''
     download_time=download_time.encode('utf8')
     download_time=download_time.replace('+','')
     download_time=download_time.replace('小于','')

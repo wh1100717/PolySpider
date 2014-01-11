@@ -5,8 +5,9 @@ import sys
 
 def get_base_path():
     '''
-    如果有则说明是在scrapy环境下
-    如果没有说明是在web.py环境下
+    ##获取当前环境根目录
+    *   如果是通过scrapy crawl spider运行并访问该module，则在PATH中存在`系统目录/PolySpider/src`，我们只需要把该目录返回即可
+    *   如果是通过web.py来访问该module,则并不保证该艮目存在，因此需要向path中添加该目录
     '''
     for p in sys.path:
         if 'PolySpider' in p and 'src' in p and not 'web' in p:
@@ -17,6 +18,10 @@ def get_base_path():
     return base_path
 
 def get_sqlite_path():
+    '''
+    ##获取数据库路径
+    *   win系统和Linux路径不同，做个判断，app.db放在base_pat下
+    '''
     if "win" in sys.platform:
         return get_base_path() + "\\" + "app.db"
     else:

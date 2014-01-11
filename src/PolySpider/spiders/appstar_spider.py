@@ -4,35 +4,40 @@ from scrapy.selector import Selector
 from scrapy.spider import BaseSpider
 from scrapy.http import Request
 from PolySpider.items import AppItem
-
 from PolySpider.config import Config
 from PolySpider.util import CommonUtil
 
 class AppStarSpider(BaseSpider):
-	name = "appstar"
-	allowed_domains = ["appstar.com.cn"]
-	start_urls = [
-                "http://appstar.com.cn/"
-	]
-        
-        def parse(self,response):
-            '''
-            其应用详细页的格式为 http://www.appstar.com.cn/ace/store/n.htm
-            n从30开始，总共大概有3W多个。
-            所以利用循环分别构造带有相应url的请求，并利用yield返回给Scrapy进行内容抓取，response利用parse_app来纪念性处理和解析
-            '''
-            for i in range(30,30 + Config.APPSTAR_MAX_APPS):
-                req = Request(url="http://www.appstar.com.cn/ace/store/"+str(i)+'.htm',callback = self.parse_app)
-                yield req
-        
-        def parse_app(self, response):	
-            '''
-            request的Callback处理函数，对于页面中能抓到的数据，利用xpath筛选内容
-            xpath教程：http://www.w3school.com.cn/xpath/
-            '''
+    '''
+    ##AppStar: 应用之星
+    *   网址http://www.appstar.com.cn
+    *   因为其详细页格式为www.appstar.com.cn/ace/store/*.htm，其中*是从30到30000左右的数字，所以直接构造请求进行抓取即可
+    '''
+    name = "appstar"
+    allowed_domains = ["appstar.com.cn"]
+    start_urls = [
+        "http://appstar.com.cn/"
+    ]
+
+    def parse(self,response):
+        '''
+        其应用详细页的格式为 http://www.appstar.com.cn/ace/store/n.htm
+        n从30开始，总共大概有3W多个。
+        所以利用循环分别构造带有相应url的请求，并利用yield返回给Scrapy进行内容抓取，response利用parse_app来纪念性处理和解析
+        '''
+        for i in range(30,30 + Config.APPSTAR_MAX_APPS):
+            req = Request(url="http://www.appstar.com.cn/ace/store/"+str(i)+'.htm',callback = self.parse_app)
+            yield req
+
+    def parse_app(self, response):	
+        '''
+        request的Callback处理函数，对于页面中能抓到的数据，利用xpath筛选内容
+        xpath教程：http://www.w3school.com.cn/xpath/
+        '''
+        try:
             sel = Selector(response)
             item= AppItem()
-            print "抓取开始：%s" %response.url
+            print "Grabing Start：%s" %response.url
             print len(sel.xpath("//*[@id='appDetail']/li[1]/a/@href").extract())
             if len(sel.xpath("//*[@id='appDetail']/li[1]/a/@href").extract())==0 :
                 item['app_name']="" 
@@ -64,5 +69,8 @@ class AppStarSpider(BaseSpider):
                 for i in range(2,len(imgs)): imgs_url += imgs[i] + " "
                 item['imgs_url'] = imgs_url.strip()
                 item['platform'] = "appstar"
-                print "抓取结束，进入pipeline进行数据处理"
+                print "Grabing finish, step into information pipline"
                 return item
+        except HTTPError:
+            item['app_name']=""
+            return item

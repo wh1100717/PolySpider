@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-  
-
 import urllib2
 import urllib
 import hashlib
@@ -12,6 +11,7 @@ from PolySpider.config import Config
 
 __version__ = '2.1.1'
 
+#TODO 重写了又拍云的文件上传方法，支持上传进度条功能，不过还需要重新调整并注释，暂时不需要上传功能，所以这部分内容暂时不继续做下去
 
 class Progress(object):
         def __init__(self):

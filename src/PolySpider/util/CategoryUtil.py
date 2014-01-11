@@ -237,9 +237,13 @@ CATEGORY_NAME = {
 }
 
 def get_category_id_by_name(category_name):
+    '''
+    *   根据抓取来的应用名来获取对应在分类系统中的适合的id
+    *   如果没有找到对应项，则说明抓取到的该分类属于新分类，记录在`un_record_category.txt`文件中，等待人工进行分类确认
+    *   input: category_name
+    *   output: category_id
+    '''
     if not CATEGORY_ID.get(category_name):
-        #如果没有，则un_record_category.yml记录该分类
-        print "分类：%s" %category_name
         flag = True
         category_map = {}
         for line in open('un_record_category.txt','r'): 
@@ -255,8 +259,13 @@ def get_category_id_by_name(category_name):
         return "0"
     return CATEGORY_ID.get(category_name)
 
-def get_category_name_by_id(id):
-    if not CATEGORY_NAME.get(id):
+def get_category_name_by_id(category_id):
+    '''
+    *   根据category_id来获取对应在分类系统中的名称，如果没有找到，则输出'无'，不过应该不会出现这种情况
+    *   input:  category_id
+    *   output: category_name
+    '''
+    if not CATEGORY_NAME.get(category_id):
         return "无"
     else:
-        return CATEGORY_NAME.get(id)
+        return CATEGORY_NAME.get(category_id)

@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-  
-
 import os
 import yaml
 import shutil
 import platform
+
+#TODO 利用aapt来进行apk分析
 
 def apkTool(apk_name):  
     apk_file_path='apk/' + apk_name

@@ -66,7 +66,7 @@ class data:
 
 class get_category_chart:
     def GET(self):
-        data  = App.count_app_categroy_sum()
+        data  = App.get_app_categories()
         count_categorys={}
         count_categorys['1000']=0
         for category in data:
