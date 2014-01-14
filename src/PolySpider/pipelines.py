@@ -63,7 +63,6 @@ class CheckAppPipeline(object):
             app = app[0]
             item['app_id'] = app[0]
             item['app_category'] = app[3]
-            item['UPDATE_APP'] = True
             #更新分类
             #判断author是否为空，如果为空，则更新app表
             if app[2] == "" and item['author'] != "":
@@ -148,7 +147,8 @@ class UpdateCategoryPipeline(object):
     def process_item(self,item,spider):
         
         if item['DROP_APP']: return item
-        if item['UPDATE_APP']:
+        if not item['NEW_APP']:
+            item['UPDATE_APP'] = true
             #重新计算category
             item_category_ids = item['category'].split(",")
             categories = item['app_category'].split(",")
