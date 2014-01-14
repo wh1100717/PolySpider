@@ -12,105 +12,119 @@
 
 <script type="text/javascript">
     $$(function() {
-        var seriesOptions = [],
-                yAxisOptions = [],
-                colors = Highcharts.getOptions().colors;
-        $$.getJSON('/status/get_status_list/', function(data) {
-            console.log(data)
-            var xiaomi_crawled_data = [];
-            var xiaomi_new_data = [];
-            var xiaomi_update_data = [];
-            var baidu_crawled_data = [];
-            var baidu_new_data = [];
-            var baidu_update_data = [];
-            var hiapk_crawled_data = [];
-            var hiapk_new_data = [];
-            var hiapk_update_data = [];
-            var appchina_crawled_data = [];
-            var appchina_new_data = [];
-            var appchina_update_data = [];
-            var appstart_crawled_data = [];
-            var appstart_new_data = [];
-            var appstart_update_data = [];
-            $$.each(data, function(i, item) {
-                date = item[2].split('-');
-                date = Date.UTC(date[0], date[1] - 1, date[2]);
-                if (item[1] == "xiaomi") {
-                    xiaomi_crawled_data.push([date, item[3]]);
-                    xiaomi_new_data.push([date, item[4]]);
-                    xiaomi_update_data.push([date, item[5]]);
-                } else if (item[1] == "baidu") {
-                    baidu_crawled_data.push([date, item[3]]);
-                    baidu_new_data.push([date, item[4]]);
-                    baidu_update_data.push([date, item[5]]);
-                } else if (item[1] == "hiapk") {
-                    hiapk_crawled_data.push([date, item[3]]);
-                    hiapk_new_data.push([date, item[4]]);
-                    hiapk_update_data.push([date, item[5]]);
-                } else if (item[1] == "appchina") {
-                    appchina_crawled_data.push([date, item[3]]);
-                    appchina_new_data.push([date, item[4]]);
-                    appchina_update_data.push([date, item[5]]);
-                } else if (item[1] == "appstar") {
-                    appstart_crawled_data.push([date, item[3]]);
-                    appstart_new_data.push([date, item[4]]);
-                    appstart_update_data.push([date, item[5]]);
-                }
-            });
+        $$(document).ready(function() {
+            var seriesOptions = [],
+                    yAxisOptions = [],
+                    colors = Highcharts.getOptions().colors;
+            $$.getJSON('/status/get_status_list/', function(data) {
+                console.log(data);
+                var xiaomi_crawled_data = [];
+                var xiaomi_new_data = [];
+                var xiaomi_update_data = [];
+                var baidu_crawled_data = [];
+                var baidu_new_data = [];
+                var baidu_update_data = [];
+                var hiapk_crawled_data = [];
+                var hiapk_new_data = [];
+                var hiapk_update_data = [];
+                var appchina_crawled_data = [];
+                var appchina_new_data = [];
+                var appchina_update_data = [];
+                var appstart_crawled_data = [];
+                var appstart_new_data = [];
+                var appstart_update_data = [];
+                $$.each(data, function(i, item) {
+                    date = item[2].split('-');
+                    date = Date.UTC(date[0], date[1] - 1, date[2]);
+                    if (item[1] === "xiaomi") {
+                        xiaomi_crawled_data.push([date, item[3]]);
+                        xiaomi_new_data.push([date, item[4]]);
+                        xiaomi_update_data.push([date, item[5]]);
+                    } else if (item[1] === "baidu") {
+                        baidu_crawled_data.push([date, item[3]]);
+                        baidu_new_data.push([date, item[4]]);
+                        baidu_update_data.push([date, item[5]]);
+                    } else if (item[1] === "hiapk") {
+                        hiapk_crawled_data.push([date, item[3]]);
+                        hiapk_new_data.push([date, item[4]]);
+                        hiapk_update_data.push([date, item[5]]);
+                    } else if (item[1] === "appchina") {
+                        appchina_crawled_data.push([date, item[3]]);
+                        appchina_new_data.push([date, item[4]]);
+                        appchina_update_data.push([date, item[5]]);
+                    } else if (item[1] === "appstar") {
+                        appstart_crawled_data.push([date, item[3]]);
+                        appstart_new_data.push([date, item[4]]);
+                        appstart_update_data.push([date, item[5]]);
+                    }
+                });
 //            data_crawled = JSON.stringify(data_crawled);
 //            data_new = JSON.stringify(data_new);
 //            data_update = JSON.stringify(data_update);
-            seriesOptions[0] = {name: 'xiaomi_crawled_data', data: xiaomi_crawled_data};
-            seriesOptions[1] = {name: 'xiaomi_new_data', data: xiaomi_new_data};
-            seriesOptions[2] = {name: 'xiaomi_update_data', data: xiaomi_update_data};
-            seriesOptions[3] = {name: 'baidu_crawled_data', data: baidu_crawled_data};
-            seriesOptions[4] = {name: 'baidu_new_data', data: baidu_new_data};
-            seriesOptions[5] = {name: 'baidu_update_data', data: baidu_update_data};
-            seriesOptions[6] = {name: 'hiapk_crawled_data', data: hiapk_crawled_data};
-            seriesOptions[7] = {name: 'hiapk_new_data', data: hiapk_new_data};
-            seriesOptions[8] = {name: 'hiapk_update_data', data: hiapk_update_data};
-            seriesOptions[9] = {name: 'appchina_crawled_data', data: appchina_crawled_data};
-            seriesOptions[10] = {name: 'appchina_new_data', data: appchina_new_data};
-            seriesOptions[11] = {name: 'appchina_update_data', data: appchina_update_data};
-            seriesOptions[12] = {name: 'appstart_crawled_data', data: appstart_crawled_data};
-            seriesOptions[13] = {name: 'appstart_new_data', data: appstart_new_data};
-            seriesOptions[14] = {name: 'appstart_update_data', data: appstart_update_data};
+                seriesOptions[0] = {name: 'xiaomi_crawled_data', data: xiaomi_crawled_data};
+                seriesOptions[1] = {name: 'xiaomi_new_data', data: xiaomi_new_data};
+                seriesOptions[2] = {name: 'xiaomi_update_data', data: xiaomi_update_data};
+                seriesOptions[3] = {name: 'baidu_crawled_data', data: baidu_crawled_data};
+                seriesOptions[4] = {name: 'baidu_new_data', data: baidu_new_data};
+                seriesOptions[5] = {name: 'baidu_update_data', data: baidu_update_data};
+                seriesOptions[6] = {name: 'hiapk_crawled_data', data: hiapk_crawled_data};
+                seriesOptions[7] = {name: 'hiapk_new_data', data: hiapk_new_data};
+                seriesOptions[8] = {name: 'hiapk_update_data', data: hiapk_update_data};
+                seriesOptions[9] = {name: 'appchina_crawled_data', data: appchina_crawled_data};
+                seriesOptions[10] = {name: 'appchina_new_data', data: appchina_new_data};
+                seriesOptions[11] = {name: 'appchina_update_data', data: appchina_update_data};
+                seriesOptions[12] = {name: 'appstart_crawled_data', data: appstart_crawled_data};
+                seriesOptions[13] = {name: 'appstart_new_data', data: appstart_new_data};
+                seriesOptions[14] = {name: 'appstart_update_data', data: appstart_update_data};
 
-            createChart();
-        });
-        // create the chart when all data is loaded
-        function createChart() {
-            $$('#container-status-list').highcharts('StockChart', {
-                chart: {
-                },
-                rangeSelector: {
-                    selected: 1
-                },
-                title: {
-                    text: '爬虫数据分析'
-                },
-                legend: {
-                    enabled: true
-                },
-                yAxis: {
-                    labels: {
-                        formatter: function() {
-                            return (this.value > 0 ? '+' : '') + this.value + '%';
-                        }
-                    },
-                    plotLines: [{
-                            value: 0,
-                            width: 2,
-                            color: 'silver'
-                        }]
-                },
-                tooltip: {
-                    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
-                    valueDecimals: 2
-                },
-                series: seriesOptions
+                createChart();
+                var status_list_chart = $$('#container-status-list').highcharts();
+                status_list_chart.series[1].hide();
+                status_list_chart.series[2].hide();
+                status_list_chart.series[4].hide();
+                status_list_chart.series[5].hide();
+                status_list_chart.series[7].hide();
+                status_list_chart.series[8].hide();
+                status_list_chart.series[10].hide();
+                status_list_chart.series[11].hide();
+                status_list_chart.series[13].hide();
+                status_list_chart.series[14].hide();
             });
-        }
+
+            // create the chart when all data is loaded
+            function createChart() {
+                $$('#container-status-list').highcharts('StockChart', {
+                    chart: {
+                    },
+                    rangeSelector: {
+                        selected: 1
+                    },
+                    title: {
+                        text: '爬虫数据分析'
+                    },
+                    legend: {
+                        enabled: true
+                    },
+                    yAxis: {
+                        labels: {
+                            formatter: function() {
+                                return (this.value > 0 ? '+' : '') + this.value + '%';
+                            }
+                        },
+                        plotLines: [{
+                                value: 0,
+                                width: 2,
+                                color: 'silver'
+                            }]
+                    },
+                    tooltip: {
+                        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+                        valueDecimals: 2
+                    },
+                    series: seriesOptions
+                });
+            }
+        });
     });
     $$(function() {
         function getData() {
@@ -122,7 +136,7 @@
             for (i = -19; i <= 0; i++) {
                 data.push({
                     x: time + i * 1000,
-                    y: Math.random()
+                    y: 0
                 });
             }
             return data;
@@ -207,23 +221,34 @@
                     enabled: false
                 },
                 series: [
-                    {name: 'xiaomi_crawled_data',data:getData()},
-                    {name: 'xiaomi_new_data',data:getData()},
-                    {name: 'xiaomi_update_data',data:getData()},
-                    {name: 'baidu_crawled_data',data:getData()},
-                    {name: 'baidu_new_data',data:getData()},
-                    {name: 'baidu_update_data',data:getData()},
-                    {name: 'hiapk_crawled_data',data:getData()},
-                    {name: 'hiapk_new_data',data:getData()},
-                    {name: 'hiapk_update_data',data:getData()},
-                    {name: 'appchina_crawled_data',data:getData()},
-                    {name: 'appchina_new_data',data:getData()},
-                    {name: 'appchina_update_data',data:getData()},
-                    {name: 'appstart_crawled_data',data:getData()},
-                    {name: 'appstart_new_data',data:getData()},
-                    {name: 'appstart_update_data',data:getData()}
+                    {name: 'xiaomi_crawled_data', data: getData()},
+                    {name: 'xiaomi_new_data', data: getData()},
+                    {name: 'xiaomi_update_data', data: getData()},
+                    {name: 'baidu_crawled_data', data: getData()},
+                    {name: 'baidu_new_data', data: getData()},
+                    {name: 'baidu_update_data', data: getData()},
+                    {name: 'hiapk_crawled_data', data: getData()},
+                    {name: 'hiapk_new_data', data: getData()},
+                    {name: 'hiapk_update_data', data: getData()},
+                    {name: 'appchina_crawled_data', data: getData()},
+                    {name: 'appchina_new_data', data: getData()},
+                    {name: 'appchina_update_data', data: getData()},
+                    {name: 'appstart_crawled_data', data: getData()},
+                    {name: 'appstart_new_data', data: getData()},
+                    {name: 'appstart_update_data', data: getData()}
                 ]
             });
+            var status_chart = $$('#container-status').highcharts();
+            status_chart.series[1].hide();
+            status_chart.series[2].hide();
+            status_chart.series[4].hide();
+            status_chart.series[5].hide();
+            status_chart.series[7].hide();
+            status_chart.series[8].hide();
+            status_chart.series[10].hide();
+            status_chart.series[11].hide();
+            status_chart.series[13].hide();
+            status_chart.series[14].hide();
         });
     });
 </script>
