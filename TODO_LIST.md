@@ -14,7 +14,7 @@
 
 ## Dynamic Content Grabbing
 Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载和执行js文件，导致动态请求内容无法获取。为了实现爬虫对于动态请求的抓取，需要模拟浏览器行为来实现爬虫对于多种类型网页的抓取工作。
-*	[Selenium]
+* [Selenium]
 *	[ScrapyJS]
 *	[Python Webkit]
 
@@ -90,7 +90,7 @@ Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载�
 
 [aapt]:https://code.google.com/p/android-apktool/
 [Selenium]:http://www.seleniumhq.org/
-[ScrapyJS]:	https://github.com/scrapinghub/scrapyjs
+[ScrapyJS]:https://github.com/scrapinghub/scrapyjs
 [Python Webkit]: http://www.gnu.org/software/pythonwebkit/
 
 [非阻塞式编程方式]:http://cnodejs.org/topic/4f50dd9798766f5a610b808a
