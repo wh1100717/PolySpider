@@ -59,6 +59,8 @@ Supervisor is a client/server system that allows its users to control a number o
 [Python]: http://www.python.org/
 [Scrapy]: http://www.scrapy.org/
 [web.py]: http://webpy.org/
+[Supervisor]: https://pypi.python.org/pypi/supervisor
+
 [BaiYun]: http://developer.baidu.com
 [Upyun]: https://www.upyun.com
 [Getting Involved]: http://wh1100717.github.io/PolyTechDocs/docs/invovled/
