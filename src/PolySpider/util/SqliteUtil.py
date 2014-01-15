@@ -85,7 +85,7 @@ def execute_sql(sql, data = ""):
         cur.execute(sql)
     else:
         for d in data:
-            if Config.SHOW_SQL: print('执行sql:[{}],参数:[{}]'.format(sql, d))
+            if Config.SHOW_SQL: print('process sql:[{}],paras:[{}]'.format(sql, d))
             cur.execute(sql, d)
     con.commit()
     close_all(con)
@@ -94,7 +94,7 @@ def create_table(sql):
     创建数据库表
     '''
     execute_sql(sql)
-    print('创建数据库表成功!')
+    print('Create Database Table Success!')
 def drop_table(table):
     '''
     如果表存在,则删除表，如果表中存在数据的时候，使用该方法的时候要慎用！
@@ -111,7 +111,7 @@ def save(sql, data):
     '''
     if not data: return
     execute_sql(sql, data)
-    print('插入数据成功!')
+    print('Insert Data Success!')
 def save_return_id(sql, data):
     '''
     插入数据
@@ -123,7 +123,7 @@ def save_return_id(sql, data):
     con = sqlite3.connect(Config.get_sqlite_path())
     if not check_sql(sql): return
     cur = con.cursor()
-    if Config.SHOW_SQL: print('执行sql:[{}],参数:[{}]'.format(sql, data))
+    if Config.SHOW_SQL: print('process sql:[{}],paras:[{}]'.format(sql, d))
     cur.execute(sql, data)
     id = cur.lastrowid
     con.commit()
@@ -137,12 +137,12 @@ def update(sql, data):
     '''
     if not data: return
     execute_sql(sql, data)
-    print('更新数据成功!')
+    print('Update Data Success!')
 def delete(sql, data):
     '''
     删除数据
     '''
     if not data: return
     execute_sql(sql, data)
-    print('删除数据成功!')
+    print('Delete Data Success!')
 
