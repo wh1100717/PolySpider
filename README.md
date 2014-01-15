@@ -18,6 +18,7 @@ This project also contains a website project using web.py as the web framework, 
 2.	[Installation]
 3.	[TODO List]
 4.	[Core Functionalities]
+5.	[Tips]
 
 ## Usage
 ###Run Single Spider
@@ -67,4 +68,5 @@ Supervisor is a client/server system that allows its users to control a number o
 [Installation]: http://wh1100717.github.io/PolyTechDocs/python/scrapy/installation/
 [TODO List]: https://github.com/wh1100717/PolySpider/blob/master/TODO_LIST.md
 [Core Functionalities]: https://github.com/wh1100717/PolySpider/blob/master/pipelineinfo.md
+[Tips]: https://github.com/wh1100717/PolySpider/blob/master/TIPS.md
 [PolySpider]: https://github.com/wh1100717/PolySpider
