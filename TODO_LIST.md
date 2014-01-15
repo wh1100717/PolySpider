@@ -1,66 +1,62 @@
-## ApkParse
-目前利用[aapt]对apk进行解压缩，提取出aapt构建的yml等文件获取相应的icon、pakage_name、version等内容。但是aapt会将apk文件整体解压，效率较慢。如果仅仅是获取部分apk信息，则没必要使用aapt来对apk进行整体解压缩,ApkParse模块需要研究并实现对于apk部分内容的分析。
+## ApkUtil
+*	利用aapt分析apk并获取pakage_name、version、icon等资源。
+*	aapt只有32的，所以如果在64位服务器上运行需要增加一些32位依赖库
+*	重新整理ApkUtil模块，添加注释和方法描述
 
-apk反编译过程：
-
-*	`unzip targetFile.apk`
-*	`$ java -jar AXMLPrinter2.jar AndroidManifest.xml AndroidManifest2.xml`
-*	这样就可以获取到可读的AndroidManifest.xml文件
-*	但是在AndroidManifest.xml中有些信息是类似于`@7F080000`这样的
-*	如果要获取实际信息则需要反编译classes.dex
-*	`java -jar ddx1.11.jar -o -D -r -d src classes.dex`
-*	在src/com/target/目录下面执行`$ grep -i 7F080000 *`可以获得该数值所代表的真正含义
-*	根据具体的数值去获取相应的资源
-
-在实际操作过程中发现，利用ddx解压classes.dex的时间占大部分，而如果为了获取AndroidManifest.xml中类似于`@7F080000`这样的字符串所代表的信息必须要家压缩classes.dex，而且获取所有信息需要做额外非常多的编码工作，又没有效率上的提升，所以还是建议使用aapt作为android的分析和开发工具。为了增加解压缩速度，aapt需要增加`-s`参数(Do not decode sources.)。
-
-
-## Selenium
-Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载和执行js文件，导致动态请求内容无法获取。为了实现爬虫对于动态请求的抓取，需要利用[Selenium]来模拟浏览器行为，Scarpy集合Selenium来实现爬虫对于多种类型网页的抓取工作。
 ## Spider
 [AppStoreList]中详细分析了目前国内android应用商店的具体情况、特点和访问方式。通过其逐步添加针对性的spider。
 
-*   [百度应用]：TODO
-*   [安卓市场]：TODO
-*   [小米商店]：TODO
+*   [Google Paly China]：TODO
 *   [应用宝]：TODO
 *   [拇指玩]：TODO
+*   [机锋市场]：TODO
+*   [360手机助手]: TODO
 
-## Sqlite
-逐步添加sqlite的查询工作，撰写python脚本，根据不同的请求进行sqlite的查询。
-## Tornado
-最终spider是作为任务常驻服务器，[Tornado]作为非阻塞式Python服务器，提供高并发等服务支持，需要去了解、搭建和配置Tornado，以及需要了解[非阻塞式编程方式]。另外可以了解[web.py]，其为轻量级python web框架，可能会用得着。
+## Dynamic Content Grabbing
+Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载和执行js文件，导致动态请求内容无法获取。为了实现爬虫对于动态请求的抓取，需要模拟浏览器行为来实现爬虫对于多种类型网页的抓取工作。
+*	[Selenium]
+*	[ScrapyJS]
+*	[Python Webkit]
+
+## DB Problems
+*	目前使用的是sqlite3，需要解决database locked问题
+*	除了默认配置的sqlite3以外，打算添加mysql和mongodb作为备选可用数据库支持
+
 ## Categorizing
-目前采取91助手的分类策略，建立字典对其它应用市场的分类与其做对应关系(可以是1对多的关系)。这样抓取的任何一个应用都能与系统中的分类做对应。
+*	目前采用的91助手的分类策略，需要更改为google play的分类策略
+*	增加前台用户直接更改某个应用的分类功能
+*	增加分类查询、修改等各种接口
 
-    我在想，如果有些分类比较笼统话，是否可以做出一定的策略，而不是将该分类之间确定为某一个我们的分类
-    比如App_star中的办公分类，实际上是一个笼统概念，无法直接与我们的分类进行对应
-    比如将其分类设置为需要额外一些工作来进行确认的分类
-    比如一个应用如果是办公分类，首先查看其是否已经grab到数据库中，如果数据库中对这个应用已经有记录，那么直接那个记录来分类
-    如果没有记录，则指定某个默认分类来记录，等待别的应用商店上传该应用，来分类，或者该应用进行人工分类的操作等等
-    再比如，可以对应用分类进行命中率划分，也就是说10个应用商店，其中有6个把其划分到“效率”，那么效率的命中率就是60%，我们默认采用的是命中率最高的分类方式等等。
+## Log System
+*	日志系统包括spider的活动状态
+*	日志系统包括数据库的操作记录
+*	实现前端页面实时显示日志内容
 
-## Architecture
-目前使用的Scrapy的默认结构，实际上Scrapy对该结构做了一些默认配置，从而能够方便的进行爬虫开发，而又不用担心配置问题。但是随着spider数量的增加，组织结构就会变得越来越臃肿和困难，一定会增加后期开发的难度和扩展性。所以重构项目组织结构，更改配置，提高代码的重用性和清晰度也在计划中。
-## Download && Upload
+## Ban&Proxy Strategy
+* 	通过改变cookie
+* 	通过middleware，不停的变user-aget
+* 	更改访问时间等方法
 
-*   下载进度条          Done
-*   UpYun上传进度条     Done
-*   BaidYun上传进度条   TODO
-
-##PEP8
+## PEP8
 项目需要统一代码格式和规范，而实际上PEP8提供了Python的代码规范格式说明和相应的规范检查工具。
 
 *	阅读[PEP8--Style Guide for Python Code]，了解python编码规范，逐步养成符合PEP8编码规范的Python代码编写习惯
 *	学习使用[pep8 - Python style guide checker]，利用pep8最代码做规范性检查
 *	查找或者撰写中文PEP8代码规范文档，方便查询和阅读,为后续员工提供文档，形成规范
 
-##items.py
+## Tornado
+最终spider是作为任务常驻服务器，[Tornado]作为非阻塞式Python服务器，提供高并发等服务支持，需要去了解、搭建和配置Tornado，以及需要了解[非阻塞式编程方式]。另外可以了解[web.py]，其为轻量级python web框架，可能会用得着。
+
+## API
+设计、完善并规范API接口，实现其它系统的低耦合衔接。
+
+##研究和学习的内容
+
+###items.py
 *	field（）升序降序
 *	itemloader（）
-##rule
-*	对现有的所有spider进行check，加以调整，进行优化
-##middleware
+
+###middleware
 *	downloader middleware
 *	CookiesMiddleware
 *	defaultHeadersMiddleware
@@ -79,41 +75,24 @@ Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载�
 *	OffsiteMiddleware
 *	RefererMiddleware
 *	UrlLengthMiddleware
-##__init __.py
+
+###__init __.py
 * 了解及利用，完成相应的初始化
-##from ... import ...
+
+###from ... import ...
 *	规范用法
-##数据库
-*	对数据库表所整理，思考是否有其他需要获取的数据项
-*	修改数据库结构
-	*	app表	包含了app_name， author等唯一标识
-	*	app_info表， 包含了version, apk, 等等 特殊标识
-##settings.py
+
+###settings.py
 *	了解settings.py，学习其他设置参数
-##pipy及接口定义方式
+
+###pipy及接口定义方式
 *	了解上传pipy方法，尝试将polyspider做成一个API
-##智能分类
-* 	通过不同网站对该应用的分类，对其进行命中率的计算，做到对应用的准确归类，避免发生归类错误的情况发生
-##在服务器上运行Scarpy
-* 	将Scrapy成功运行在服务器上，保证其正常运行，尽量避免发生停止运行等情况发生，以及发生问题后能够完成断电续爬，并生成日志
-* 	Scheduler
-* 	WatchDog
-##运行多个Spider
-* 	通过scrapyd，完成多spider的运行，提高爬取效率
-* 	做到高并发，缓存，Redis (key-value)
-##防止被禁
-* 	通过改变cookie
-* 	通过middleware，不停的变user-aget
-* 	更改访问时间等方法
-##完成一个日志系统
-* 	通过日志，了解程序运行状况，对出现问题进行汇总，进行统计
-##后台制作
-* 	制作一个强大的后台，能够查看日志，对数据进行处理，以报表等方式完成数据统计，时刻了解到Spider的状态，对数据的查询等功能
-##aapt
-*	aapt读取apk信息
 
 [aapt]:https://code.google.com/p/android-apktool/
 [Selenium]:http://www.seleniumhq.org/
+[ScrapyJS]:	https://github.com/scrapinghub/scrapyjs
+[Python Webkit]: http://www.gnu.org/software/pythonwebkit/
+
 [非阻塞式编程方式]:http://cnodejs.org/topic/4f50dd9798766f5a610b808a
 [Tornado]:http://www.tornadoweb.org/en/stable/
 [AppStoreList]:https://github.com/wh1100717/PolySpider/blob/master/APP_STORE_LIST.md
@@ -132,7 +111,7 @@ Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载�
 [木蚂蚁应用市场]:http://www.mumayi.com/
 [安卓市场]:http://apk.hiapk.com/
 [拇指玩]:http://www.muzhiwan.com/
-[Google Play]:https://play.google.com/store
+[Google Paly China]:https://play.google.com/store
 
 [PEP8--Style Guide for Python Code]:http://www.python.org/dev/peps/pep-0008/
 [pep8 - Python style guide checker]:https://pypi.python.org/pypi/pep8
