@@ -11,7 +11,7 @@ This project also contains a website project using web.py as the web framework, 
 *	[Supervisor] v3.0+
 *	Dependencies are listed in [Installation]
 *	ak & sk & bucket name of [BaiYun] or [Upyun] for files upload
-*	Only test in Windows(both 32&64bit), but it should work much better in Linux or Unix I suppose...
+*	Tested in Windows(both 32&64bit) and CentOS 6.4(64bit)
 
 ## Contribution Guides
 1.	[Getting Involved]
