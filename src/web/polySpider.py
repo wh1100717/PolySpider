@@ -16,7 +16,6 @@ from PolySpider.sql import AppDetail
 from PolySpider.sql import Status
 from PolySpider.util import StringUtil
 from PolySpider.util import CategoryUtil
-
 from view import render
 
 render = web.template.render('templates/', base='layout')
@@ -34,7 +33,7 @@ urls = (
     '/status/get_status_list_by_platform/(.+)','get_status_list_by_platform',
     '/status/get_current_status_by_platform/(.+)','get_current_status_by_platform',
     '/status/get_current_status/','get_current_status',
-    
+
 )
 
 class home:

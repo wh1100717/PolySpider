@@ -148,7 +148,7 @@ class UpdateCategoryPipeline(object):
         
         if item['DROP_APP']: return item
         if not item['NEW_APP']:
-            item['UPDATE_APP'] = true
+            item['UPDATE_APP'] = True
             #重新计算category
             item_category_ids = item['category'].split(",")
             categories = item['app_category'].split(",")

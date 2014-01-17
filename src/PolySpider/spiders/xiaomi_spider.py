@@ -64,6 +64,6 @@ class XiaomiSpider(BaseSpider):
                 item['platform'] = "xiaomi"
                 print "Grabing finish, step into information pipline"
                 return item
-        except HTTPError:
+        except Exception:
             item['app_name']=""
             return item

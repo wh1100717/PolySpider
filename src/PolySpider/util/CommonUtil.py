@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-  
 import urllib
 from progressbar import *
-
+import sys
+import threading, Queue, subprocess
 def cmpVersion(oldVersion, newVersion):
     '''
     比较版本号
@@ -123,4 +124,4 @@ def download_time_normalize(download_time):
     if download_time.find('亿')>0:
         download_time=str(int(float(download_time[0:download_time.find('亿')])*100000000))
     return download_time.decode('utf8')
-    
+
