@@ -11,7 +11,7 @@
             ellog = document.getElementById('log');
 
             if (window.location.protocol === "file:") {
-               wsuri = "ws://192.168.1.203:9002";
+               wsuri = "ws://localhost:9003";
             } else {
                wsuri = "ws://" + window.location.hostname + ":9002";
             }
@@ -36,7 +36,7 @@
                }
 
                sock.onmessage = function(e) {
-                  log("Got echo: " + e.data);
+                  log(e.data);
                }
             }
          };
@@ -64,6 +64,6 @@
          <p>Broadcast Message: <input id="message" type="text" size="50" maxlength="50" value="Hello from Browser!"></p>
       </form>
       <button onclick='broadcast();'>Broadcast Message</button>
-      <pre id="log" style="height: 20em; overflow-y: scroll; background-color: #faa;"></pre>
+      <pre id="log" style="height: 40em; overflow-y: scroll; background-color: #faa;"></pre>
    </body>
 </html>

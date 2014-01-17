@@ -19,10 +19,14 @@ from sh import tail
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
+import Queue
+import threading
 from twisted.internet import reactor
 from autobahn.twisted.websocket import WebSocketClientFactory, \
                                        WebSocketClientProtocol, \
                                        connectWS
+
+logQueue = Queue.Queue(maxsize = 100)
 
 class BroadcastClientProtocol(WebSocketClientProtocol):
     """
@@ -31,30 +35,35 @@ class BroadcastClientProtocol(WebSocketClientProtocol):
     """
 
     def sendLog(self):
-	threading.Thread(target=self.readLog()).start()
-        self.sendMessage(tailq.get().encode('utf8'))
-        reactor.callLater(2, self.sendLog)
+        str = ""
+        while not logQueue.empty():
+            str += logQueue.get()
+        if str != "":
+            self.sendMessage(str.encode('utf8'))
+        reactor.callLater(1, self.sendLog)
     
-    def readLog(self):
-	for line in tail("-f", "baidu_std.log", _iter=True):
-	    print line
-	    #self.sendMessage(line)
     def onOpen(self):
-        self.readLog()
+        self.sendLog()
 
     def onMessage(self, payload, isBinary):
         if not isBinary:
             print("Text message received: {}".format(payload.decode('utf8')))
+            
+def readLog():
+    for line in tail("-f", "/home/eric/project/PolySpider/src/tmp/log/baidu_std.log", _iter=True):
+        print line
+        logQueue.put(line)
+        #self.sendMessage(line)
 
 
 if __name__ == '__main__':
 
-   if len(sys.argv) < 2:
-      print("Need the WebSocket server address, i.e. ws://localhost:9000")
-      sys.exit(1)
+#   if len(sys.argv) < 2:
+#      print("Need the WebSocket server address, i.e. ws://localhost:9000")
+#      sys.exit(1)
 
-   factory = WebSocketClientFactory(sys.argv[1])
+   factory = WebSocketClientFactory('ws://localhost:9002')
    factory.protocol = BroadcastClientProtocol
    connectWS(factory)
-
+   threading.Thread(target=readLog).start()
    reactor.run()
