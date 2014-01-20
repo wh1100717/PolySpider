@@ -1,0 +1,60 @@
+<div class="data-container">
+    <h1>AppChina Log</h1>
+    <noscript>You must enable JavaScript</noscript>
+    <pre id="log" style="height: 40em; overflow-y: scroll; color: chartreuse; background-color: black;"></pre>
+    <script type="text/javascript">
+        var sock = null;
+        var ellog = null;
+
+        window.onload = function() {
+
+            var wsuri;
+            ellog = document.getElementById('log');
+
+            if (window.location.protocol === "file:") {
+                //如果是直接引用日志文件需要修改这里
+                //需要在这里修改具体的IP和端口
+                //比如服务器是192.168.1.203，用server.py建立的服务器端口未9003
+                //则对应的地址为"ws://192.168.1.203:9003"
+                wsuri = "ws://localhost:9003";
+            } else {
+                //如果该页面是从浏览器通过输入地址打开的，则需要修改这里，修放方式同上
+                wsuri = "ws://" + window.location.hostname + ":9003";
+            }
+
+            if ("WebSocket" in window) {
+                sock = new WebSocket(wsuri);
+            } else if ("MozWebSocket" in window) {
+                sock = new MozWebSocket(wsuri);
+            } else {
+                log("Browser does not support WebSocket!");
+                window.location = "http://autobahn.ws/unsupportedbrowser";
+            }
+
+            if (sock) {
+                sock.onopen = function() {
+                    log("Connected to " + wsuri + "\n");
+                }
+
+                sock.onclose = function(e) {
+                    if (e.code === 1006) {
+                        log("Web Socket has been closed due to one of the reasons below:\n");
+                        log("*  A server whose host name could not be resolved.\n*  A server to which packets could not successfully be routed.\n*  A server that refused the connection on the specified port.\n*  A server that failed to correctly perform a TLS handshake (e.g., the server certificate can't be verified).\n*  A server that did not complete the opening handshake (e.g. because it was not a WebSocket server).\n*  A WebSocket server that sent a correct opening handshake, but that specified options that caused the client to drop the connection (e.g. the server specified a subprotocol that the client did not offer).\n*  A WebSocket server that abruptly closed the connection after successfully completing the opening handshake.\n");
+                    } else {
+                        log("Connection closed (wasClean = " + e.wasClean + ", code = " + e.code + ", reason = '" + e.reason + "')");
+                    }
+                    sock = null;
+                }
+
+                sock.onmessage = function(e) {
+                    log(e.data);
+                }
+            }
+        };
+
+        function log(m) {
+            ellog.innerHTML += m;
+            ellog.scrollTop = ellog.scrollHeight;
+        }
+    </script>
+</div>

@@ -39,6 +39,7 @@ $def with (content)
                         <li id ='naviStatus'><a href="/status/">Status</a></li>
                         <li id ='naviChart'><a href="/chart/">Chart</a></li>
                         <li id ='naviData'><a href="/data/">Data</a></li>
+                        <li id ='naviLog'><a href="/log/">Log</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -69,6 +70,8 @@ $def with (content)
                     $$("#naviChart").addClass("active");
                 } else if (url.indexOf("/data") >= 0) {
                     $$("#naviData").addClass("active");
+                } else if (url.indexOf("/log") >= 0) {
+                    $$("#naviLog").addClass("active");
                 } else {
                     $$("#naviHome").addClass("active");
                 }

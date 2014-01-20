@@ -33,6 +33,7 @@ urls = (
     '/status/get_status_list_by_platform/(.+)','get_status_list_by_platform',
     '/status/get_current_status_by_platform/(.+)','get_current_status_by_platform',
     '/status/get_current_status/','get_current_status',
+    '/log/', 'get_log',
 
 )
 
@@ -118,6 +119,10 @@ class get_current_status:
     def GET(self):
         data = StringUtil.item_to_json(Status.get_current_status())
         return data
+
+class get_log:
+    def GET(self):
+        return render.log()
 
 if __name__ == "__main__":
     app = web.application(urls, globals())
