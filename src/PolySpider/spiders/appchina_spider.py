@@ -6,6 +6,7 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import Selector
 from PolySpider.items import AppItem
 from PolySpider.config import SpiderConfig
+from scrapy.exceptions import DropItem
 
 from PolySpider.util import CommonUtil
 
@@ -36,28 +37,28 @@ class AppChinaSpider(CrawlSpider):
         print "Grabing Start：%s" % response.url
         # 根据SpiderConfig中的xpath配置进行抓取数据
         for key in app_china:
-            value = sel.xpath(app_china[key]).extract()
-            item[key] = value[0].strip().encode('utf8') if len(value) == 1 else ('' if len(value) == 0 else value)
-        try:
+            value = sel.xpath(app_china[key]).extract() if app_china[key]!='' else ''
+            item[key] = value[0].strip().decode('utf8') if len(value) == 1 else ('' if len(value) == 0 else value)
+#        try:
             # 应用汇对apk的下载链接做了一层redirect,所以需要更早请求来获取真实下载地址
-            res = urllib2.urlopen(item['apk_url'])
-            item['apk_url'] = res.url
-            # 格式化
-            item['app_name'] = CommonUtil.dropBrackets(item['app_name'])
-            item['version'] = CommonUtil.normalizeVersion(item['version'])
-            item['rating_count'] = item['rating_count'][6:-2]
-            item['android_version'] = item['android_version'][7:-2]
-            item['download_times'] = CommonUtil.download_time_normalize(item['download_times'])
-            item['last_update'] = CommonUtil.normalizeString(item['last_update'])[5:]
-            item['descriptions'] = ' '.join(item['descriptions']).encode('utf8')
-            item['apk_size'] = CommonUtil.normalizeString(item['apk_size'])[5:]
-            # 获取图片地址，通过空格来分割多张图片
-            item['imgs_url'] = " ".join(item['imgs_url'])
-            item['platform'] = "appchina"
-            print "Grabing finish, step into information pipline"
-            return item
-        except HTTPError:
-            raise DropItem(item)
+        res = urllib2.urlopen(item['apk_url'])
+        item['apk_url'] = res.url
+        # 格式化
+        item['app_name'] = CommonUtil.dropBrackets(item['app_name'])
+        item['version'] = CommonUtil.normalizeVersion(item['version'])
+        item['rating_count'] = item['rating_count'][6:-1]
+        item['android_version'] = item['android_version'][9:-4]
+        item['download_times'] = CommonUtil.download_time_normalize(item['download_times'])
+        item['last_update'] = CommonUtil.normalizeString(item['last_update'])[5:]
+        item['description'] = ' '.join(unicode(item['description'])).decode('utf8')
+        item['apk_size'] = CommonUtil.normalizeString(item['apk_size'])[5:]
+        # 获取图片地址，通过空格来分割多张图片
+        item['imgs_url'] = " ".join(item['imgs_url'])
+        item['platform'] = "appchina"
+        print "Grabing finish, step into information pipline"
+        return item
+#        except Exception:
+#            raise DropItem(item)
 
 
 #        try:

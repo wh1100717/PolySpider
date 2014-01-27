@@ -124,6 +124,7 @@ def save_return_id(sql, data):
     if not check_sql(sql): return
     cur = con.cursor()
     if Config.SHOW_SQL: print('process sql:[{}],paras:[{}]'.format(sql, d))
+    
     cur.execute(sql, data)
     id = cur.lastrowid
     con.commit()
