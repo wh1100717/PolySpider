@@ -40,6 +40,7 @@ def normalizeVersion(versionInput):
     注2：对于带有字母的版本号同样舍弃，目前不知道是否有这方面版本号记录的需求
     '''
     if not versionInput: return ""
+    versionInput = normalizeString(versionInput)
     result = ""
     for digit in versionInput:
         if digit in "1234567890.":
