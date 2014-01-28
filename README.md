@@ -66,8 +66,8 @@ Supervisor is a client/server system that allows its users to control a number o
 [Upyun]: https://www.upyun.com
 [Getting Involved]: http://wh1100717.github.io/PolyTechDocs/docs/invovled/
 [Installation]: http://wh1100717.github.io/PolyTechDocs/python/scrapy/installation/
-[TODO List]: https://github.com/wh1100717/PolySpider/blob/master/TODO_LIST.md
-[Core Functionalities]: https://github.com/wh1100717/PolySpider/blob/master/pipelineinfo.md
-[Tips]: https://github.com/wh1100717/PolySpider/blob/master/TIPS.md
+[TODO List]: https://github.com/wh1100717/PolySpider/blob/master/docs/TODO_LIST.md
+[Core Functionalities]: https://github.com/wh1100717/PolySpider/blob/master/docs/pipelineinfo.md
+[Tips]: https://github.com/wh1100717/PolySpider/blob/master/docs/TIPS.md
 [PolySpider]: https://github.com/wh1100717/PolySpider
 

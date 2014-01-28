@@ -38,7 +38,7 @@ class AppChinaSpider(CrawlSpider):
         # 根据SpiderConfig中的xpath配置进行抓取数据
         for key in app_china:
             value = sel.xpath(app_china[key]).extract() if app_china[key]!='' else ''
-            item[key] = value[0].strip().decode('utf8') if len(value) == 1 else ('' if len(value) == 0 else value)
+            item[key] = value[0].strip().encode('utf8') if len(value) == 1 else ('' if len(value) == 0 else value)
 #        try:
             # 应用汇对apk的下载链接做了一层redirect,所以需要更早请求来获取真实下载地址
         res = urllib2.urlopen(item['apk_url'])

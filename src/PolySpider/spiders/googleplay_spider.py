@@ -33,7 +33,7 @@ class GooglePlaySpider(CrawlSpider):
         # 根据SpiderConfig中的xpath配置进行抓取数据
         for key in google_play:
             value = sel.xpath(google_play[key]).extract() if google_play[key]!='' else ''
-            item[key] = value[0].strip().decode('utf8') if len(value) == 1 else ('' if len(value) == 0 else value)
+            item[key] = value[0].strip().encode('utf8') if len(value) == 1 else ('' if len(value) == 0 else value)
         item['imgs_url'] = " ".join(item['imgs_url'])    
         item['cover'] = item['cover'][0]
         item['download_times']=item['download_times'].replace(',','')[:item['download_times'].find('-')]

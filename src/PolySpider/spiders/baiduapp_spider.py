@@ -32,17 +32,13 @@ class BaiduSpider(CrawlSpider):
         print "Grabing Start：%s" %response.url
         for key in baidu:
             value = sel.xpath(baidu[key]).extract() if baidu[key]!='' else ''
-            item[key] = value[0].strip().decode('utf8') if len(value) == 1 else ('' if len(value) == 0 else value)
-        item['version']= item['version'][0]
+            item[key] = value[0].strip().encode('utf8') if len(value) == 1 else ('' if len(value) == 0 else value)
         item['rating_point']=item['rating_point'][:-1]
         item['rating_count']=item['rating_count'][3:-4]
-        item['android_version'] =item['android_version'][0][7:-3]
-        item['download_times'] = item['download_times'][0]
+        item['android_version'] =item['android_version'][7:-3]
         item['description']=' '.join(item['description'])
         item['imgs_url']=' '.join(item['imgs_url'])
         item['platform'] = "baiduapp"
-        item['apk_size'] = item['apk_size'][0]
-        item['last_update'] =item['last_update'][0]
         print "Grabing finish, step into information pipline"
         return item
 #            apk_url = sel.xpath('//*[@id="down_as_durl"]/@href').extract()

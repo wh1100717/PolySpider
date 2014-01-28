@@ -39,7 +39,7 @@ class XiaomiSpider(BaseSpider):
         # 根据SpiderConfig中的xpath配置进行抓取数据
         for key in xiaomi:
             value = sel.xpath(xiaomi[key]).extract() if xiaomi[key]!='' else ''
-            item[key] = value[0].strip().decode('utf8') if len(value) == 1 else ('' if len(value) == 0 else value)
+            item[key] = value[0].strip().encode('utf8') if len(value) == 1 else ('' if len(value) == 0 else value)
         item['apk_url'] = "http://app.xiaomi.com"+item['apk_url']
         item['rating_point']=item['rating_point'][11:]
         item['description']=' '.join(item['description'])

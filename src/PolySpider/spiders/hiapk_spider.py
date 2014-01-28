@@ -66,7 +66,7 @@ class HiapkSpider(BaseSpider):
         # 根据SpiderConfig中的xpath配置进行抓取数据
         for key in hiapk:
             value = sel.xpath(hiapk[key]).extract() if hiapk[key]!='' else ''
-            item[key] = value[0].strip().decode('utf8') if len(value) == 1 else ('' if len(value) == 0 else value)
+            item[key] = value[0].strip().encode('utf8') if len(value) == 1 else ('' if len(value) == 0 else value)
         print item['apk_url']
         req=urllib2.Request("http://apk.hiapk.com" +item['apk_url'])
         req.add_header('referer', response.url)
