@@ -21,4 +21,8 @@ ITEM_PIPELINES = {
 DOWNLOAD_DELAY = 3
 COOKIES_ENABLED = False
 RANDOMIZE_DOWNLOAD_DELAY = True
-USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.54 Safari/536.5'
+#USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.54 Safari/536.5'
+DOWNLOADER_MIDDLEWARES = {
+        'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware' : None,
+        'PolySpider.util.rotate_useragent.RotateUserAgentMiddleware' :400
+    }

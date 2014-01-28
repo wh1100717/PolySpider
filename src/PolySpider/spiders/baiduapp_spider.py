@@ -40,6 +40,7 @@ class BaiduSpider(CrawlSpider):
         item['imgs_url']=' '.join(item['imgs_url'])
         item['platform'] = "baiduapp"
         print "Grabing finish, step into information pipline"
+        print item['version']
         return item
 #            apk_url = sel.xpath('//*[@id="down_as_durl"]/@href').extract()
 #            if len(apk_url)==0:

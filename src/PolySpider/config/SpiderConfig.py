@@ -42,16 +42,16 @@ baidu = {
     'pakage_name' : '',
     'app_name' :"//*[@id='appname']/text()",
     'cover' :"//*[@id='app-logo']/@src",
-    'version' :'//*[@class="params-vname"]/text()',
+    'version' :'//div/table/tbody/tr/td/span[@class="params-vname"]/text()',
     'rating_point' :"//*[@id='score-num']/text()",
     'rating_count' :"//*[@id='score-participants']/text()",
     'category' :"//span[@class='params-catename']/text()",
-    'android_version' :'//*[@class="params-platform"]/text()',
+    'android_version' :'//div/table/tbody/tr/td/span[@class="params-platform"]/text()',
     'download_times' :'//*[@class="params-download-num"]/text()',
     'author' :'',
-    'last_update' :'//*[@class="params-updatetime"]/text()',
+    'last_update' :'//div/table/tbody/tr/td/span[@class="params-updatetime"]/text()',
     'description' :"//*[@class='brief-des']/text()",
-    'apk_size' :'//*[@class="params-size"]/text()',
+    'apk_size' :'//div/table/tbody/tr/td/span[@class="params-size"]/text()',
     'imgs_url' :"//ul[@class='screen cls data-screenshots']/li/img/@src"
 }
 xiaomi = {
