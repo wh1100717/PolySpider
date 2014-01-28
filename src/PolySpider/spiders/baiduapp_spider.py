@@ -32,7 +32,7 @@ class BaiduSpider(CrawlSpider):
         print "Grabing Start：%s" %response.url
         for key in baidu:
             value = sel.xpath(baidu[key]).extract() if baidu[key]!='' else ''
-            item[key] = value[0].strip().encode('utf8') if len(value) == 1 else ('' if len(value) == 0 else value)
+            item[key] = value[0].strip() if len(value) == 1 else ('' if len(value) == 0 else value)
         item['rating_point']=item['rating_point'][:-1]
         item['rating_count']=item['rating_count'][3:-4]
         item['android_version'] =item['android_version'][7:-3]

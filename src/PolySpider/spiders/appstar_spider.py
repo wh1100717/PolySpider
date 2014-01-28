@@ -45,11 +45,11 @@ class AppStarSpider(BaseSpider):
         for key in app_star:
             value = sel.xpath(app_star[key]).extract() if app_star[key]!='' else ''
             if key=='category':
-                item[key] = value[1].strip().encode('utf8') if len(value) !=0 else ''
+                item[key] = value[1].strip() if len(value) !=0 else ''
             elif key=='android_version':
-                item[key] = value[4].strip().encode('utf8') if len(value) !=0 else ''
+                item[key] = value[4].strip() if len(value) !=0 else ''
             else:
-                item[key] = value[0].strip().encode('utf8') if len(value) == 1 else ('' if len(value) == 0 else value)
+                item[key] = value[0].strip() if len(value) == 1 else ('' if len(value) == 0 else value)
         item['app_name'] = CommonUtil.dropBrackets(item['app_name'])
         item['cover'] = "http://www.appstar.com.cn"+item['cover']
         item['version'] = CommonUtil.normalizeVersion(item['version'][4:-1])
