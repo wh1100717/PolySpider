@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-  
+from UserString import split
 import urllib2
 import re
 from scrapy.selector import Selector
@@ -73,7 +74,7 @@ class HiapkSpider(BaseSpider):
         item['apk_url'] = urllib2.urlopen(req).url
         android_version = item['android_version'].replace('及以上固件版本',"+") 
         item['android_version'] =android_version[0:android_version.find('至')]
-        
+        item['pakage_name']=item['pakage_name'].split('=')[3].split(';')[0].strip()[1:-1]
         if len(item['rating_point']) < 21:
             item['rating_point'] = "0"
             item['rating_count'] = "0"

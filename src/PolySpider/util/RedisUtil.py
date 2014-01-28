@@ -69,7 +69,7 @@ class RedisClient(Object):
 		'''
 		if redis_type == 'list':
 			return self.redis_client.lrange(redis_name,start,end)
-		elif redis_type == 'sorted_set'
+                elif redis_type == 'sorted_set':
 			return self.redis_client.zrange(redis_name,start,end)
 	def get_length(self,redis_name):
 		return self.redis_client.llen(redis_name)
