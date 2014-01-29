@@ -5,162 +5,259 @@ from PolySpider.config import Config
 
 REDIS = Config.REDIS
 pool = redis.ConnectionPool(
-	host=REDIS['host'], password=REDIS['password'], port=REDIS['port'], db=REDIS['db'])
+    host=REDIS['host'], password=REDIS['password'], port=REDIS['port'], db=REDIS['db'])
+
+'''
+Redis介绍:
+Redis 是完全开源免费的，遵守BSD协议，先进的key-value持久化产品。
+它通常被称为数据结构服务器，因为值（value）可以是 字符串(String), 哈希(Map), 列表(list), 集合(sets)和有序集合(sorted sets)等类型。
+
+本接口中定义了以下约定:
+key: redis中数据的标识符，相当于key-value中的key
+value: redis中数据的值/哈希数据类型中的值，相当于key-value中的value或者key-map_key-value中的value
+map_key: redis中哈西类型数据的键，相当于key-map_key-value中的map_key。
+
+String类型的操作不加前缀，例如set, get, delte, incr
+List类型的操作不增加前缀，主要通过item, list来区分，例如push_items, poush_list, pop_item
+Set类型的操作增加前缀`s`，例如sset, sget
+Sorted_set类型的操作增加前缀`sorted_s`，例如sorted_sset
+Hashes类型的操作增加前缀`h`，例如hset, hget
+'''
 
 
 class RedisClient(object):
 
-	def __init__(self):
-		self.redis_client = redis.Redis(connection_pool=pool)
+    def __init__(self):
+        self.redis_client = redis.Redis(connection_pool=pool)
 
-	'''
+    '''
 	Key-value操作:
-		get(key): 获取对应的value
-		set(key,value): set对应key的value
-		delete(key): 删除key及对应的value
-		incr(key,amount): value自增amount相对应的量
+		* set(key,value): 
+			将key和value对应。如果key已经存在了，它会被覆盖，F而不管它是什么类型。
+		* mset(key1,value1,key2,value2,key3=value3,....): 
+			一次性赋值set多个key-value, 如果已存在，则会覆盖。
+		* set_range(key,offset,value): 
+			这个命令的作用是覆盖key对应的string的一部分，从指定的offset处开始，覆盖value的长度。
+			如果offset比当前key对应string还要长，那这个string后面就补0以达到offset。
+			不存在的keys被认为是空字符串，所以这个命令可以确保key有一个足够大的字符串，能在offset处设置value。
+		* get(key): 
+			返回key的value。如果key不存在，返回特殊值nil。如果key的value不是string，就返回错误，因为GET只处理string类型的values
+		* gets(keys): 
+			返回给定key的value，key可以输入多个，例如gets(key1,key2,key3.....)
+		* get_range(key,start, end): 
+			获取存储在key上的值的一个子字符串
+		* delete(keys): 
+			删除key及所对应的数据。如果删除的key不存在，则直接忽略。
+		* append(key, value): 
+			如果key已经存在，并且值为字符串，那么这个命令会把value追加到原来值（value）的结尾。 
+			如果 key 不存在，那么它将首先创建一个空字符串的key，再执行追加操作，这种情况 APPEND 将类似于 SET 操作。
+		* incr(key,amount): 
+			对key对应的数字做加1操作。
+			如果key不存在，那么在操作之前，这个key对应的值会被置为0。
+			如果key有一个错误类型的value或者是一个不能表示成数字的字符串，就返回错误。
+			注: amount可以为负值。
+	Unimplement:
+		getbit | setex | bitcount | setnx | bitop | getset | msetnx | incrbyfloat
 	'''
 
-	def get(self, redis_name):
-		return self.redis_client.get(redis_name)
+    def set(self, redis_key, redis_value):
+        return self.redis_client.set(redis_key, redis_value)
 
-	def set(self, redis_name, redis_value):
-		return self.redis_client.set(redis_name, redis_value)
+    def mset(self, *args, **kwargs):
+        if len(args) % 2 != 0:
+            return False
+        for key in kwargs:
+            args.append(kwargs[key])
+            args.append(key)
+        return self.redis_client.mset(*args)
 
-	def delete(self, redis_name):
-		code = self.redis_client.delete(redis_name)
-		return True if code else False
+    def set_range(self, redis_key, offset, redis_value):
+        return self.redis_client.set_range(redis_key, offset, redis_value)
 
-	def incr(self, redis_name, amount=1):
-		return self.redis_client.incr(redis_name, amount)
+    def get(self, redis_key):
+        return self.redis_client.get(redis_key)
 
-	'''
+    def gets(self, *redis_key):
+        return self.redis_client.mget(*redis_key)
+
+    def get_range(self, redis_key, start, end):
+        return self.redis_client.getrange(redis_key, start, end)
+
+    def delete(self, *redis_key):
+        code = self.redis_client.delete(*redis_key)
+        return True if code else False
+
+    def append(self, redis_key, redis_value):
+        return self.redis_client.append(redis_key, redis_value)
+
+    def incr(self, redis_key, amount=1):
+        if amout < 0:
+            return self.redis_client.decr(redis_key, abs(amount))
+        else:
+            return self.redis_client.incr(redis_key, amount)
+
+    '''
 	List操作:
-		push_item(key,value1,value2,...): 从列表末尾推入项
-		lpush_item(key,value1,value2,...): 从队列头退入项
-		push_list(key,list): 合并队列，新List自动添加到末尾
-		lpush_list(key,list): 合并队列，新List自动添加到列头
-		pop_item(key): 从队列末尾推出项
-		lpop_item(key): 从队列头推出项
-		get_items(key,start,end,redis_type): 获取队列中的项
-		get_length(key): 获取队列的长度
+		* get_item(key,index): 
+			返回列表里index位置存储值。
+			下标是从0开始索引的，所以0是表示第一个元素，1表示第二个元素，并以此类推。
+			负数索引用于指定从列表尾部开始索引的元素。
+			在这种方法下，-1表示最后一个元素，-2表示倒数第二个元素，并以此往前推。
+		* get_items(key, start, end, type): 
+			返回列表中start起始，end结束的元素。
+			type为'list'的时候操作的是list类型元素，为'sorted_set'的时候操作的是有序集合元素
+		* insert_item(key,refvalue,value,where): 
+			把value插入存于key的列表中在基准值refvalue的前面或后面。
+			where为'before'或'after', 默认为'after'
+		* set_item(key,index,value):
+			设置index位置的list元素的值为value。
+			当index超出范围时会返回一个error。
+		* push_items(key,value1,value2,...): 
+			向存于key的列表的尾部插入所有指定的值。
+			如果key不存在，那么会创建一个空的列表然后再进行push操作。
+			当 key 保存的不是一个列表，那么会返回一个错误。
+		* lpush_items(key,value1,value2,...): 
+			将所有指定的值插入到存于 key 的列表的头部。
+			如果 key 不存在，那么在进行 push 操作前会创建一个空列表。 如果 key 对应的值不是一个 list 的话，那么会返回一个错误。
+		* push_list(key,list): 
+			同push_items，参数为list
+		* lpush_list(key,list): 
+			同lpush_items，参数为list
+		* pop_item(key):
+			移除并返回存于 key 的 list 的最后一个元素。
+		* lpop_item(key): 
+			移除并且返回key对应的 list 的第一个元素。
+		* remove_item(key,value,count): 
+			从存于key的列表里移除前count次出现的值为value的元素。 这个count参数通过下面几种方式影响这个操作：
+			count > 0: 从头往尾移除值为 value 的元素。
+			count < 0: 从尾往头移除值为 value 的元素。
+			count = 0: 移除所有值为 value 的元素。
+			count默认为1
+			比如， LREM list -2 "hello" 会从存于 list 的列表里移除最后两个出现的 "hello"。
+			需要注意的是，如果list里没有存在key就会被当作空list处理，所以当 key 不存在的时候，这个命令会返回 0。
+		* get_length(key): 获取队列的长度
+	Unimplement:
+		blpop | brpop | brpoplpush | lpushx | ltrim | rpoplpush
 	'''
 
-	def push_item(self, redis_name, *redis_values):
-		return self.redis_client.rpush(redis_name, *redis_value)
+    def get_item(self, redis_key, redis_index):
+        return self.redis_client.lindex(redis_key, redis_index)
 
-	def lpush_item(self, redis_name, *redis_values):
-		return self.redis_client.lpush(redis_name, *redis_value)
+    def get_items(self, redis_key, start, end, redis_type='list'):
+        '''
+        redis_type
+                list: 返回数组的items
+                sorted_set: 返回有序set的items
+        '''
+        if redis_type == 'list':
+            return self.redis_client.lrange(redis_key, start, end)
+        elif redis_type == 'sorted_set':
+            return self.redis_client.zrange(redis_key, start, end)
 
-	def push_list(self, redis_name, redis_list):
-		return self.redis_client.rpush(redis_name, *redis_list)
+    def insert_item(self, redis_key, refvalue, redis_value, where='after'):
+        return self.redis_client.linsert(redis_key, where, refvalue, redis_value)
 
-	def lpush_list(self, redis_name, redis_list):
-		return self.redis_client.lpush(redis_name, *redis_list)
+    def set_item(self, redis_key, redis_index, redis_value):
+        return self.redis_client.lset(redis_key, redis_index, redis_value)
 
-	def pop_item(self, redis_name):
-		return self.redis_client.rpop(redis_name)
+    def push_items(self, redis_key, *redis_values):
+        return self.redis_client.rpush(redis_key, *redis_value)
 
-	def lpop_item(self, redis_name):
-		return self.redis_client.lpop(redis_name)
+    def lpush_items(self, redis_key, *redis_values):
+        return self.redis_client.lpush(redis_key, *redis_value)
 
-	def get_items(self, redis_name, start, end, redis_type='list'):
-		'''
-		redis_type
-			list: 返回数组的items
-			sorted_set: 返回有序set的items
-		'''
-		if redis_type == 'list':
-			return self.redis_client.lrange(redis_name, start, end)
-                elif redis_type == 'sorted_set':
-			return self.redis_client.zrange(redis_name, start, end)
+    def push_list(self, redis_key, redis_list):
+        return self.redis_client.rpush(redis_key, *redis_list)
 
-	def get_length(self, redis_name):
-		return self.redis_client.llen(redis_name)
+    def lpush_list(self, redis_key, redis_list):
+        return self.redis_client.lpush(redis_key, *redis_list)
 
-	'''
+    def pop_item(self, redis_key):
+        return self.redis_client.rpop(redis_key)
+
+    def lpop_item(self, redis_key):
+        return self.redis_client.lpop(redis_key)
+
+    def remove_item(self, redis_key, redis_value, count=1):
+        return self.redis_client.lrem(redis_key, count, redis_value)
+
+    def get_length(self, redis_key):
+        return self.redis_client.llen(redis_key)
+
+    '''
 	Set操作:
 
 	'''
-	def sset(self, redis_name, *redis_members):
-		return self.redis_client.sadd(redis_name, redis_members)
 
-	def soreted_sset(self, redis_name, *args, **kwargs):
-		'''
-		输入格式为
-			1. redis_name, redis_index1(float), redis_member1, redis_index2, redis_member2....
-			2. redis_name, redis_member1 = redis_index1, redis_member2 = redis_index2....
-		'''
-		if args and len(args) % 2 != 0:
-			return False
-		for key in kwargs:
-			args.append(kwargs[key])
-			args.append(key)
-		return self.redis_client.zadd(redis_name, *args)
+    def sset(self, redis_key, *redis_members):
+        return self.redis_client.sadd(redis_key, redis_members)
 
-	def sdelete(self, redis_name, redis_member):
-		return self.redis_client.srem(redis_name, redis_member)
+    def soreted_sset(self, redis_key, *args, **kwargs):
+        '''
+        输入格式为
+                1. redis_key, redis_index1(float), redis_member1, redis_index2, redis_member2....
+                2. redis_key, redis_member1 = redis_index1, redis_member2 = redis_index2....
+        '''
+        if len(args) % 2 != 0:
+            return False
+        for key in kwargs:
+            args.append(kwargs[key])
+            args.append(key)
+        return self.redis_client.zadd(redis_key, *args)
 
-	def spop(self, redis_name):
-		return self.redis_client.spop(redis_name)
+    def sdelete(self, redis_key, redis_member):
+        return self.redis_client.srem(redis_key, redis_member)
 
-	def sexist(self, redis_name, redis_member):
-		return self.redis_client.sismember(redis_name, redis_member)
+    def spop(self, redis_key):
+        return self.redis_client.spop(redis_key)
 
-	def sget_all(self, redis_name):
-		return self.redis_client.smembers(redis_name)
+    def sexist(self, redis_key, redis_member):
+        return self.redis_client.sismember(redis_key, redis_member)
 
-	def union_set(self, redis_name_1, redis_name_2):
-		return self.redis_client.sunion(redis_name_1, redis_name_2)
+    def sget_all(self, redis_key):
+        return self.redis_client.smembers(redis_key)
 
-	'''
+    def union_set(self, redis_key_1, redis_key_2):
+        return self.redis_client.sunion(redis_key_1, redis_key_2)
+
+    '''
 	Hashes(可以理解成map或者字典)操作:
 	'''
-	def hset(self, redis_name, *args, **kwargs):
-		'''
-		输入格式为:
-			1. redis_name, redis_key1, redis_value1, redis_key2, redis_value2....
-			2. redis_name, redis_key1 = redis_value1, redis_key2 = redis_value2....
-		'''
-		print redis_name
-		print args
-		if args and len(args) % 2 != 0:
-			return False
-		for key in kwars:
-			args.append(key)
-			args.append(kwargs[key])
-		print '!!!!!!!!!!!!!!!!!!!!'
-		print args
-		print '!!!!!!!!!!!!!!!!!!!!!'
-		pipe = self.redis_client.pipeline()
-		for i in range(len(args)/2):
-			pipe.hset(redis_name,args[2*i],args[2*i+1])
-		code = pipe.execute()
-		return True if code else False
 
-	def hset_map(self, redis_name, dictionary):
-		pipe = self.redis_client.pipeline()
-		for key in dictionary:
-			pipe.hset(redis_name,key,dictionary[key])
-		code = pipe.execute()
-		return True if code else False
+    def hset(self, redis_key, *args, **kwargs):
+        '''
+        输入格式为:
+                1. redis_key, redis_map_key1, redis_value1, redis_map_key2, redis_value2....
+                2. redis_key, redis_map_key1 = redis_value1, redis_map_key2 = redis_value2....
+        '''
+        print redis_key
+        print args
+        if len(args) % 2 != 0:
+            return False
+        for key in kwars:
+            args.append(key)
+            args.append(kwargs[key])
+        pipe = self.redis_client.pipeline()
+        for i in range(len(args) / 2):
+            pipe.hset(redis_key, args[2 * i], args[2 * i + 1])
+        code = pipe.execute()
+        return True if code else False
 
-	def hget(self, redis_name, redis_key):
-		return self.redis_client.hget(redis_name,redis_key)
+    def hset_map(self, redis_key, dictionary):
+        pipe = self.redis_client.pipeline()
+        for map_key in dictionary:
+            pipe.hset(redis_key, map_key, dictionary[key])
+        code = pipe.execute()
+        return True if code else False
 
-	def hget_all(self, redis_name):
-		return self.redis_client.hgetall(redis_name)
+    def hget(self, redis_key, redis_map_key):
+        return self.redis_client.hget(redis_key, redis_map_key)
 
-	def hincr(self, redis_name, redis_key, amount = 1):
-		return self.redis_client.hincyby(redis_name,redis_key,amount)
+    def hget_all(self, redis_key):
+        return self.redis_client.hgetall(redis_key)
 
-	def hdel(self, redis_name, *redis_keys):
-		return self.redis_client.hdel(redis_name,*redis_keys)
+    def hincr(self, redis_key, redis_map_key, amount=1):
+        return self.redis_client.hincyby(redis_key, redis_map_key, amount)
 
-
-
-
-
-	
-
-
+    def hdel(self, redis_key, *redis_map_keys):
+        return self.redis_client.hdel(redis_key, *redis_map_keys)
