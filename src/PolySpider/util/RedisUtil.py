@@ -34,26 +34,26 @@ class RedisClient(Object):
 
 	'''
 	List操作:
-		push_item(key,value): 从列表末尾推入项
-		lpush_item(key,value): 从队列头退入项
+		push_item(key,value1,value2,...): 从列表末尾推入项
+		lpush_item(key,value1,value2,...): 从队列头退入项
 		push_list(key,list): 合并队列，新List自动添加到末尾
+		lpush_list(key,list): 合并队列，新List自动添加到列头
 		pop_item(key): 从队列末尾推出项
 		lpop_item(key): 从队列头推出项
-		get_items(key,start,end): 获取队列中的项
+		get_items(key,start,end,redis_type): 获取队列中的项
 		get_length(key): 获取队列的长度
 	'''
-	def push_item(self,redis_name,redis_value):
-		return self.redis_client.rpush(redis_name,redis_value)
+	def push_item(self,redis_name,*redis_values):
+		return self.redis_client.rpush(redis_name,*redis_value)
 
-	def lpush_item(self,redis_name,redis_value):
-		return self.redis_client.lpush(redis_name,redis_value)
+	def lpush_item(self,redis_name,*redis_values):
+		return self.redis_client.lpush(redis_name,*redis_value)
 
 	def push_list(self,redis_name,redis_list):
-		pipe = self.redis_client.pipeline()
-		for redis_value in redis_list:
-			pipe.rpush(redis_value)
-		code = pipe.execute()
-		return False if code else True
+		return self.redis_client.rpush(redis_name,*redis_list)
+
+	def lpush_list(self,redis_name,redis_list):
+		return self.redis_client.lpush(redis_name,*redis_list)
 
 	def pop_item(self,redis_name):
 		return self.redis_client.rpop(redis_name)
@@ -78,20 +78,32 @@ class RedisClient(Object):
 	Set操作:
 
 	'''
-	def add_value_to_set(redis_name, redis_value):
-		return self.redis_client.sadd(redis_name,redis_value)
+	def sset(redis_name, *redis_members):
+		return self.redis_client.sadd(redis_name,redis_members)
 
-	def add_value_to_sorted_set(redis_name, redis_value, redis_index):
-		#TODO 支持一次性复制多个sorted-set
-		return self.redis_client.zadd(redis_name,redis_value,redis_index)
+	def soreted_sset(redis_name, *args, **kwargs):
+		'''
+		输入格式为
+			1. redis_name, redis_index1(float), redis_member1, redis_index2, redis_member2....
+			2. redis_name, redis_member1 = redis_index1, redis_member2 = redis_index2....
+		'''
+		if args and len(args) % 2 != 0:
+			return False
+		for key in kwargs:
+			args.append(kwargs[key])
+			args.append(key)
+		return self.redis_client.zadd(redis_name,*args)
 
-	def remove_value(redis_name,redis_value):
-		return self.redis_client.srem(redis_name,redis_value)
+	def sdelete(redis_name,redis_member):
+		return self.redis_client.srem(redis_name,redis_member)
 
-	def check_value_exist(redis_name,redis_value):
-		return self.redis_client.sismember(redis_name,redis_value)
+	def spop(redis_name):
+		return self.redis_client.spop(redis_name)
 
-	def get_set_list(redis_name):
+	def sexist(redis_name, redis_member):
+		return self.redis_client.sismember(redis_name,redis_member)
+
+	def sget_all(redis_name):
 		return self.redis_client.smembers(redis_name)
 
 	def union_set(redis_name_1, redis_name_2):
@@ -100,9 +112,29 @@ class RedisClient(Object):
 	'''
 	Hashes(可以理解成map或者字典)操作:
 	'''
-	def hset(redis_name, redis_key, redis_value):
-		#TODO  支持一次性赋值多个key-value
-		return self.redis_client.hset(redis_name,redis_key,redis_value)
+	def hset(redis_name, *args, *kwargs):
+		'''
+		输入格式为:
+			1. redis_name, redis_key1, redis_value1, redis_key2, redis_value2....
+			2. redis_name, redis_key1 = redis_value1, redis_key2 = redis_value2....
+		'''
+		if args and len(args) % 2 != 0:
+			return False
+		for pair in kwargs:
+			args.append(key)
+			args.append(kwargs[key])
+		pipe = self.redis_client.pipeline()
+		for i in range(len(args)/2):
+			pipe.hset(redis_name,args[2*i],args[2*i+1])
+		code = pipe.execute()
+		return True if code else False
+
+	def hset_map(redis_name, dictionary):
+		pipe = self.redis_client.pipeline()
+		for key in dictionary:
+			pipe.hset(redis_name,key,dictionary[key])
+		code = pipe.execute()
+		return True if code else False
 
 	def hget(redis_name, redis_key):
 		return self.redis_client.hget(redis_name,redis_key)
@@ -113,9 +145,8 @@ class RedisClient(Object):
 	def hincr(redis_name, redis_key, amount = 1):
 		return self.redis_client.hincyby(redis_name,redis_key,amount)
 
-	def hdel(redis_name,redis_key):
-		#TODO 一次性删除多个key
-		return self.redis_client.hdel(redis_name,redis_key)
+	def hdel(redis_name, *redis_keys):
+		return self.redis_client.hdel(redis_name,*redis_keys)
 
 
 
