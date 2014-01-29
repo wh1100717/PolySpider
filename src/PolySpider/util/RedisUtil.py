@@ -7,10 +7,9 @@ REDIS = Config.REDIS
 pool = redis.ConnectionPool(host=REDIS['host'],password=REDIS['password'], port=REDIS['port'],db=REDIS['db'])
 
 
-class RedisClient(Object):
+class RedisClient(object):
 	def __init__(self):
-		if not self.redis_client:
-			self.redis_client = redis.Redis(connection_pool = pool)
+		self.redis_client = redis.Redis(connection_pool = pool)
 
 	'''
 	Key-value操作:
@@ -112,18 +111,22 @@ class RedisClient(Object):
 	'''
 	Hashes(可以理解成map或者字典)操作:
 	'''
-	def hset(redis_name, *args, *kwargs):
+	def hset(redis_name, *args, **kwargs):
 		'''
 		输入格式为:
 			1. redis_name, redis_key1, redis_value1, redis_key2, redis_value2....
 			2. redis_name, redis_key1 = redis_value1, redis_key2 = redis_value2....
 		'''
+                print args
 		if args and len(args) % 2 != 0:
 			return False
 		for pair in kwargs:
 			args.append(key)
 			args.append(kwargs[key])
-		pipe = self.redis_client.pipeline()
+                print '!!!!!!!!!!!!!!!!!!!!'
+                print args
+                print '!!!!!!!!!!!!!!!!!!!!!'
+                pipe = self.redis_client.pipeline()
 		for i in range(len(args)/2):
 			pipe.hset(redis_name,args[2*i],args[2*i+1])
 		code = pipe.execute()

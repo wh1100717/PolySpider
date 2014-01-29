@@ -3,7 +3,8 @@
 import sqlite3
 from PolySpider.config import Config
 from PolySpider.util import SqliteUtil
-
+from PolySpider.util import RedisUtil
+redis_client = RedisUtil.RedisClient()
 def get_app_by_app_name(app_name):
     '''
     ##根据app_name来获取app record
@@ -38,7 +39,12 @@ def insert_app(item):
     '''
     sql = '''INSERT INTO ps_app values(null,?,?,?)'''
     data = (item['app_name'], item['author'], item['category'])
-    id = SqliteUtil.save_return_id(sql, data)
+#    id = SqliteUtil.save_return_id(sql, data)
+    id = 1
+    print "_____________"
+    
+    print redis_client.hset('app::' + str(id),'app_name',item['app_name'])
+    print "_________________"
     return id
 
 def update_app_author(id, author):
@@ -49,6 +55,7 @@ def update_app_author(id, author):
     sql = '''UPDATE ps_app set author = ? where id = ?'''
     data = [(author, id)]
     SqliteUtil.update(sql, data)
+    #redis.hset(id,'author',author)
 
 def update_app_category(id, category):
     '''
@@ -58,6 +65,7 @@ def update_app_category(id, category):
     sql = '''UPDATE ps_app set category = ? where id = ?'''
     data = [(category, id)]
     SqliteUtil.update(sql, data)
+     #redis.hset(id,'category',category)
     
 def search_app_category(id):
     '''

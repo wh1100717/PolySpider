@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-  
-from UserString import split
 import urllib2
 import re
 from scrapy.selector import Selector

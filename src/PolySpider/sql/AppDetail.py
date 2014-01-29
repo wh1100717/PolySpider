@@ -37,6 +37,22 @@ def insert_app_detail(item):
          item['imgs_url'],
          item['last_update'],)]
     SqliteUtil.save(sql, data)
+    '''
+    data = [
+            'version':item['version'],
+         'platform':item['platform'],
+         'apk_url':item['apk_url'],
+         'apk_size':item['apk_size'],
+         'package_name':item['pakage_name'],
+         'cover':item['cover'],
+         'rating_point':item['rating_point'],
+         'rating_count':item['rating_count'],
+         'android_version':item['android_version'],
+         'download_times':item['download_times'],
+         'description':item['description'],
+         'img_url':item['imgs_url'],
+         'last_update':item['last_update']]
+    '''
 def get_app_detail_by_id(app_id):
     '''
     ##根据app_id来查询对应的detail

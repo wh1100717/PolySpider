@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-  
 import sqlite3
 from PolySpider.config import Config
-
 def check_sql(sql):
     '''
     检查sql语句是否为空
@@ -126,7 +125,9 @@ def save_return_id(sql, data):
     if Config.SHOW_SQL: print('process sql:[{}],paras:[{}]'.format(sql, d))
     
     cur.execute(sql, data)
+    
     id = cur.lastrowid
+    
     con.commit()
     close_all(con)
     print "save_return_id :%d" %id 

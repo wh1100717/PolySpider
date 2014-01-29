@@ -32,11 +32,9 @@ def get_sqlite_path():
 SHOW_SQL = False  # True则会在控制台显示详细的SQL查询
 
 REDIS = {
-    '''
-    Redis Key-Value Data Store Configuration
-    '''
+   
     'host':'192.168.1.202',
-#    'password':'',
+    'password':'',
     'port':6379,
     'db':0
 }
