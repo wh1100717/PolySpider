@@ -13,9 +13,10 @@ Redis 是完全开源免费的，遵守BSD协议，先进的key-value持久化�
 它通常被称为数据结构服务器，因为值（value）可以是 字符串(String), 哈希(Map), 列表(list), 集合(sets)和有序集合(sorted sets)等类型。
 
 本接口中定义了以下约定:
-key: redis中数据的标识符，相当于key-value中的key
-value: redis中数据的值/哈希数据类型中的值，相当于key-value中的value或者key-map_key-value中的value
-map_key: redis中哈西类型数据的键，相当于key-map_key-value中的map_key。
+key: redis中数据的标识符(key-value)
+value: redis中数据的值/哈希数据类型中的值(key-value) | (key-map_key-value)
+map_key: redis中哈西类型数据的键(key-map_key-value)
+member: redis中set类型数据的值(key-member)
 
 String类型的操作不加前缀，例如set, get, delte, incr
 List类型的操作不增加前缀，主要通过item, list来区分，例如push_items, poush_list, pop_item
@@ -29,6 +30,33 @@ class RedisClient(object):
 
     def __init__(self):
         self.redis_client = redis.Redis(connection_pool=pool)
+
+    '''
+    Common Operation:
+		* get_items(key, start, end, type): 
+			返回列表中start起始，end结束的元素。
+			type可选值为`list` | `sorted_set`
+		* get_length(key,type): 
+			获取队列的长度
+			type可选值为`list` | `set`
+	'''
+    def get_items(self, redis_key, start, end, redis_type='list'):
+        '''
+        redis_type
+                list: 返回数组的items
+                sorted_set: 返回有序set的items
+        '''
+        if redis_type == 'list':
+            return self.redis_client.lrange(redis_key, start, end)
+        elif redis_type == 'sorted_set':
+            return self.redis_client.zrange(redis_key, start, end)
+
+    def get_length(self, redis_key, redis_type = 'list'):
+        if redis_type == 'list':
+            return self.redis_client.llen(redis_key)
+        elif redis_type == 'set'
+            return self.redis_client.scard(redis_key)
+
 
     '''
 	Key-value操作:
@@ -103,9 +131,6 @@ class RedisClient(object):
 			下标是从0开始索引的，所以0是表示第一个元素，1表示第二个元素，并以此类推。
 			负数索引用于指定从列表尾部开始索引的元素。
 			在这种方法下，-1表示最后一个元素，-2表示倒数第二个元素，并以此往前推。
-		* get_items(key, start, end, type): 
-			返回列表中start起始，end结束的元素。
-			type为'list'的时候操作的是list类型元素，为'sorted_set'的时候操作的是有序集合元素
 		* insert_item(key,refvalue,value,where): 
 			把value插入存于key的列表中在基准值refvalue的前面或后面。
 			where为'before'或'after', 默认为'after'
@@ -135,24 +160,12 @@ class RedisClient(object):
 			count默认为1
 			比如， LREM list -2 "hello" 会从存于 list 的列表里移除最后两个出现的 "hello"。
 			需要注意的是，如果list里没有存在key就会被当作空list处理，所以当 key 不存在的时候，这个命令会返回 0。
-		* get_length(key): 获取队列的长度
 	Unimplement:
 		blpop | brpop | brpoplpush | lpushx | ltrim | rpoplpush
 	'''
 
     def get_item(self, redis_key, redis_index):
         return self.redis_client.lindex(redis_key, redis_index)
-
-    def get_items(self, redis_key, start, end, redis_type='list'):
-        '''
-        redis_type
-                list: 返回数组的items
-                sorted_set: 返回有序set的items
-        '''
-        if redis_type == 'list':
-            return self.redis_client.lrange(redis_key, start, end)
-        elif redis_type == 'sorted_set':
-            return self.redis_client.zrange(redis_key, start, end)
 
     def insert_item(self, redis_key, refvalue, redis_value, where='after'):
         return self.redis_client.linsert(redis_key, where, refvalue, redis_value)
@@ -181,16 +194,79 @@ class RedisClient(object):
     def remove_item(self, redis_key, redis_value, count=1):
         return self.redis_client.lrem(redis_key, count, redis_value)
 
-    def get_length(self, redis_key):
-        return self.redis_client.llen(redis_key)
-
     '''
 	Set操作:
+		* sset(key,member1,member2,...):
+			添加一个或多个指定的member元素到集合的key中.
+			指定的一个或者多个元素member如果已经在集合key中存在则忽略.
+			如果集合key不存在，则新建集合key,并添加member元素到集合key中.
+			如果key的类型不是集合则返回错误.
+		* sdiff(key1,key2,key3,...):
+			key1的集合与(key2,key3,...)的集合的补集，即A-B={x|x∈A，x∉B'}
+		* sinter(key1,key2,key3,...)
+			key1的集合与(key2,key3,...)的集合的交集，即A∩B={x|x∈A,且x∈B}
+		* sunion(key1,key2,key3,...):
+			key1的集合与(key2,key3,...)的集合的并集，即即A∪B={x|x∈A,或x∈B}
+		* sexist(key, member):
+			检查member是否在当前结合中
+		* sget_all(key):
+			获取当前key下的集合所有元素
+		* smove(src, dst, member):
+			将member从src集合移动到dst集合中.
+			如果src集合不存在或者不包含指定的元素,这smove命令不执行任何操作并且返回0
+			否则对象将会从src集合中移除，并添加到dst集合中去
+			如果dst集合已经存在该元素，则smove命令仅将该元素充src集合中移除
+			如果src或dst不是集合类型，则返回错误
+		* spop(key):
+			从集合中随机移除并返回一个元素
+		* srandmember(key, number):
+			仅提供key参数，那么随机返回key集合中的一个元素.
+			Redis2.6开始，可以接受number参数
+			如果number是整数且小于元素的个数,则返回含有number个不同的随机元素的数组
+			如果number是个整数且大于集合中元素的个数时,仅返回整个集合的所有元素
+			当number是负数,则会返回一个包含number的绝对值的个数元素的数组
+			如果number的绝对值大于元素的个数,则返回的结果集里会出现一个元素出现多次的情况
+			仅提供key参数时,该命令作用类似于SPOP命令, 不同的是SPOP命令会将被选择的随机元素从集合中移除, 
+			而SRANDMEMBER仅仅是返回该随记元素,而不做任何操作.
+		* sdelete(key, member1, member2):
+			在key集合中移除指定的元素
+			如果指定的元素不是key集合中的元素则忽略
+			如果key集合不存在则被视为一个空的集合，该命令返回0.
+			如果key的类型不是一个集合,则返回错误.
+	Unimplement:
+		sdiffstore | sinterstore | smove | sunionstore | sscan
 
 	'''
 
     def sset(self, redis_key, *redis_members):
         return self.redis_client.sadd(redis_key, redis_members)
+
+    def sdiff(self, redis_key, *args):
+    	return self.redis_client.sdiff(redis_key, *args)
+
+    def sinter(self, redis_key, *args):
+    	return self.redis_client.sinter(redis_key, *args)
+
+    def sunion(self, redis_key, *args):
+        return self.redis_client.sunion(redis_key_1, redis_key_2)
+
+    def sexist(self, redis_key, redis_member):
+        return self.redis_client.sismember(redis_key, redis_member)
+
+    def sget_all(self, redis_key):
+        return self.redis_client.smembers(redis_key)
+
+    def smove(self, src, dst, redis_member):
+    	return self.redis_client.smove(src, dst, redis_member)
+
+    def spop(self, redis_key):
+        return self.redis_client.spop(redis_key)
+
+    def srandmember(self, redis_key, number = None):
+    	return self.redis_client.srandmember(redis_key, number)
+
+    def sdelete(self, redis_key, *redis_member):
+        return self.redis_client.srem(redis_key, *redis_member)
 
     def soreted_sset(self, redis_key, *args, **kwargs):
         '''
@@ -204,21 +280,6 @@ class RedisClient(object):
             args.append(kwargs[key])
             args.append(key)
         return self.redis_client.zadd(redis_key, *args)
-
-    def sdelete(self, redis_key, redis_member):
-        return self.redis_client.srem(redis_key, redis_member)
-
-    def spop(self, redis_key):
-        return self.redis_client.spop(redis_key)
-
-    def sexist(self, redis_key, redis_member):
-        return self.redis_client.sismember(redis_key, redis_member)
-
-    def sget_all(self, redis_key):
-        return self.redis_client.smembers(redis_key)
-
-    def union_set(self, redis_key_1, redis_key_2):
-        return self.redis_client.sunion(redis_key_1, redis_key_2)
 
     '''
 	Hashes(可以理解成map或者字典)操作:
