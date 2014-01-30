@@ -40,6 +40,7 @@ class RedisClient(object):
 			获取队列的长度
 			type可选值为`list` | `set`
 	'''
+
     def get_items(self, redis_key, start, end, redis_type='list'):
         '''
         redis_type
@@ -51,12 +52,11 @@ class RedisClient(object):
         elif redis_type == 'sorted_set':
             return self.redis_client.zrange(redis_key, start, end)
 
-    def get_length(self, redis_key, redis_type = 'list'):
+    def get_length(self, redis_key, redis_type='list'):
         if redis_type == 'list':
             return self.redis_client.llen(redis_key)
-        elif redis_type == 'set'
+        elif redis_type == 'set':
             return self.redis_client.scard(redis_key)
-
 
     '''
 	Key-value操作:
@@ -94,10 +94,12 @@ class RedisClient(object):
     def mset(self, *args, **kwargs):
         if len(args) % 2 != 0:
             return False
+        paras = []
+        paras.extend(args)
         for key in kwargs:
-            args.append(kwargs[key])
-            args.append(key)
-        return self.redis_client.mset(*args)
+            paras.append(kwargs[key])
+            paras.append(key)
+        return self.redis_client.mset(*paras)
 
     def set_range(self, redis_key, offset, redis_value):
         return self.redis_client.set_range(redis_key, offset, redis_value)
@@ -119,7 +121,7 @@ class RedisClient(object):
         return self.redis_client.append(redis_key, redis_value)
 
     def incr(self, redis_key, amount=1):
-        if amout < 0:
+        if amount < 0:
             return self.redis_client.decr(redis_key, abs(amount))
         else:
             return self.redis_client.incr(redis_key, amount)
@@ -242,10 +244,10 @@ class RedisClient(object):
         return self.redis_client.sadd(redis_key, redis_members)
 
     def sdiff(self, redis_key, *args):
-    	return self.redis_client.sdiff(redis_key, *args)
+        return self.redis_client.sdiff(redis_key, *args)
 
     def sinter(self, redis_key, *args):
-    	return self.redis_client.sinter(redis_key, *args)
+        return self.redis_client.sinter(redis_key, *args)
 
     def sunion(self, redis_key, *args):
         return self.redis_client.sunion(redis_key_1, redis_key_2)
@@ -257,13 +259,13 @@ class RedisClient(object):
         return self.redis_client.smembers(redis_key)
 
     def smove(self, src, dst, redis_member):
-    	return self.redis_client.smove(src, dst, redis_member)
+        return self.redis_client.smove(src, dst, redis_member)
 
     def spop(self, redis_key):
         return self.redis_client.spop(redis_key)
 
-    def srandmember(self, redis_key, number = None):
-    	return self.redis_client.srandmember(redis_key, number)
+    def srandmember(self, redis_key, number=None):
+        return self.redis_client.srandmember(redis_key, number)
 
     def sdelete(self, redis_key, *redis_member):
         return self.redis_client.srem(redis_key, *redis_member)
@@ -276,10 +278,12 @@ class RedisClient(object):
         '''
         if len(args) % 2 != 0:
             return False
+        paras = []
+        paras.extend(args)
         for key in kwargs:
-            args.append(kwargs[key])
-            args.append(key)
-        return self.redis_client.zadd(redis_key, *args)
+            paras.append(kwargs[key])
+            paras.append(key)
+        return self.redis_client.zadd(redis_key, *paras)
 
     '''
 	Hashes(可以理解成map或者字典)操作:
@@ -290,17 +294,17 @@ class RedisClient(object):
         输入格式为:
                 1. redis_key, redis_map_key1, redis_value1, redis_map_key2, redis_value2....
                 2. redis_key, redis_map_key1 = redis_value1, redis_map_key2 = redis_value2....
-        '''
-        print redis_key
-        print args
+        '''        
         if len(args) % 2 != 0:
             return False
-        for key in kwars:
-            args.append(key)
-            args.append(kwargs[key])
+        paras = []
+        paras.extend(args)
+        for key in kwargs:
+            paras.append(key)
+            paras.append(kwargs[key])
         pipe = self.redis_client.pipeline()
-        for i in range(len(args) / 2):
-            pipe.hset(redis_key, args[2 * i], args[2 * i + 1])
+        for i in range(len(paras) / 2):
+            pipe.hset(redis_key, paras[2 * i], paras[2 * i + 1])
         code = pipe.execute()
         return True if code else False
 
@@ -318,7 +322,7 @@ class RedisClient(object):
         return self.redis_client.hgetall(redis_key)
 
     def hincr(self, redis_key, redis_map_key, amount=1):
-        return self.redis_client.hincyby(redis_key, redis_map_key, amount)
+        return self.redis_client.hincrby(redis_key, redis_map_key, amount)
 
     def hdel(self, redis_key, *redis_map_keys):
         return self.redis_client.hdel(redis_key, *redis_map_keys)

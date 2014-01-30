@@ -1,13 +1,12 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-  
+# -*- coding: utf-8 -*-
 import re
 import os
 from scrapy.exceptions import DropItem
 from PolySpider.util import CategoryUtil
 from PolySpider.util import SqliteUtil
-from PolySpider.sql import App
-from PolySpider.sql import AppDetail
-from PolySpider.sql import Status
+from PolySpider.dao import AppDao
+from PolySpider.dao import StatusDao
 
 '''
 #以下类库分别用于文件上传、下载、apk分析等方面的操作，目前已经完成，但是还不需要使用
@@ -19,75 +18,92 @@ from PolySpider.util import CommonUtil
 from PolySpider.config import Config
 '''
 
-#关于pipeline对item数据的处理，专门撰写了一个文档进行描述，包含了详细的流程图和处理过程
+# 关于pipeline对item数据的处理，专门撰写了一个文档进行描述，包含了详细的流程图和处理过程
+
 
 class PolySpiderPipeline(object):
+
     def process_item(self, item, spider):
         return item
+
+
 class CategorizingPipeline(object):
+
     '''
     执行顺序ID：100
     处理应用的分类的Pipeline~
     '''
-    def process_item(self,item,spider):
-        #判断item是否为空，如果为空，则drop item
-        if not item or item['app_name'] == "":
+
+    def process_item(self, item, spider):
+        # 判断item是否为空，如果为空，则drop item
+        if not item or not item['app_name']:
             raise DropItem(item)
-        #如果category中没有这个类 会报错
-        item['category'] = CategoryUtil.get_category_id_by_name(item['category'].encode('utf8','ignore'))
+        # 如果category中没有这个类 会报错
+        item['category'] = CategoryUtil.get_category_id_by_name(
+            item['category'].encode('utf8', 'ignore'))
         item['DROP_APP'] = False
         item['NEW_APP'] = False
         item['UPDATE_APP'] = False
         return item
+
+
 class CheckAppPipeline(object):
+
     '''
     执行顺序ID：101
-    检查ps_app表中是否存在该App数据
+    检查app中是否存在该App数据
     如果不存在，则记录该App数据
     如果存在，检查author,如果为空，则更新author
     '''
-    def process_item(self,item,spider):
-        SqliteUtil.checkTableExist()
-        app_name = item['app_name']
-        app = App.get_app_by_app_name(app_name)
+
+    def process_item(self, item, spider):
+        app = AppDao.get_app_by_app_name(item['app_name'])
         if not app:
-            #构造分类
-            temp=""
+            # 构造分类
+            temp = ""
             for category in item['category'].split(","):
                 temp = temp + category + ":1,"
-            item['category']=temp[:-1]
-            #插入数据
-            item['app_id'] = App.insert_app(item)
+            item['category'] = temp[:-1]
+            # 插入数据
+            item['app_id'] = AppDao.insert_app(item)
             item['NEW_APP'] = True
         else:
-            app = app[0]
-            item['app_id'] = app[0]
-            item['app_category'] = app[3]
-            #更新分类
-            #判断author是否为空，如果为空，则更新app表
-            if app[2] == "" and item['author'] != "":
-                App.update_app_author(app[0], item['author'])
+            item['app_id'] = app['app_id']
+            item['app_category'] = app['category']
+            # 更新分类
+            # 判断author是否为空，如果为空，则更新app表
+            if app['author'] == "" and item['author'] != "":
+                AppDao.update_app_author(app['app_id'], item['author'])
         return item
 
+
 class CheckAppDetailsPipeline(object):
+
     '''
     执行顺序ID：102
     分析ps_app_detail表中是否存在该App_Detail数据(通过app_id, verison, flatform做唯一标识)
     如果不存在，则记录该App数据
     如果存在，更新一些数据信息，然后将该ItemDrop掉
     '''
-    def process_item(self,item,spider):
-        app_detail = AppDetail.get_app_detail_by_item(item)
-        if not app_detail:
-            #下载Apk | 分析Apk并记录pakage_name | 上传Apk至UpYun
-            self.apk_operation(item)
-            #插入数据
-            AppDetail.insert_app_detail(item)
-        else:
-            #TODO 可能涉及到更新操作-->rating_point | rating_count | download_times | apk_url | cover | 
+
+    def process_item(self, item, spider):
+        app_detail_list = AppDao.get_app_detail_by_app_name(item['app_name'])
+        print 'app_detail_list: ', app_detail_list
+        if app_detail_list == None:
             item['DROP_APP'] = True
+            return item
+        for app_detail in app_detail_list:
+            if app_detail['version'] == item['version'] and app_detail['platform'] == item['platform']:
+                item['DROP_APP'] = True
+                print 'DROP THIS ITEM %s' %item['app_name']
+                break
+        else:
+            if not item['pakage_name']:
+                self.apk_operation(item)
+            print 'INSERT APP DETAIL %s' %item['app_name']
+            AppDao.insert_app_detail(item)
         return item
-        
+
     def apk_operation(self, item):
         '''
         执行顺序ID：102
@@ -117,9 +133,9 @@ class CheckAppDetailsPipeline(object):
         print 'parsing finish'
         '''
         item['pakage_name'] = ''
-        #Done
-        return item
-        
+        # Done
+        return True
+
         '''
         #上传至百度云
         bcs = pybcs.BCS('http://bcs.duapp.com/', Config.BAIDU_AK, Config.BAIDU_SK, pybcs.HttplibHTTPC) 
@@ -139,87 +155,100 @@ class CheckAppDetailsPipeline(object):
         print 'Upload Finish'
         '''
 
+
 class UpdateCategoryPipeline(object):
+
     '''
     执行顺序ID：103
     更新ps_app中的category项
     '''
-    def process_item(self,item,spider):
-        
-        if item['DROP_APP']: return item
+
+    def process_item(self, item, spider):
+
+        if item['DROP_APP']:
+            return item
         if not item['NEW_APP']:
             item['UPDATE_APP'] = True
-            #重新计算category
+            # 重新计算category
             item_category_ids = item['category'].split(",")
             categories = item['app_category'].split(",")
             for item_category_id in item_category_ids:
                 flag = True
                 for index in range(len(categories)):
-                    category = categories[index]#2200:1
-                    app_category_id = category[:category.find(":")]#2200
+                    category = categories[index]  # 2200:1
+                    app_category_id = category[:category.find(":")]  # 2200
                     if app_category_id == item_category_id:
-                        categories[index] = app_category_id + ":" + str(int(category[(category.find(":") + 1):]) + 1)
+                        categories[index] = app_category_id + ":" + str(
+                            int(category[(category.find(":") + 1):]) + 1)
                         flag = False
                         break
                 if flag:
                     categories.append(item_category_id + ":1")
             item['app_category'] = ",".join(self.category_reorder(categories))
 
-            #更新ps_app表的category
-            App.update_app_category(item['app_id'], item['app_category'])
+            # 更新app的category
+            AppDao.update_app_category(item['app_id'], item['app_category'])
         return item
-    
-    def category_reorder(self,categories):
+
+    def category_reorder(self, categories):
         length = len(categories)
-        for i in range(length-1):
-            for j in range(length-i-1):
+        for i in range(length - 1):
+            for j in range(length - i - 1):
                 order_category = categories[j]
-                order_category_value = int(order_category[(order_category.find(":")+1):])
-                cmp_category = categories[j+1]
-                cmp_category_value = int(cmp_category[(cmp_category.find(":")+1):])
+                order_category_value = int(
+                    order_category[(order_category.find(":") + 1):])
+                cmp_category = categories[j + 1]
+                cmp_category_value = int(
+                    cmp_category[(cmp_category.find(":") + 1):])
                 if cmp_category_value > order_category_value:
-                    categories[i],categories[i+1] = categories[i+1],categories[i]
+                    categories[i], categories[
+                        i + 1] = categories[i + 1], categories[i]
         return categories
-                
+
+
 class StatusRecordPipeline(object):
+
     '''
     执行顺序ID：104
-    更新ps_status记录
+    更新Status
     '''
+
     def process_item(self, item, spider):
-        status = Status.get_today_status(item['platform'])
-        data = [(status[3] + 1, status[4] + 1 if item['NEW_APP'] else status[4], status[5] + 1 if item['UPDATE_APP'] else status[5], status[0])]
-        Status.update_status(data)
+        StatusDao.status_incr(item['platform'], 'crawled')
+        if item['NEW_APP']:
+            StatusDao.status_incr(item['platform'], 'new')
+        if item['UPDATE_APP']:
+            StatusDao.status_incr(item['platform'], 'update')
         return item
 
 
-#########################以前版本中对item的一些处理函数，暂时弃用###############################################
+# 以前版本中对item的一些处理函数，暂时弃用###############################################
 #'''
-#执行顺序ID：100
-#判断版本号，根据版本号来判断是否进行后续操作
+# 执行顺序ID：100
+# 判断版本号，根据版本号来判断是否进行后续操作
 #'''
-#class VersionCmpPipeline(object):
+# class VersionCmpPipeline(object):
 #    def process_item(self,item,spider):
 #        con = SqliteUtil.get_conn(Config.get_sqlite_path())
-#        #如果表不存在，则创建表
+# 如果表不存在，则创建表
 #        SqliteUtil.checkAppInfoExist(con)
 #        oldItem = SqliteUtil.getItemByAppName(con,item['app_name'])
 #        if oldItem == []:
 #            print "数据库中无该App记录，执行插入操作"
-#        elif CommonUtil.cmpVersion(oldItem[0][5], item['version']): 
+#        elif CommonUtil.cmpVersion(oldItem[0][5], item['version']):
 #            raise DropItem("Crawled app has been record in databse. No newer version has been found!")
 #        return item
 
 
 #'''
-#执行顺序ID：103
-#数据库插入或者更新操作
+# 执行顺序ID：103
+# 数据库插入或者更新操作
 #'''
-#class DatebasePipeline(object):
+# class DatebasePipeline(object):
 #    def process_item(self,item,spider):
 #        con = SqliteUtil.get_conn(Config.get_sqlite_path())
 #        if SqliteUtil.getItemByAppName(con,item['app_name']) != []:
-#            #更新数据
+# 更新数据
 #            print "数据库更新数据"
 #            sql = '''
 #                UPDATE  app_info SET
@@ -257,7 +286,7 @@ class StatusRecordPipeline(object):
 #                item['platform'],
 #                item['app_name'])]
 #        else:
-#            #插入数据
+# 插入数据
 #            print '数据库插入数据'
 #            sql = '''INSERT INTO app_info values(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)'''
 #            data = [(
@@ -277,7 +306,7 @@ class StatusRecordPipeline(object):
 #                    item['imgs_url'],
 #                    item['apk_size'],
 #                    item['platform'])]
-#                    
+#
 #        SqliteUtil.save_or_update(con, sql, data)
 #        print '数据库操作结束'
 #        return item
