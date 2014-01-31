@@ -4,7 +4,6 @@ import re
 import os
 from scrapy.exceptions import DropItem
 from PolySpider.util import CategoryUtil
-from PolySpider.util import SqliteUtil
 from PolySpider.dao import AppDao
 from PolySpider.dao import StatusDao
 

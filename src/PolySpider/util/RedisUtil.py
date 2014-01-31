@@ -33,12 +33,32 @@ class RedisClient(object):
 
     '''
     Common Operation:
+        * 
 		* get_items(key, start, end, type): 
 			返回列表中start起始，end结束的元素。
 			type可选值为`list` | `sorted_set`
 		* get_length(key,type): 
 			获取队列的长度
-			type可选值为`list` | `set`
+			type可选值为`list` | `set` | `hash`
+        * delete(key1,key2,key3,...): 
+            删除key及所对应的数据。如果删除的key不存在，则直接忽略。
+        * exists(key):
+            返回key是否存在
+        * rename(key, new_key):
+            将key重命名为newkey
+            如果key与newkey相同，将返回一个错误
+            如果newkey已经存在，则值将被覆盖。
+        * type(key):
+            返回 key 所储存的值的类型。
+            none (key不存在)
+            string (字符串)
+            list (列表)
+            set (集合)
+            zset (有序集)
+            hash (哈希表)
+   Unimplement:
+        dump | restore | expire | expireat | keys | migrate | move | object | persist |
+        pexpire | pexpireat | pttl | randomkey | renamenx | ttl | sort | scan
 	'''
 
     def get_items(self, redis_key, start, end, redis_type='list'):
@@ -57,6 +77,21 @@ class RedisClient(object):
             return self.redis_client.llen(redis_key)
         elif redis_type == 'set':
             return self.redis_client.scard(redis_key)
+        elif redis_type == 'hash':
+            return self.redis_client.hlen(redis_key)
+
+    def delete(self, *redis_key):
+        code = self.redis_client.delete(*redis_key)
+        return True if code else False
+
+    def exists(self, redis_key):
+        return self.redis_client.exists(redis_key)
+
+    def rename(self, redis_key, redis_new_key):
+        return self.redis_client.rename(redis_key, redis_new_key)
+
+    def type(self, redis_key):
+        return self.redis_client.type(redis_key)
 
     '''
 	Key-value操作:
@@ -74,8 +109,6 @@ class RedisClient(object):
 			返回给定key的value，key可以输入多个，例如gets(key1,key2,key3.....)
 		* get_range(key,start, end): 
 			获取存储在key上的值的一个子字符串
-		* delete(keys): 
-			删除key及所对应的数据。如果删除的key不存在，则直接忽略。
 		* append(key, value): 
 			如果key已经存在，并且值为字符串，那么这个命令会把value追加到原来值（value）的结尾。 
 			如果 key 不存在，那么它将首先创建一个空字符串的key，再执行追加操作，这种情况 APPEND 将类似于 SET 操作。
@@ -112,10 +145,6 @@ class RedisClient(object):
 
     def get_range(self, redis_key, start, end):
         return self.redis_client.getrange(redis_key, start, end)
-
-    def delete(self, *redis_key):
-        code = self.redis_client.delete(*redis_key)
-        return True if code else False
 
     def append(self, redis_key, redis_value):
         return self.redis_client.append(redis_key, redis_value)
@@ -270,11 +299,24 @@ class RedisClient(object):
     def sdelete(self, redis_key, *redis_member):
         return self.redis_client.srem(redis_key, *redis_member)
 
+    '''
+    Sorted-Set操作:
+        sorted_sset(key, index1, member1, index2, memeber2,...):
+            添加指定的成员到key对应的有序集合中，每个成员都有一个index
+            如果一个指定的成员已经在对应的有序集合中了，那么其分数就会被更新成最新的，并且该成员会重新调整到正确的位置，以确保集合有序
+            如果key不存在，就会创建一个含有这些成员的有序集合，就好像往一个空的集合中添加一样
+            如果key存在，但是它并不是一个有序集合，那么就返回一个错误
+            分数的值必须是一个表示数字的字符串，并且可以是double类型的浮点数。
+    Unimplement:
+        有序集合目前没有相应需求，暂时不提供Redis_client接口
+        ZCARD | ZCOUNT | ZINCRBY | ZINTERSTORE | ZRANGE | ZRANGEBYSCORE | ZRANK | ZREM | ZREMRANGEBYRANK | ZREMRANGEBYSCORE |
+        ZREVRANGE | ZREVRANGEBYSCORE | ZREVRANK | ZSCORE | ZUNIONSTORE | ZSCAN
+    '''
     def soreted_sset(self, redis_key, *args, **kwargs):
         '''
         输入格式为
-                1. redis_key, redis_index1(float), redis_member1, redis_index2, redis_member2....
-                2. redis_key, redis_member1 = redis_index1, redis_member2 = redis_index2....
+            1. redis_key, redis_index1(float), redis_member1, redis_index2, redis_member2....
+            2. redis_key, redis_member1 = redis_index1, redis_member2 = redis_index2....
         '''
         if len(args) % 2 != 0:
             return False
@@ -287,13 +329,44 @@ class RedisClient(object):
 
     '''
 	Hashes(可以理解成map或者字典)操作:
+        hset(key, map_key1, value1, map_key2 = value2, map_key3, value3):
+            设置key指定的哈希集中指定字段map_key的值value
+            如果key指定的哈希集不存在，会创建一个新的哈希集并与 key 关联
+            如果字段map_key在哈希集中存在，value将被覆盖。
+        hset_map(key,dictionary):
+            用法与hset相同，区别在于输入参数为map，可以直接将一个map类型传入进去。
+        hdelete(key,map_key1,map_key2,...):
+            从key指定的哈希集中移除指定的域
+            在哈希集中不存在的域将被忽略
+            如果key指定的哈希集不存在，它将被认为是一个空的哈希集，该命令将返回0。
+        hexists(key,map_key):
+            返回字段map_key是否是key指定的哈希集中存在的字段。
+        hget(key,map_key):
+            返回key指定的哈希集中map_key该字段所关联的值
+        hget_all(key):
+            返回key指定的哈希集中所有的字段和值
+        hincr(key,map_key,amount):
+            增加key指定的哈希集中指定字段map_key的数值
+            如果key不存在，会创建一个新的哈希集并与 key 关联
+            如果字段不存在，则字段的值在该操作执行前被设置为0
+        hincr_float(key,map_key,float_amount):
+            同hincr()，amount为浮点数
+        hkeys(key):
+            获取key指定的哈希集中所有字段
+        hlen(key):
+            获取key制定的哈希集中字段的长度
+        hvals(key):
+            返回key指定的哈希集中所有字段的值
+    Unimplement:
+        hmget | hsetnx
+
 	'''
 
     def hset(self, redis_key, *args, **kwargs):
         '''
         输入格式为:
-                1. redis_key, redis_map_key1, redis_value1, redis_map_key2, redis_value2....
-                2. redis_key, redis_map_key1 = redis_value1, redis_map_key2 = redis_value2....
+            1. redis_key, redis_map_key1, redis_value1, redis_map_key2, redis_value2....
+            2. redis_key, redis_map_key1 = redis_value1, redis_map_key2 = redis_value2....
         '''        
         if len(args) % 2 != 0:
             return False
@@ -315,6 +388,12 @@ class RedisClient(object):
         code = pipe.execute()
         return True if code else False
 
+    def hdelete(self, redis_key, *redis_map_keys):
+        return self.redis_client.hdel(redis_key, *redis_map_keys)
+
+    def hexists(self, redis_key, redis_map_key):
+        return self.redis_client.hexists(redis_key, redis_map_key)
+
     def hget(self, redis_key, redis_map_key):
         return self.redis_client.hget(redis_key, redis_map_key)
 
@@ -324,5 +403,31 @@ class RedisClient(object):
     def hincr(self, redis_key, redis_map_key, amount=1):
         return self.redis_client.hincrby(redis_key, redis_map_key, amount)
 
-    def hdel(self, redis_key, *redis_map_keys):
-        return self.redis_client.hdel(redis_key, *redis_map_keys)
+    def hincr_float(self, redis_key, redis_map_key, float_amount = 1.0):
+        return self.redis_client.hincrbyfloat(redis_key, redis_map_key, float_amount)
+
+    def hkeys(self, redis_key):
+        return self.redis_client.hkeys(redis_key)
+
+    def hlen(self, redis_key):
+        return self.redis_client.hlen(redis_key)
+
+    def hvals(self, redis_key):
+        return self.redis_client.hvals(redis_key)
+
+
+    '''
+    other unimplement commands:
+        pub/sub:
+            psubscribe | pubsub | publish | punsubscribe | subscribe | unsubscribe
+        transaction:
+            discard | exec | multi | unwatch | watch
+        scripting:
+            eval | evalsha | script_exists | script_flush | script_kill | script_load
+        connection:
+            auth | echo | ping | quit | select
+        server：
+            bgrewriteaof | bgsave | client kill | client list | client getname | client setname | config get |
+            config rewrite | config set | config resetstat | dbsize | debug object | debug segfault | flushall |
+            flushdb | info | lastsave | monitor | save | shutdown | slaveof | slowlog | sync | time
+    '''
