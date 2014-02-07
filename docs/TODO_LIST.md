@@ -6,7 +6,6 @@
 ## Spider
 [AppStoreList]中详细分析了目前国内android应用商店的具体情况、特点和访问方式。通过其逐步添加针对性的spider。
 
-*   [Google Paly China]：TODO
 *   [应用宝]：TODO
 *   [拇指玩]：TODO
 *   [机锋市场]：TODO
@@ -14,7 +13,7 @@
 
 ## Dynamic Content Grabbing
 Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载和执行js文件，导致动态请求内容无法获取。为了实现爬虫对于动态请求的抓取，需要模拟浏览器行为来实现爬虫对于多种类型网页的抓取工作。
-* [Selenium]
+*	[Selenium]
 *	[ScrapyJS]
 *	[Python Webkit]
 
@@ -77,7 +76,7 @@ Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载�
 *	UrlLengthMiddleware
 
 ###__init __.py
-* 了解及利用，完成相应的初始化
+*	了解及利用，完成相应的初始化
 
 ###from ... import ...
 *	规范用法
