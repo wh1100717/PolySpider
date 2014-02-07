@@ -87,12 +87,11 @@ class CheckAppDetailsPipeline(object):
 
     def process_item(self, item, spider):
         app_detail_list = AppDao.get_app_detail_by_app_name(item['app_name'])
-        print 'app_detail_list: ', app_detail_list
         if app_detail_list == None:
             item['DROP_APP'] = True
             return item
         for app_detail in app_detail_list:
-            if app_detail['version'] == item['version'] and app_detail['platform'] == item['platform']:
+            if str(app_detail['version']) == item['version'] and app_detail['platform'] == item['platform']:
                 item['DROP_APP'] = True
                 print 'DROP THIS ITEM %s' %item['app_name']
                 break

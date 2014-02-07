@@ -105,3 +105,37 @@ google_play={
     'apk_size' :'//*[@itemprop="fileSize"]/text()',
     'imgs_url' :'//*[@class="thumbnails"]/img/@src'
 }
+gfan={
+    'apk_url' :'//*[@id="computerLoad"]/@href',
+    'pakage_name' : "",
+    'app_name' :'//*[@class="curr-tit"]/text()',
+    'cover' :'//*[@class="app-view png"]/@src',
+    'version' :'//*[@class="app-info"]/p[1]/text()',
+    'rating_point' :'//*[@class="app-marking png"]/text()',
+    'rating_count' :'//*[@class="marking-tips"]/text()',
+    'category' :'//*[@class="curr-site"]/text()',
+    'android_version' :'//*[@class="app-info"]/p[6]/text()',
+    'download_times' :'',
+    'author' :'//*[@class="app-info"]/p[2]/text()',
+    'last_update' :'//*[@class="app-info"]/p[3]/text()',
+    'description' :'//*[@class="app-intro"]/text()',
+    'apk_size' :'//*[@class="app-info"]/p[4]/text()',
+    'imgs_url' :'//*[@class="simg"]/@src'
+}
+muzhiwan={
+    'apk_url' :'//*[@class="local"]/@href',
+    'pakage_name' : '//*[@name="package"]/@value',
+    'app_name' :'//*[@class="game_name"]/h1/text()',
+    'cover' :'//*[@class="game_icon"]/img/@src',
+    'version' :'//*[@id="gameVersion"]/text()',
+    'rating_point' :'',
+    'rating_count' :'//*[@id="commentTitle"]/span/text()',
+    'category' :'//*[@class="clear"]/ul/li/a[@target="_blank"]/text()',
+    'android_version' :'//*[@class="clear"]/ul/li[8]/text()',
+    'download_times' :'//*[@class="clear"]/ul/li/span[@id="downCount"]/text()',
+    'author' :'//*[@class="clear"]/ul/li/a[@rel="nofollow"]/text()',
+    'last_update' :'//*[@class="clear"]/ul/li[5]/text()',
+    'description' :'//*[@itemprop="description"]/text()',
+    'apk_size' :'//*[@class="clear"]/ul/li[2]/text()',
+    'imgs_url' :'//*[@itemprop="screenshot"]/@src'
+}

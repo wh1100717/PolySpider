@@ -29,7 +29,9 @@ def get_app_by_app_name(app_name):
     if not app_id:
         return None
     else:
-        return redis_client.hget_all('app::' + str(app_id))
+        tmp=eval(redis_client.get_items('app',app_id,app_id)[0])
+        tmp['app_id']=app_id
+        return tmp
 
 
 def get_app_detail_by_app_name(app_name):
@@ -38,15 +40,24 @@ def get_app_detail_by_app_name(app_name):
     if not app_id:
         return None
     else:
-        app_detail = redis_client.hget('app::' + app_id, 'app_detail')
+        tmp=eval(redis_client.get_items('app',app_id,app_id)[0])
+        app_detail=tmp.get('app_detail')
         return app_detail if app_detail else []
 
 
 def insert_app(item):
     app_id = redis_client.incr('app_id')
     print "app_id : %d" % app_id
+    while redis_client.get_length('app')<=app_id:
+        redis_client.rpush('app',0)
+    else:
+        tmp={'app_name':item['app_name'],'author':item['author'], 'category':item['category']}
+        print tmp
+        print redis_client.get_length('app')
+        redis_client.lset('app',app_id,tmp)
+        
     print redis_client.hset('app::index', item['app_name'], app_id)
-    print redis_client.hset('app::' + str(app_id), app_id=app_id, app_name=item['app_name'], author=item['author'], category=item['category'])
+    #print redis_client.hset('app::' + str(app_id), app_id=app_id, app_name=item['app_name'], author=item['author'], category=item['category'])
     return app_id
 
 
@@ -70,28 +81,36 @@ def insert_app_detail(item):
         'imgs_url': item['imgs_url'],
         'last_update': item['last_update']
     }
-    app_detail = redis_client.hget('app::' + str(item['app_id']), 'app_detail')
-    if app_detail:
-        app_detail.append(app_detail_map)
-    else:
-        app_detail = [app_detail_map]
-    redis_client.hset('app::' + str(item['app_id']), app_detail=app_detail)
-
+    #app_detail = redis_client.hget('app::' + str(item['app_id']), 'app_detail')
+    tmp=eval(redis_client.get_items('app',item['app_id'],item['app_id'])[0])
+    tmp=dict(tmp,**app_detail_map)
+#    if app_detail:
+#        app_detail.append(app_detail_map)
+#    else:
+#        app_detail = [app_detail_map]
+#    redis_client.hset('app::' + str(item['app_id']), app_detail=app_detail)
+    print redis_client.set_item('app',item['app_id'],tmp)
 
 def update_app_author(app_id, author):
     '''
     ##更新app中的作者信息
     *   input: id | author
     '''
-    print redis_client.hset('app::' + str(app_id), author=author)
-
+    #print redis_client.hset('app::' + str(app_id), author=author)
+    
+    tmp=eval(redis_client.get_items('app',app_id,app_id)[0])
+    tmp['author']=author
+    print redis_client.set_item('app',app_id,tmp)
+    
 
 def update_app_category(app_id, category):
     '''
     ##更新app中的分类信息
     *   input: id | category
     '''
-    print redis_client.hset('app::' + str(app_id), category=category)
+    tmp=eval(redis_client.get_items('app',app_id,app_id)[0])
+    tmp['category']=category
+    print redis_client.set_item('app',app_id,tmp)
 
 
 def update_app_detail(app_id, app_detail):
