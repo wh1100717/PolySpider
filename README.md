@@ -49,6 +49,7 @@ Supervisor is a client/server system that allows its users to control a number o
 *	[BaiduApp]
 *	[Hiapk安卓市场]
 *	[XiaomiApp]
+*	[GooglePlay]
 
 
 [AppStar]: http://www.appstar.com.cn/
@@ -56,6 +57,7 @@ Supervisor is a client/server system that allows its users to control a number o
 [BaiduApp]: http://as.baidu.com/
 [Hiapk安卓市场]: http://apk.hiapk.com/
 [XiaomiApp]: http://app.xiaomi.com/
+[GooglePlay]: https://play.google.com/store
 
 [Python]: http://www.python.org/
 [Scrapy]: http://www.scrapy.org/
