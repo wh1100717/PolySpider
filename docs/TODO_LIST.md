@@ -17,12 +17,11 @@ Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载�
 *	[ScrapyJS]
 *	[Python Webkit]
 
-## DB Problems
-*	目前使用的是sqlite3，需要解决database locked问题
-*	除了默认配置的sqlite3以外，打算添加mysql和mongodb作为备选可用数据库支持
+## Reids
+*	服务器配置
+*	Redis持久化策略
 
 ## Categorizing
-*	目前采用的91助手的分类策略，需要更改为google play的分类策略
 *	增加前台用户直接更改某个应用的分类功能
 *	增加分类查询、修改等各种接口
 
@@ -32,9 +31,7 @@ Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载�
 *	实现前端页面实时显示日志内容
 
 ## Ban&Proxy Strategy
-* 	通过改变cookie
-* 	通过middleware，不停的变user-aget
-* 	更改访问时间等方法
+*	IP动态更改
 
 ## PEP8
 项目需要统一代码格式和规范，而实际上PEP8提供了Python的代码规范格式说明和相应的规范检查工具。
