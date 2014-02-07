@@ -18,19 +18,6 @@ def get_base_path():
     sys.path.append(base_path)
     return base_path
 
-
-def get_sqlite_path():
-    '''
-    ##获取数据库路径
-    *   win系统和Linux路径不同，做个判断，app.db放在base_pat下
-    '''
-    if "win" in sys.platform:
-        return get_base_path() + "\\" + "app.db"
-    else:
-        return get_base_path() + "/" + "app.db"
-
-SHOW_SQL = False  # True则会在控制台显示详细的SQL查询
-
 REDIS = {
     'host':'localhost',
     'password':'',
