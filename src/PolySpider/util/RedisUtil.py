@@ -162,6 +162,8 @@ class RedisClient(object):
 			下标是从0开始索引的，所以0是表示第一个元素，1表示第二个元素，并以此类推。
 			负数索引用于指定从列表尾部开始索引的元素。
 			在这种方法下，-1表示最后一个元素，-2表示倒数第二个元素，并以此往前推。
+        * get_items_with_index_list(key, list_of_index):
+            返回List，list中包含列表里index位置存储值。
 		* insert_item(key,refvalue,value,where): 
 			把value插入存于key的列表中在基准值refvalue的前面或后面。
 			where为'before'或'after', 默认为'after'
@@ -198,6 +200,13 @@ class RedisClient(object):
     def get_item(self, redis_key, redis_index):
         return self.redis_client.lindex(redis_key, redis_index)
 
+    def get_items_with_index_list(self, redis_key, redis_index_list):
+        pipe = self.redis_client.pipeline()
+        items = []
+        for redis_index in redis_index_list:
+            pipe.lindex(redis_key, redis_index)
+        return pipe.execute()
+  
     def insert_item(self, redis_key, refvalue, redis_value, where='after'):
         return self.redis_client.linsert(redis_key, where, refvalue, redis_value)
 
