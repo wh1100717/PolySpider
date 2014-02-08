@@ -56,8 +56,11 @@ class RedisClient(object):
             set (集合)
             zset (有序集)
             hash (哈希表)
+        * keys(pattern)
+            返回符合pattern的keys
+
    Unimplement:
-        dump | restore | expire | expireat | keys | migrate | move | object | persist |
+        dump | restore | expire | expireat | migrate | move | object | persist |
         pexpire | pexpireat | pttl | randomkey | renamenx | ttl | sort | scan
 	'''
 
@@ -92,6 +95,9 @@ class RedisClient(object):
 
     def type(self, redis_key):
         return self.redis_client.type(redis_key)
+
+    def keys(self, pattern = '*'):
+        return self.redis_client.keys(pattern)
 
     '''
 	Key-value操作:
