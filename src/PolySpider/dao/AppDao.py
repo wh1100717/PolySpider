@@ -18,6 +18,9 @@ app::(id):
     Note: map_key --> detail中存放的是app的细节信息，以数组的项来存储，每一项以哈希的形式存储
 '''
 
+def get_app_detail_by_app_id(app_id):
+    return eval(redis_client.get_item('app::data',app_id)) if app_id else None
+
 
 def get_app_by_app_name(app_name):
     '''
@@ -26,43 +29,24 @@ def get_app_by_app_name(app_name):
     *   output: app(dictionary)
     '''
     app_id = redis_client.hget('app::index', app_name.encode('utf-8'))
-    if not app_id:
-        return None
-    else:
-        new_app=eval(redis_client.get_item('app::data',app_id))
-        new_app['app_id']=app_id
-        return new_app
-
-
-def get_app_detail_by_app_name(app_name):
-    app_id = redis_client.hget('app::index', app_name.encode('utf-8'))
-    print 'app_id : %s' %app_id
-    if not app_id:
-        return None
-    else:
-        new_app=eval(redis_client.get_item('app::data',app_id))
-        app_detail=new_app.get('app_detail')
-        return app_detail if app_detail else []
+    return get_app_detail_by_app_id(app_id)
 
 
 def insert_app(item):
     app_id = redis_client.incr('app::amount')
-    print "app::amount : %d" % app_id
     while redis_client.get_length('app::data')<=app_id:
         redis_client.push_items('app::data',0)
     else:
         new_app = {
+            'app_id': app_id,
             'app_name':item['app_name'],
             'author':item['author'],
             'category':item['category'],
             'app_detail':[]
             }
-        print new_app
-        print redis_client.get_length('app::data')
         redis_client.set_item('app::data',app_id,new_app)
         
-    print redis_client.hset('app::index', item['app_name'], app_id)
-    #print redis_client.hset('app::' + str(app_id), app_id=app_id, app_name=item['app_name'], author=item['author'], category=item['category'])
+    redis_client.hset('app::index', item['app_name'], app_id)
     return app_id
 
 
@@ -111,7 +95,3 @@ def update_app_category(app_id, category):
     new_app=eval(redis_client.get_item('app::data',app_id))
     new_app['category']=category
     print redis_client.set_item('app::data',app_id,new_app)
-
-
-def update_app_detail(app_id, app_detail):
-    print redis_client.hset('app::' + str(app_id), app_detail=app_detail)
