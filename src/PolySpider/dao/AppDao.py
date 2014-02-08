@@ -29,9 +29,9 @@ def get_app_by_app_name(app_name):
     if not app_id:
         return None
     else:
-        tmp=eval(redis_client.get_items('app',app_id,app_id)[0])
-        tmp['app_id']=app_id
-        return tmp
+        new_app=eval(redis_client.get_item('app::data',app_id))
+        new_app['app_id']=app_id
+        return new_app
 
 
 def get_app_detail_by_app_name(app_name):
@@ -40,16 +40,16 @@ def get_app_detail_by_app_name(app_name):
     if not app_id:
         return None
     else:
-        tmp=eval(redis_client.get_items('app',app_id,app_id)[0])
-        app_detail=tmp.get('app_detail')
+        new_app=eval(redis_client.get_item('app::data',app_id))
+        app_detail=new_app.get('app_detail')
         return app_detail if app_detail else []
 
 
 def insert_app(item):
     app_id = redis_client.incr('app::amount')
     print "app::amount : %d" % app_id
-    while redis_client.get_length('app')<=app_id:
-        redis_client.push_item('app',0)
+    while redis_client.get_length('app::data')<=app_id:
+        redis_client.push_items('app::data',0)
     else:
         new_app = {
             'app_name':item['app_name'],
@@ -58,8 +58,8 @@ def insert_app(item):
             'app_detail':[]
             }
         print new_app
-        print redis_client.get_length('app')
-        redis_client.set_item('app',app_id,new_app)
+        print redis_client.get_length('app::data')
+        redis_client.set_item('app::data',app_id,new_app)
         
     print redis_client.hset('app::index', item['app_name'], app_id)
     #print redis_client.hset('app::' + str(app_id), app_id=app_id, app_name=item['app_name'], author=item['author'], category=item['category'])
@@ -81,12 +81,12 @@ def insert_app_detail(item):
         'rating_point': item['rating_point'],
         'rating_count': item['rating_count'],
         'android_version': item['android_version'],
-        'download_times': item['download_times'],a
+        'download_times': item['download_times'],
         'description': item['description'],
         'imgs_url': item['imgs_url'],
         'last_update': item['last_update']
     }
-    app = eval(redis_client.get_item('app::data', item['app_id']))a
+    app = eval(redis_client.get_item('app::data', item['app_id']))
     if app:
         app['app_detail'].append(app_detail_map)
         print redis_client.set_item('app::data',item['app_id'],app)
@@ -98,9 +98,9 @@ def update_app_author(app_id, author):
     '''
     #print redis_client.hset('app::' + str(app_id), author=author)
     
-    tmp=eval(redis_client.get_items('app',app_id,app_id)[0])
-    tmp['author']=author
-    print redis_client.set_item('app',app_id,tmp)
+    new_app=eval(redis_client.get_item('app::data',app_id))
+    new_app['author']=author
+    print redis_client.set_item('app::data',app_id,new_app)
     
 
 def update_app_category(app_id, category):
@@ -108,9 +108,9 @@ def update_app_category(app_id, category):
     ##更新app中的分类信息
     *   input: id | category
     '''
-    tmp=eval(redis_client.get_items('app',app_id,app_id)[0])
-    tmp['category']=category
-    print redis_client.set_item('app',app_id,tmp)
+    new_app=eval(redis_client.get_item('app::data',app_id))
+    new_app['category']=category
+    print redis_client.set_item('app::data',app_id,new_app)
 
 
 def update_app_detail(app_id, app_detail):
