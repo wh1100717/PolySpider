@@ -46,15 +46,20 @@ def get_app_detail_by_app_name(app_name):
 
 
 def insert_app(item):
-    app_id = redis_client.incr('app_id')
-    print "app_id : %d" % app_id
+    app_id = redis_client.incr('app::amount')
+    print "app::amount : %d" % app_id
     while redis_client.get_length('app')<=app_id:
-        redis_client.rpush('app',0)
+        redis_client.push_item('app',0)
     else:
-        tmp={'app_name':item['app_name'],'author':item['author'], 'category':item['category']}
-        print tmp
+        new_app = {
+            'app_name':item['app_name'],
+            'author':item['author'],
+            'category':item['category'],
+            'app_detail':[]
+            }
+        print new_app
         print redis_client.get_length('app')
-        redis_client.lset('app',app_id,tmp)
+        redis_client.set_item('app',app_id,new_app)
         
     print redis_client.hset('app::index', item['app_name'], app_id)
     #print redis_client.hset('app::' + str(app_id), app_id=app_id, app_name=item['app_name'], author=item['author'], category=item['category'])
@@ -76,20 +81,15 @@ def insert_app_detail(item):
         'rating_point': item['rating_point'],
         'rating_count': item['rating_count'],
         'android_version': item['android_version'],
-        'download_times': item['download_times'],
+        'download_times': item['download_times'],a
         'description': item['description'],
         'imgs_url': item['imgs_url'],
         'last_update': item['last_update']
     }
-    #app_detail = redis_client.hget('app::' + str(item['app_id']), 'app_detail')
-    tmp=eval(redis_client.get_items('app',item['app_id'],item['app_id'])[0])
-    tmp=dict(tmp,**app_detail_map)
-#    if app_detail:
-#        app_detail.append(app_detail_map)
-#    else:
-#        app_detail = [app_detail_map]
-#    redis_client.hset('app::' + str(item['app_id']), app_detail=app_detail)
-    print redis_client.set_item('app',item['app_id'],tmp)
+    app = eval(redis_client.get_item('app::data', item['app_id']))a
+    if app:
+        app['app_detail'].append(app_detail_map)
+        print redis_client.set_item('app::data',item['app_id'],app)
 
 def update_app_author(app_id, author):
     '''

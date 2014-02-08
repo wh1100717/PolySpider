@@ -205,15 +205,10 @@ class RedisClient(object):
         return self.redis_client.lset(redis_key, redis_index, redis_value)
 
     def push_items(self, redis_key, *redis_values):
-        return self.redis_client.rpush(redis_key, *redis_value)
-#我添加的别的方法不好使
-    def rpush(self, redis_key, redis_value):
-        return self.redis_client.rpush(redis_key, redis_value)
-    def lset(self, redis_key, redis_index, redis_value):
-        return self.redis_client.lset(redis_key, redis_index, redis_value)
-#-----------------------
+        return self.redis_client.rpush(redis_key, *redis_values)
+
     def lpush_items(self, redis_key, *redis_values):
-        return self.redis_client.lpush(redis_key, *redis_value)
+        return self.redis_client.lpush(redis_key, *redis_values)
 
     def push_list(self, redis_key, redis_list):
         return self.redis_client.rpush(redis_key, *redis_list)
