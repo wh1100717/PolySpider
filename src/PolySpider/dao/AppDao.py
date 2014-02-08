@@ -21,6 +21,10 @@ app::data:
 def get_app_by_app_id(app_id):
     return eval(redis_client.get_item('app::data',app_id)) if app_id else None
 
+def get_app_detail_by_app_name(app_name):
+    app_id = redis_client.hget('app::index', app_name.encode('utf-8'))
+    return get_app_by_app_id(app_id)['app_detail']
+
 
 def get_app_by_app_name(app_name):
     '''
@@ -45,7 +49,15 @@ def insert_app(item):
             'app_detail':[]
             }
         redis_client.set_item('app::data',app_id,new_app)
-        
+    new_categorys=item['category'].split(',')
+    for new_category in new_categorys:
+        category_set= redis_client.hget('app::category',str(new_category.split(':')[0]))
+        if category_set:
+            category_set=eval(category_set)
+            category_set.add(app_id)
+            redis_client.hset('app::category',str(new_category.split(':')[0]),category_set)
+        else:
+            redis_client.hset('app::category',str(new_category.split(':')[0]),set([app_id]))
     redis_client.hset('app::index', item['app_name'], app_id)
     return app_id
 
@@ -94,4 +106,9 @@ def update_app_category(app_id, category):
     '''
     new_app=eval(redis_client.get_item('app::data',app_id))
     new_app['category']=category
+    new_categorys=category.split(',')
+    for new_category in new_categorys:
+        category_set=eval(redis_client.hget('app::categroy',str(new_category.split(':')[0])))
+        category_set.add(app_id)
+        redis_client.hset('app::category',str(new_category.split(':')[0]),category_set)
     print redis_client.set_item('app::data',app_id,new_app)

@@ -202,7 +202,6 @@ class RedisClient(object):
 
     def get_items_with_index_list(self, redis_key, redis_index_list):
         pipe = self.redis_client.pipeline()
-        items = []
         for redis_index in redis_index_list:
             pipe.lindex(redis_key, redis_index)
         return pipe.execute()
@@ -279,7 +278,7 @@ class RedisClient(object):
 	'''
 
     def sset(self, redis_key, *redis_members):
-        return self.redis_client.sadd(redis_key, redis_members)
+        return self.redis_client.sadd(redis_key, *redis_members)
 
     def sdiff(self, redis_key, *args):
         return self.redis_client.sdiff(redis_key, *args)
