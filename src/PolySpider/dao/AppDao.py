@@ -7,18 +7,18 @@ redis_client = RedisUtil.RedisClient()
 '''
 app::index:
 	存储格式为key-map_key-value
-		key --> app_index
+		key --> app::index
 		map_key --> app_name
 		value --> app_id
-app::(id):
-	存储格式为key-map_key-value
-		key --> app::(id)
-		map_key --> app_id | app_name | author | category | app_detail
-		value --> 举例： 0 | '微信' | '腾讯' | '2001:1' | [{},{},...]
-    Note: map_key --> detail中存放的是app的细节信息，以数组的项来存储，每一项以哈希的形式存储
+app::data:
+	存储格式为key-index-value
+		key --> app::data
+		map_key --> app_id 
+		value --> 举例： 'app_id':0,'app_name':'QQ','author':'Tencent','category':'社交','app_detail':[{},{}]
+   
 '''
 
-def get_app_detail_by_app_id(app_id):
+def get_app_by_app_id(app_id):
     return eval(redis_client.get_item('app::data',app_id)) if app_id else None
 
 
@@ -26,10 +26,10 @@ def get_app_by_app_name(app_name):
     '''
     ##根据app_name来获取app record
     *   input: app_name
-    *   output: app(dictionary)
+    *   output: app::data()
     '''
     app_id = redis_client.hget('app::index', app_name.encode('utf-8'))
-    return get_app_detail_by_app_id(app_id)
+    return get_app_by_app_id(app_id)
 
 
 def insert_app(item):
