@@ -18,6 +18,17 @@ Python(v2.7) and Scrapy(v0.20.2) are used in this project, which is mainly desig
 4.	[Core Functionalities]
 5.	[Tips]
 
+## Branch Descirption
+* master branch
+
+    >the latest stable version, which can be currently used in Poly Project. NEVER EVER straightly commit codes in MASTER branch.
+* develop branch
+
+    >the developing unstable version. team contributors should take code imporvement in this branch. If the project in develop branch comes to a stable level and meets the product requirement. The MASTER branch will merge the pull request from develop branch and release a stable branch version.
+* stable branch
+
+    >we use `numbers` like `0.1`, `0.3`, `1.0` as a stable release from this project.
+
 ## Usage
 ###Run Single Spider
 1.	Step into `PolySpider/src/` directory
