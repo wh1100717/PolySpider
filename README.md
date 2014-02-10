@@ -29,6 +29,10 @@ Python(v2.7) and Scrapy(v0.20.2) are used in this project, which is mainly desig
 
     >we use `numbers` like `0.1`, `0.3`, `1.0` as a stable release from this project.
 
+* gh-pages branch
+
+    >static resources and website page
+
 ## Usage
 ###Run Single Spider
 1.	Step into `PolySpider/src/` directory
