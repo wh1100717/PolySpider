@@ -26,14 +26,18 @@ class XiaomiSpider(BaseSpider):
         其应用详细页的格式为 http://app.xiaomi.com/detail/1127
         所以利用循环分别构造带有相应url的请求，并利用yield返回给Scrapy进行内容抓取，response利用parse_app来纪念性处理和解析
         '''
-        for i in range(1,1 + Config.APPSTAR_MAX_APPS):
-            req = Request(url="http://app.xiaomi.com/detail/"+str(i),callback = self.parse_app)
+        count = 1
+        while True:
+            if count >  Config.XIAOMI_MAX_APPS: break
+            req = Request(url="http://app.xiaomi.com/detail/"+str(count),callback = self.parse_app)
+            count += 1
             yield req
-    def parse_app(self, response):	
+    def parse_app(self, response):
         sel = Selector(response)
         item= AppItem()
         xiaomi = SpiderConfig.xiaomi
         if sel.xpath(xiaomi['app_name']).extract() == []:
+            
             raise DropItem(item)
         print "Grabing Start：%s" % response.url
         # 根据SpiderConfig中的xpath配置进行抓取数据

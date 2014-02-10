@@ -130,7 +130,7 @@ muzhiwan={
     'version' :'//*[@id="gameVersion"]/text()',
     'rating_point' :'',
     'rating_count' :'//*[@id="commentTitle"]/span/text()',
-    'category' :'//*[@class="clear"]/ul/li/a[@target="_blank"]/text()',
+    'category' :'//*[@class="clear"]/ul/li/a[contains(@href,"category")]/text()',
     'android_version' :'//*[@class="clear"]/ul/li[8]/text()',
     'download_times' :'//*[@class="clear"]/ul/li/span[@id="downCount"]/text()',
     'author' :'//*[@class="clear"]/ul/li/a[@rel="nofollow"]/text()',

@@ -25,8 +25,26 @@ REDIS = {
     'db':0
 }
 
+'''
+    ##Tor+polipo
+    ###安装polipo步骤：
+    *   1. `git clone git://git.wifi.pps.univ-paris-diderot.fr/polipo` 下载最新源码
+    *   2. 执行`make all`
+            >可能会报错，说`makeinfo命令未找到`，需要安装依赖库`yum install texinfo`
+    *   3. 执行`su -c 'make install'`
+    *   4. 利用`man polipo`查看命令帮助
+    *   5. 执行`polipo &` 启动polipo
+    HTTP_PROXY为polipo端口，在polipo的/etc/polipo/config文件配置Tor端口`socksParentProxy = localhost:9050`
+    在Util中添加TorUtil
+    在Setting中的DOWNLOADER_MIDDLEWARES添加TorUtil下的ProxyMiddleware
+    在服务器启动Tor和polipo服务
+    由于国内对Tor墙掉了 导致这一部分无法进行 所以暂时搁置
+    
+'''
+HTTP_PROXY = 'http://127.0.0.1:8123'
 # App Star Constant
 APPSTAR_MAX_APPS = 3000
+XIAOMI_MAX_APPS = 56000
 
 BAIDU_YUN = {
     '''

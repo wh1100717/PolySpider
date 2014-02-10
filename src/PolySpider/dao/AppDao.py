@@ -108,7 +108,8 @@ def update_app_category(app_id, category):
     new_app['category']=category
     new_categorys=category.split(',')
     for new_category in new_categorys:
-        category_set=eval(redis_client.hget('app::categroy',str(new_category.split(':')[0])))
+        category_set= redis_client.hget('app::category',str(new_category.split(':')[0]))
+        category_set=eval(category_set)
         category_set.add(app_id)
         redis_client.hset('app::category',str(new_category.split(':')[0]),category_set)
     print redis_client.set_item('app::data',app_id,new_app)

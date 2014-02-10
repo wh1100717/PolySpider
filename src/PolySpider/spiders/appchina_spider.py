@@ -6,8 +6,6 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import Selector
 from PolySpider.items import AppItem
 from PolySpider.config import SpiderConfig
-from scrapy.exceptions import DropItem
-
 from PolySpider.util import CommonUtil
 
 
@@ -32,8 +30,7 @@ class AppChinaSpider(CrawlSpider):
         sel = Selector(response)
         item = AppItem()
         app_china = SpiderConfig.app_china
-        if sel.xpath(app_china['app_name']).extract() == []:
-            raise DropItem(item)
+        
         print "Grabing Start：%s" % response.url
         # 根据SpiderConfig中的xpath配置进行抓取数据
         for key in app_china:

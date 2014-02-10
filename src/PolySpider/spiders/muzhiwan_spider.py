@@ -16,7 +16,7 @@ class MZWSpider(CrawlSpider):
         "http://www.muzhiwan.com/wangyou/fenlei/"
     ]
     rules = [
-        Rule(SgmlLinkExtractor(allow=('muzhiwan.com/\b[^//]+.html', )),callback='parse_app',follow=True),
+        Rule(SgmlLinkExtractor(allow=('muzhiwan\.com/[^/]*\.html$', )),callback='parse_app',follow=True),
         Rule(SgmlLinkExtractor(allow=('category/\d.*/','-0-0-\d.*')), follow = True),
     ]
     def parse_app(self, response):
