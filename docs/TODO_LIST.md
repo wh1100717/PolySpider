@@ -6,20 +6,16 @@
 ## Spider
 [AppStoreList]中详细分析了目前国内android应用商店的具体情况、特点和访问方式。通过其逐步添加针对性的spider。
 
-*   [应用宝]：TODO
-*   [拇指玩]：TODO
-*   [机锋市场]：TODO
-*   [360手机助手]: TODO
+*   [应用宝]：No pakage name provided
+*   [机锋市场]：No pakage name provided
+*   [360手机助手]: No pakage name provided
 
 ## Dynamic Content Grabbing
 Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载和执行js文件，导致动态请求内容无法获取。为了实现爬虫对于动态请求的抓取，需要模拟浏览器行为来实现爬虫对于多种类型网页的抓取工作。
 *	[Selenium]
 *	[ScrapyJS]
+*	[splash]*
 *	[Python Webkit]
-
-## Reids
-*	服务器配置
-*	Redis持久化策略
 
 ## Categorizing
 *	增加前台用户直接更改某个应用的分类功能
@@ -31,7 +27,7 @@ Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载�
 *	实现前端页面实时显示日志内容
 
 ## Ban&Proxy Strategy
-*	IP动态更改
+*	IP动态更改： 目前尝试了tor+polipo， tor在启动项目的时候卡在5% connecting directory service. 应该是国内网络被墙的缘故，目前没有时间找出比较好的方案，暂时搁置。
 
 ## PEP8
 项目需要统一代码格式和规范，而实际上PEP8提供了Python的代码规范格式说明和相应的规范检查工具。
@@ -88,6 +84,7 @@ Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载�
 [Selenium]:http://www.seleniumhq.org/
 [ScrapyJS]:https://github.com/scrapinghub/scrapyjs
 [Python Webkit]: http://www.gnu.org/software/pythonwebkit/
+[splash]: https://github.com/scrapinghub/splash
 
 [非阻塞式编程方式]:http://cnodejs.org/topic/4f50dd9798766f5a610b808a
 [Tornado]:http://www.tornadoweb.org/en/stable/
