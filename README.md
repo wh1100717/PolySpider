@@ -29,6 +29,10 @@ Python(v2.7) and Scrapy(v0.20.2) are used in this project, which is mainly desig
 
     >we use `numbers` like `0.1`, `0.3`, `1.0` as a stable release from this project.
 
+* gh-pages branch
+
+    >static resources and website page
+
 ## Usage
 ###Run Single Spider
 1.	Step into `PolySpider/src/` directory
@@ -46,12 +50,12 @@ Supervisor is a client/server system that allows its users to control a number o
 5.  Directory named `PolySpider/src/tmp/` contains log files of Supervisor itself and other processes. Feel free to check it out!
 
 ## Supported Android Markets
-*	[AppStar]
 *	[AppChina]
 *	[BaiduApp]
 *	[Hiapk安卓市场]
 *	[XiaomiApp]
 *	[GooglePlay]
+*	[muzhiwan]
 
 
 [AppStar]: http://www.appstar.com.cn/
@@ -60,6 +64,7 @@ Supervisor is a client/server system that allows its users to control a number o
 [Hiapk安卓市场]: http://apk.hiapk.com/
 [XiaomiApp]: http://app.xiaomi.com/
 [GooglePlay]: https://play.google.com/store
+[muzhiwan]: http://www.muzhiwan.com/
 
 [Python]: http://www.python.org/
 [Scrapy]: http://www.scrapy.org/
@@ -70,8 +75,8 @@ Supervisor is a client/server system that allows its users to control a number o
 [Upyun]: https://www.upyun.com
 [Getting Involved]: http://wh1100717.github.io/PolyTechDocs/docs/invovled/
 [Installation]: http://wh1100717.github.io/PolyTechDocs/python/scrapy/installation/
-[TODO List]: https://github.com/wh1100717/PolySpider/blob/master/docs/TODO_LIST.md
-[Core Functionalities]: https://github.com/wh1100717/PolySpider/blob/master/docs/pipelineinfo.md
-[Tips]: https://github.com/wh1100717/PolySpider/blob/master/docs/TIPS.md
+[TODO List]: docs/TODO_LIST.md
+[Core Functionalities]: docs/pipelineinfo.md
+[Tips]: docs/TIPS.md
 [PolySpider]: https://github.com/wh1100717/PolySpider
 
