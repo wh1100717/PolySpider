@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import urllib2
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import Selector
@@ -38,8 +37,7 @@ class AppChinaSpider(CrawlSpider):
             item[key] = value[0].strip() if len(value) == 1 else ('' if len(value) == 0 else value)
 #        try:
             # 应用汇对apk的下载链接做了一层redirect,所以需要更早请求来获取真实下载地址
-        res = urllib2.urlopen(item['apk_url'])
-        item['apk_url'] = res.url
+        
         # 格式化
         item['app_name'] = CommonUtil.dropBrackets(item['app_name'])
         item['version'] = CommonUtil.normalizeVersion(item['version'])

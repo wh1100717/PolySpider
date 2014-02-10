@@ -46,7 +46,7 @@ class HiapkSpider(BaseSpider):
                 ]
             #TODO 需要看看如何修改该请求，现在一次性构造请求太多，太耗费资源。
             for app_category in apps_categories:
-                for a in range(1,2):
+                for a in range(1,100):
 #                    for b in range(1,4):
 #                        for c in [0,1,2,4]:
 #                            for d in [0,1,2]:
