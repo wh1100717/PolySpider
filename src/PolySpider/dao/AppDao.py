@@ -46,6 +46,7 @@ def insert_app(item):
             'app_name':item['app_name'],
             'author':item['author'],
             'category':item['category'],
+            'package_name': item['package_name'],
             'app_detail':[]
             }
         redis_client.set_item('app::data',app_id,new_app)
@@ -64,7 +65,7 @@ def insert_app(item):
 
 def insert_app_detail(item):
     '''
-    version | platform | apk_url | apk_size | pakage_name | cover | rating_point | rating_count | android_version |
+    version | platform | apk_url | apk_size |  cover | rating_point | rating_count | android_version |
     download_times | description | imgs_url | last_update
     '''
     app_detail_map = {
@@ -72,7 +73,6 @@ def insert_app_detail(item):
         'platform': item['platform'],
         'apk_url': item['apk_url'],
         'apk_size': item['apk_size'],
-        'pakage_name': item['pakage_name'],
         'cover': item['cover'],
         'rating_point': item['rating_point'],
         'rating_count': item['rating_count'],

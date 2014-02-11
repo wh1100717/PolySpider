@@ -255,7 +255,7 @@ CATEGORY_NAME = {
 
 }
 
-def get_category_id_by_name(category_name):
+def get_category_id_by_name(category_name,item):
     '''
     *   根据抓取来的应用名来获取对应在分类系统中的适合的id
     *   如果没有找到对应项，则说明抓取到的该分类属于新分类，记录在`un_record_category.txt`文件中，等待人工进行分类确认
@@ -274,7 +274,7 @@ def get_category_id_by_name(category_name):
         if flag:
             with open('un_record_category.txt','w') as f: 
                 for key in category_map.keys(): 
-                    f.write(key + "\n")
+                    f.write(key +' '+ item['app_name']+' '+item['platform']+"\n")
         return "0"
     return CATEGORY_ID.get(category_name)
 

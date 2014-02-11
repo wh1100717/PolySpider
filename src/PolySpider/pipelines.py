@@ -39,7 +39,7 @@ class CategorizingPipeline(object):
             raise DropItem(item)
         # 如果category中没有这个类 会报错
         item['category'] = CategoryUtil.get_category_id_by_name(
-            item['category'].encode('utf8', 'ignore'))
+            item['category'].encode('utf8', 'ignore'),item)
         item['DROP_APP'] = False
         item['NEW_APP'] = False
         item['UPDATE_APP'] = False
@@ -69,10 +69,12 @@ class CheckAppPipeline(object):
         else:
             item['app_id'] = app['app_id']
             item['app_category'] = app['category']
-            # 更新分类
             # 判断author是否为空，如果为空，则更新app表
             if app['author'] == "" and item['author'] != "":
                 AppDao.update_app_author(app['app_id'], item['author'])
+            # 判断package_name是否为空，如果为空，则更新app表
+            if app['package_name'] == "" and item['package_name'] != "":
+                AppDao.update_app_packagename(app['app_id'], item['package_name'])
         return item
 
 
