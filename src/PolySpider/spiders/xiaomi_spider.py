@@ -36,9 +36,6 @@ class XiaomiSpider(BaseSpider):
         sel = Selector(response)
         item= AppItem()
         xiaomi = SpiderConfig.xiaomi
-        if sel.xpath(xiaomi['app_name']).extract() == []:
-            
-            raise DropItem(item)
         print "Grabing Start：%s" % response.url
         # 根据SpiderConfig中的xpath配置进行抓取数据
         for key in xiaomi:
