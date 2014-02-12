@@ -30,6 +30,20 @@ status::history:
                 }
 '''
 
+def move_status_into_history(date, platform):
+    date = str(date)
+    data = redis_client.hget_all('status::' + date + '&' + platform)
+    if redis_client.exists('status::history'):
+        value = redis_client.hget('status::history', date)
+        if value:
+            value[platform] = data
+            redis_client.hset('status::history', date, value)
+        else:
+            redis_client.hset('status::history', date, {platform:data})
+    else:
+        redis_client.hset('status::history', date, {platform:data})
+    redis_client.delete('status::' + date + '&' + platform)
+
 
 def get_today_status_by_platform(platform):
     today = str(datetime.date.today())
@@ -37,8 +51,7 @@ def get_today_status_by_platform(platform):
     if not data:
         yesterday = str(today - datetime.timedelta(days = 1))
         if redis_client.exists('status::' + yesterday + '&' + platform):
-            #TODO 增加对于历史status数据的处理流程
-            pass
+            move_status_into_history(yesterday, platform)
         data = {'crawled': 0, 'new': 0, 'update': 0}
         redis_client.hset_map('status::' + today + '&' + platform, data)
     return data
