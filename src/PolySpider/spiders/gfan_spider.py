@@ -7,40 +7,37 @@ from PolySpider.items import AppItem
 from PolySpider.util import CommonUtil
 from PolySpider.config import SpiderConfig
 from scrapy.exceptions import DropItem
-class BaiduSpider(CrawlSpider):
-    '''
-    ##百度安卓应用: 
-    *   网址http://as.baidu.com/
-    *   利用Rule规则进行抓取
-    *   TODO:百度的图片都做了referer校验，防外链，所以抓来的img地址不能直接打开，需要额外对百度的图片下载下来并上传至自己的图片空间，才能正常访问。
-    '''
-    name = "baidu"
-    allowed_domains = ["baidu.com"]
+class GfanSpider(CrawlSpider):
+   
+    name = "gfan"
+    allowed_domains = ["gfan.com"]
     start_urls = [
-        "http://as.baidu.com/a/software?cid=101&s=1",
-        "http://as.baidu.com/a/asgame?cid=102&s=1"
+        "http://apk.gfan.com/apps_7_1_1.html",
+        "http://apk.gfan.com/games_8_1_1.html"
     ]
     rules = [
-        Rule(SgmlLinkExtractor(allow=('item\?docid=\d.*', )),callback='parse_app',follow=True),
-        Rule(SgmlLinkExtractor(allow=('as\.baidu\.com/a/software?cid','as\.baidu\.com/a/asgame?cid' )), follow = True),
+        Rule(SgmlLinkExtractor(allow=('App\d.*', )),callback='parse_app',follow=True),
+        Rule(SgmlLinkExtractor(allow=('\b.*_\d.*_\d.*_\d.*' )), follow = True),
     ]
     def parse_app(self, response):
 #        try:
         sel = Selector(response)
         item = AppItem()
-        baidu=SpiderConfig.baidu
+        gfan=SpiderConfig.gfan
         print "Grabing Start：%s" %response.url
-        for key in baidu:
-            value = sel.xpath(baidu[key]).extract() if baidu[key]!='' else ''
+        for key in gfan:
+            value = sel.xpath(gfan[key]).extract() if gfan[key]!='' else ''
             item[key] = value[0].strip() if len(value) == 1 else ('' if len(value) == 0 else value)
-        item['rating_point']=item['rating_point'][:-1]
-        item['rating_count']=item['rating_count'][3:-4]
-        item['android_version'] =item['android_version'][7:-3]
+        item['version']=item['version'][-3:]
+        item['rating_count']=item['rating_count'][3:item['rating_count'].find('(')]
+        item['android_version'] =item['android_version'].replace('支持固件：','').replace('及以上版本','').strip()
+        item['author']=item['author'].replace('开 发 者：','')
+        item['last_update']=item['last_update'].replace('发布时间：','')
+        item['apk_size']=item['apk_size'].replace('文件大小：','')
         item['description']=' '.join(item['description'])
         item['imgs_url']=' '.join(item['imgs_url'])
-        item['platform'] = "baiduapp"
+        item['platform'] = "gfan"
         print "Grabing finish, step into information pipline"
-        print item['version']
         return item
 #            apk_url = sel.xpath('//*[@id="down_as_durl"]/@href').extract()
 #            if len(apk_url)==0:

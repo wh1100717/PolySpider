@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-  
 import sqlite3
 from PolySpider.config import Config
-
 def check_sql(sql):
     '''
     检查sql语句是否为空
@@ -40,7 +39,7 @@ def checkTableExist():
                 platform VARCHAR(32),
                 apk_url TEXT,
                 apk_size VARCHAR(32),
-                pakage_name VARCHAR(32),
+                pakcage_name VARCHAR(32),
                 cover VARCHAR(32),
                 rating_point VARCHAR(32),
                 rating_count VARCHAR(32),
@@ -124,8 +123,11 @@ def save_return_id(sql, data):
     if not check_sql(sql): return
     cur = con.cursor()
     if Config.SHOW_SQL: print('process sql:[{}],paras:[{}]'.format(sql, d))
+    
     cur.execute(sql, data)
+    
     id = cur.lastrowid
+    
     con.commit()
     close_all(con)
     print "save_return_id :%d" %id 

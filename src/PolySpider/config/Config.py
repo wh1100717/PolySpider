@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-  
+# -*- coding: utf-8 -*-
 import os
 import sys
+
 
 def get_base_path():
     '''
@@ -13,33 +14,52 @@ def get_base_path():
         if 'PolySpider' in p and 'src' in p and not 'web' in p:
             return p
     c_path = os.getcwd()
-    base_path = c_path[:c_path.rfind("src")+3]
+    base_path = c_path[:c_path.rfind("src") + 3]
     sys.path.append(base_path)
     return base_path
 
-def get_sqlite_path():
-    '''
-    ##获取数据库路径
-    *   win系统和Linux路径不同，做个判断，app.db放在base_pat下
-    '''
-    if "win" in sys.platform:
-        return get_base_path() + "\\" + "app.db"
-    else:
-        return get_base_path() + "/" + "app.db"
+REDIS = {
+    'host':'localhost',
+    'password':'',
+    'port':6379,
+    'db':0
+}
 
-SHOW_SQL = False #True则会在控制台显示详细的SQL查询
-
-#App Star Constant
+'''
+    ##Tor+polipo
+    ###安装polipo步骤：
+    *   1. `git clone git://git.wifi.pps.univ-paris-diderot.fr/polipo` 下载最新源码
+    *   2. 执行`make all`
+            >可能会报错，说`makeinfo命令未找到`，需要安装依赖库`yum install texinfo`
+    *   3. 执行`su -c 'make install'`
+    *   4. 利用`man polipo`查看命令帮助
+    *   5. 执行`polipo &` 启动polipo
+    HTTP_PROXY为polipo端口，在polipo的/etc/polipo/config文件配置Tor端口`socksParentProxy = localhost:9050`
+    在Util中添加TorUtil
+    在Setting中的DOWNLOADER_MIDDLEWARES添加TorUtil下的ProxyMiddleware
+    在服务器启动Tor和polipo服务
+    由于国内对Tor墙掉了 导致这一部分无法进行 所以暂时搁置
+    
+'''
+HTTP_PROXY = 'http://127.0.0.1:8123'
+# App Star Constant
 APPSTAR_MAX_APPS = 3000
+XIAOMI_MAX_APPS = 56000
 
-#BaiduYun AK && SK
-'''这里需要填写BaiYun的公钥AK，私钥SK和Bucket'''
-BAIDU_AK = ''
-BAIDU_SK = ''
-BAIDU_BUCKET = ''
+BAIDU_YUN = {
+    '''
+    这里需要填写BaiYun的公钥AK，私钥SK和Bucket
+    '''
+    'ak': '',
+    'sk': '',
+    'bucket': ''
+}
 
-#UpYun
-'''这里需要填写申请下来的又拍云所对应的bucket的用户名和密码'''
-UPYUN_USERNAME = ''
-UPYUN_PASSWORD = ''
-UPYUN_BUCKET = ''
+UPYUN = {
+    '''
+    这里需要填写申请下来的又拍云所对应的bucket的用户名和密码
+    '''
+    'user_name': '',
+    'password': '',
+    'bucket': ''
+}

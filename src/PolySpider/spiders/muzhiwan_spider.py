@@ -7,40 +7,35 @@ from PolySpider.items import AppItem
 from PolySpider.util import CommonUtil
 from PolySpider.config import SpiderConfig
 from scrapy.exceptions import DropItem
-class BaiduSpider(CrawlSpider):
-    '''
-    ##百度安卓应用: 
-    *   网址http://as.baidu.com/
-    *   利用Rule规则进行抓取
-    *   TODO:百度的图片都做了referer校验，防外链，所以抓来的img地址不能直接打开，需要额外对百度的图片下载下来并上传至自己的图片空间，才能正常访问。
-    '''
-    name = "baidu"
-    allowed_domains = ["baidu.com"]
+class MZWSpider(CrawlSpider):
+   
+    name = "muzhiwan"
+    allowed_domains = ["muzhiwan.com"]
     start_urls = [
-        "http://as.baidu.com/a/software?cid=101&s=1",
-        "http://as.baidu.com/a/asgame?cid=102&s=1"
+        "http://www.muzhiwan.com/category/",
+        "http://www.muzhiwan.com/wangyou/fenlei/"
     ]
     rules = [
-        Rule(SgmlLinkExtractor(allow=('item\?docid=\d.*', )),callback='parse_app',follow=True),
-        Rule(SgmlLinkExtractor(allow=('as\.baidu\.com/a/software?cid','as\.baidu\.com/a/asgame?cid' )), follow = True),
+        Rule(SgmlLinkExtractor(allow=('muzhiwan\.com/[^/]*\.[^/]*\.html$', )),callback='parse_app',follow=True),
+        Rule(SgmlLinkExtractor(allow=('category/\d.*/','-0-0-\d.*')), follow = True),
     ]
     def parse_app(self, response):
 #        try:
         sel = Selector(response)
         item = AppItem()
-        baidu=SpiderConfig.baidu
+        muzhiwan=SpiderConfig.muzhiwan
         print "Grabing Start：%s" %response.url
-        for key in baidu:
-            value = sel.xpath(baidu[key]).extract() if baidu[key]!='' else ''
+        for key in muzhiwan:
+            value = sel.xpath(muzhiwan[key]).extract() if muzhiwan[key]!='' else ''
             item[key] = value[0].strip() if len(value) == 1 else ('' if len(value) == 0 else value)
-        item['rating_point']=item['rating_point'][:-1]
-        item['rating_count']=item['rating_count'][3:-4]
-        item['android_version'] =item['android_version'][7:-3]
+        item['rating_count']=item['rating_count'][2:-2]
+        item['android_version'] =item['android_version'].replace('适用：Android','').replace('以上','').strip()
+        item['last_update']=item['last_update'].replace('发布：','')
+        item['apk_size']=item['apk_size'].replace('大小：','')
         item['description']=' '.join(item['description'])
         item['imgs_url']=' '.join(item['imgs_url'])
-        item['platform'] = "baiduapp"
+        item['platform'] = "muzhiwan"
         print "Grabing finish, step into information pipline"
-        print item['version']
         return item
 #            apk_url = sel.xpath('//*[@id="down_as_durl"]/@href').extract()
 #            if len(apk_url)==0:

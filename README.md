@@ -2,12 +2,10 @@
 ==========
 Python(v2.7) and Scrapy(v0.20.2) are used in this project, which is mainly designed for Android app synchronizing and categorizing by focusing on grabing data from Android Markets.
 
-This project also contains a website project using web.py as the web framework, which is really easy-use, and bootstrap as fronten framework. Hightcharts, Highstock and Datatables are also included in this project. The website focus on showing data in different views and dimensions.
-
 ## Requirements
 *	[Python] v2.7+
 *	[Scrapy] v0.20+
-*	[web.py] v0.37+
+*	[redis-py] v2.9+
 *	[Supervisor] v3.0+
 *	Dependencies are listed in [Installation]
 *	ak & sk & bucket name of [BaiYun] or [Upyun] for files upload
@@ -20,19 +18,27 @@ This project also contains a website project using web.py as the web framework, 
 4.	[Core Functionalities]
 5.	[Tips]
 
+## Branch Descirption
+* master branch
+
+    >the latest stable version, which can be currently used in Poly Project. NEVER EVER straightly commit codes in MASTER branch.
+* develop branch
+
+    >the developing unstable version. team contributors should take code imporvement in this branch. If the project in develop branch comes to a stable level and meets the product requirement. The MASTER branch will merge the pull request from develop branch and release a stable branch version.
+* stable branch
+
+    >we use `numbers` like `0.1`, `0.3`, `1.0` as a stable release from this project.
+
+* gh-pages branch
+
+    >static resources and website page
+
 ## Usage
 ###Run Single Spider
 1.	Step into `PolySpider/src/` directory
 2.	Use `scrapy list` command to find spiders this project has provided
-3.	Use `scrapy crawl spidername` command to start the crawler, which will crawl the target app market and then record the  crawled app information into sqlite database, download the apk file and parse it to get the info_list including pakage name, app name etc. If needed, it will upload the apk file to Cloud Storage like BaiduYun and UpYun.
+3.	Use `scrapy crawl spidername` command to start the crawler, which will crawl the target app market and then record the  crawled app information into sqlite database, download the apk file and parse it to get the info_list including package name, app name etc. If needed, it will upload the apk file to Cloud Storage like BaiduYun and UpYun.
 4.	Since the app info is stored in sqlite database, you can use `python check_sql_data.py` command to check out what info the database has for convenience or just use some SqliteBrowser tools.
-
-###Run web frontend
-There is a frontend project based on HTML5 in the folder `PolySpider/src/web/` using web.py python web framework. It also integrate BootStrap3 as the frontend framework and some plugins like highcharts, highstock, datatables and so on.
-
-1.  Step into `PolySpider/src/web/` directory
-2.  Use `python polySpider.py` command to set up a host server.(you can also use `python polySpider.py portname`) to specify a particular port.
-3.  Just browser this website with `localhost:portname` link address.
 
 ###Run supervisor
 Supervisor is a client/server system that allows its users to control a number of processes on UNIX-like operating systems.
@@ -44,11 +50,12 @@ Supervisor is a client/server system that allows its users to control a number o
 5.  Directory named `PolySpider/src/tmp/` contains log files of Supervisor itself and other processes. Feel free to check it out!
 
 ## Supported Android Markets
-*	[AppStar]
 *	[AppChina]
 *	[BaiduApp]
 *	[Hiapk安卓市场]
 *	[XiaomiApp]
+*	[GooglePlay]
+*	[muzhiwan]
 
 
 [AppStar]: http://www.appstar.com.cn/
@@ -56,17 +63,20 @@ Supervisor is a client/server system that allows its users to control a number o
 [BaiduApp]: http://as.baidu.com/
 [Hiapk安卓市场]: http://apk.hiapk.com/
 [XiaomiApp]: http://app.xiaomi.com/
+[GooglePlay]: https://play.google.com/store
+[muzhiwan]: http://www.muzhiwan.com/
 
 [Python]: http://www.python.org/
 [Scrapy]: http://www.scrapy.org/
-[web.py]: http://webpy.org/
+[redis-py]: https://github.com/andymccurdy/redis-py
 [Supervisor]: https://pypi.python.org/pypi/supervisor
 
 [BaiYun]: http://developer.baidu.com
 [Upyun]: https://www.upyun.com
 [Getting Involved]: http://wh1100717.github.io/PolyTechDocs/docs/invovled/
 [Installation]: http://wh1100717.github.io/PolyTechDocs/python/scrapy/installation/
-[TODO List]: https://github.com/wh1100717/PolySpider/blob/master/TODO_LIST.md
-[Core Functionalities]: https://github.com/wh1100717/PolySpider/blob/master/pipelineinfo.md
-[Tips]: https://github.com/wh1100717/PolySpider/blob/master/TIPS.md
+[TODO List]: docs/TODO_LIST.md
+[Core Functionalities]: docs/pipelineinfo.md
+[Tips]: docs/TIPS.md
 [PolySpider]: https://github.com/wh1100717/PolySpider
+
