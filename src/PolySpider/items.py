@@ -7,7 +7,7 @@ class AppItem(Item):
     """
     获取应用的具体信息：
     apk_url: apk下载链接
-    pakage_name: 应用包名
+    package_name: 应用包名
     app_name: 应用名称
     cover: 封面图片url地址
     version: 版本号
@@ -23,7 +23,7 @@ class AppItem(Item):
     """
     app_id = Field()
     apk_url = Field()
-    pakage_name = Field()
+    package_name = Field()
     app_name = Field()
     cover = Field()
     version = Field()

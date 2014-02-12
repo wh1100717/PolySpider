@@ -4,7 +4,7 @@
 #app_china spider xpath configuration
 app_china = {
     'apk_url' :'//div[@class="down-box cf"]/a[3]/@href',
-    'pakage_name' : '//*[@id="app_pkg"]/@value',
+    'package_name' : '//*[@id="app_pkg"]/@value',
     'app_name' :'//h1[@class="ch-name cutoff fl"]/text()',
     'cover' :'//div[@class="cf"]/img/@src',
     'version' :'//*[@id="app-detail-wrap"]/div[2]/div[2]/p[1]/text()',
@@ -22,7 +22,7 @@ app_china = {
 
 app_star = {
     'apk_url' :"//*[@id='appDetail']/li[1]/a/@href",
-    'pakage_name' : '',
+    'package_name' : '',
     'app_name' :'//*[@id="appName"]/text()',
     'cover' :'//*[@id="appImg"]/@src',
     'version' :'//*[@id="appVersion"]/text()',
@@ -39,7 +39,7 @@ app_star = {
 }
 baidu = {
     'apk_url' :'//*[@id="down_as_durl"]/@href',
-    'pakage_name' : "//*[@class='event-exe-install info-download']/@data-package",
+    'package_name' : "//*[@class='event-exe-install info-download']/@data-package",
     'app_name' :"//*[@id='appname']/text()",
     'cover' :"//*[@id='app-logo']/@src",
     'version' :'//div/table/tbody/tr/td/span[@class="params-vname"]/text()',
@@ -56,7 +56,7 @@ baidu = {
 }
 xiaomi = {
     'apk_url' :'/html/body/div[2]/div[1]/div[3]/div[1]/a/@href',
-    'pakage_name' : '/html/body/div[2]/div[2]/ul[1]/li[4]/h4/text()',
+    'package_name' : '/html/body/div[2]/div[2]/ul[1]/li[4]/h4/text()',
     'app_name' :'/html/body/div[2]/div[1]/div[2]/h1/text()',
     'cover' :"/html/body/div[2]/div[1]/div[3]/div[1]/div[1]/img/@src",
     'version' :'/html/body/div[2]/div[2]/ul[1]/li[2]/h4/text()',
@@ -73,7 +73,7 @@ xiaomi = {
 }
 hiapk = {
     'apk_url' :'//*[@id="main"]/div/div/div[1]/div[2]/div[1]/div[10]/a/@href',
-    'pakage_name' : '//head/script[15]/text()',
+    'package_name' : '//head/script[15]/text()',
     'app_name' :'//*[@id="ctl00_AndroidMaster_Content_Apk_SoftName"]/text()',
     'cover' :'//*[@id="main"]/div/div/div[1]/div[1]/div[2]/div[1]/div[1]/img/@src',
     'version' :'//*[@id="ctl00_AndroidMaster_Content_Apk_SoftVersionName"]/text()',
@@ -90,7 +90,7 @@ hiapk = {
 }
 google_play={
     'apk_url' :'',
-    'pakage_name' : "//*[@class='details-wrapper apps square-cover id-track-partial-impression']/@data-docid",
+    'package_name' : "//*[@class='details-wrapper apps square-cover id-track-partial-impression']/@data-docid",
     'app_name' :'//*[@itemprop="name"]/div/text()',
     'cover' :'//div[@class="cover-container"]/img[@class="cover-image"]/@src',
     'version' :'//*[@itemprop="softwareVersion"]/text()',
@@ -107,7 +107,7 @@ google_play={
 }
 gfan={
     'apk_url' :'//*[@id="computerLoad"]/@href',
-    'pakage_name' : "",
+    'package_name' : "",
     'app_name' :'//*[@class="curr-tit"]/text()',
     'cover' :'//*[@class="app-view png"]/@src',
     'version' :'//*[@class="app-info"]/p[1]/text()',
@@ -124,7 +124,7 @@ gfan={
 }
 muzhiwan={
     'apk_url' :'//*[@class="local"]/@href',
-    'pakage_name' : '//*[@name="package"]/@value',
+    'package_name' : '//*[@name="package"]/@value',
     'app_name' :'//*[@class="game_name"]/h1/text()',
     'cover' :'//*[@class="game_icon"]/img/@src',
     'version' :'//*[@id="gameVersion"]/text()',

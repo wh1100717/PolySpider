@@ -19,7 +19,7 @@
 <img src="http://wh1100717.github.io/PolySpider/images/flowchart/CheckAppPipeline.jpg"  alt="">
 ##3、CheckAppDetailsPipeline（检查app详细内容）
 *	通过AppDetail.get_app_detail_by_item()方法获取app的详细信息
-	*	如果没有app详细信息，先执行apk_operation()方法,通过item['apk_url']对app下载，分析，获取item['pakage_name']，并且上传到云终端，然后AppDetail.insert_app_detail()方法添加app的详细信息
+	*	如果没有app详细信息，先执行apk_operation()方法,通过item['apk_url']对app下载，分析，获取item['package_name']，并且上传到云终端，然后AppDetail.insert_app_detail()方法添加app的详细信息
 	*	如果有app的详细信息，item['DROP_APP']赋值为True
 
 <img src="http://wh1100717.github.io/PolySpider/images/flowchart/CheckAppDetailsPipeline.jpg"  alt="">

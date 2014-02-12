@@ -32,6 +32,6 @@ def getInfoList(apk_name):
         shutil.rmtree('apk/unzip/' + apk_name)
     return info_list
 
-def getApkPakageName(apk_name):
+def getApkPackageName(apk_name):
     info_list = getInfoList(apk_name)
     return info_list['packageInfo']['orig_package']

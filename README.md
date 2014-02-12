@@ -37,7 +37,7 @@ Python(v2.7) and Scrapy(v0.20.2) are used in this project, which is mainly desig
 ###Run Single Spider
 1.	Step into `PolySpider/src/` directory
 2.	Use `scrapy list` command to find spiders this project has provided
-3.	Use `scrapy crawl spidername` command to start the crawler, which will crawl the target app market and then record the  crawled app information into sqlite database, download the apk file and parse it to get the info_list including pakage name, app name etc. If needed, it will upload the apk file to Cloud Storage like BaiduYun and UpYun.
+3.	Use `scrapy crawl spidername` command to start the crawler, which will crawl the target app market and then record the  crawled app information into sqlite database, download the apk file and parse it to get the info_list including package name, app name etc. If needed, it will upload the apk file to Cloud Storage like BaiduYun and UpYun.
 4.	Since the app info is stored in sqlite database, you can use `python check_sql_data.py` command to check out what info the database has for convenience or just use some SqliteBrowser tools.
 
 ###Run supervisor

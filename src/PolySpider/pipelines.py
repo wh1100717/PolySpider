@@ -98,7 +98,7 @@ class CheckAppDetailsPipeline(object):
                 print 'DROP THIS ITEM %s' %item['app_name']
                 break
         else:
-            if not item['pakage_name']:
+            if not item['package_name']:
                 self.apk_operation(item)
             print 'INSERT APP DETAIL %s' %item['app_name']
             AppDao.insert_app_detail(item)
@@ -108,7 +108,7 @@ class CheckAppDetailsPipeline(object):
         '''
         执行顺序ID：102
         文件上传到服务器
-        分析Apk信息,获取pakage_name
+        分析Apk信息,获取package_name
         上传到UpYun/BaiduYun
         '''
         '''暂时不需要apk下载及分析流程(功能已实现并测试)
@@ -126,13 +126,13 @@ class CheckAppDetailsPipeline(object):
         #下载文件至本地 Done
         
         #分析APK文件，获取里面的info_list
-        #目前值获取了里面的pakage_name，以后可以增加别的需要的属性
+        #目前值获取了里面的package_name，以后可以增加别的需要的属性
         print 'Start parsing apk file'
         info_list = ApkUtil.getInfoList(name)
-        item['pakage_name'] = info_list['packageInfo']['orig_package']
+        item['package_name'] = info_list['packageInfo']['orig_package']
         print 'parsing finish'
         '''
-        item['pakage_name'] = ''
+        item['package_name'] = ''
         # Done
         return True
 

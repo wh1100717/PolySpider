@@ -39,7 +39,7 @@ def checkTableExist():
                 platform VARCHAR(32),
                 apk_url TEXT,
                 apk_size VARCHAR(32),
-                pakage_name VARCHAR(32),
+                pakcage_name VARCHAR(32),
                 cover VARCHAR(32),
                 rating_point VARCHAR(32),
                 rating_count VARCHAR(32),

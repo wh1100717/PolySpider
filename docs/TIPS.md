@@ -1,5 +1,5 @@
 ## ApkUtil
-[ApkTool]对apk进行解压缩，提取出aapt构建的yml等文件获取相应的icon、pakage_name、version等内容。但是ApkTool会将apk文件整体解压，效率较慢。如果仅仅是获取部分apk信息，则可以使用aapt直接读取apk中的一些基本信息,ApkUtil模块主要研究并实现对Apk的各种分析，其中用到了ApkTool实现apk的反编译和重新打包，aapt获取apk配置信息等内容。
+[ApkTool]对apk进行解压缩，提取出aapt构建的yml等文件获取相应的icon、package_name、version等内容。但是ApkTool会将apk文件整体解压，效率较慢。如果仅仅是获取部分apk信息，则可以使用aapt直接读取apk中的一些基本信息,ApkUtil模块主要研究并实现对Apk的各种分析，其中用到了ApkTool实现apk的反编译和重新打包，aapt获取apk配置信息等内容。
 
 Apk反编译过程：
 

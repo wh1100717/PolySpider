@@ -1,14 +1,14 @@
 ## ApkUtil
-*	利用aapt分析apk并获取pakage_name、version、icon等资源。
+*	利用aapt分析apk并获取package_name、version、icon等资源。
 *	aapt只有32的，所以如果在64位服务器上运行需要增加一些32位依赖库
 *	重新整理ApkUtil模块，添加注释和方法描述
 
 ## Spider
 [AppStoreList]中详细分析了目前国内android应用商店的具体情况、特点和访问方式。通过其逐步添加针对性的spider。
 
-*   [应用宝]：No pakage name provided
-*   [机锋市场]：No pakage name provided
-*   [360手机助手]: No pakage name provided
+*   [应用宝]：No package name provided
+*   [机锋市场]：No package name provided
+*   [360手机助手]: No package name provided
 
 ## Dynamic Content Grabbing
 Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载和执行js文件，导致动态请求内容无法获取。为了实现爬虫对于动态请求的抓取，需要模拟浏览器行为来实现爬虫对于多种类型网页的抓取工作。
