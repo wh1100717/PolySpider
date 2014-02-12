@@ -19,7 +19,7 @@ def get_base_path():
     return base_path
 
 REDIS = {
-    'host':'192.168.1.108',
+    'host':'192.168.1.202',
     'password':'',
     'port':6379,
     'db':0

@@ -398,7 +398,7 @@ class RedisClient(object):
     def hset_map(self, redis_key, dictionary):
         pipe = self.redis_client.pipeline()
         for map_key in dictionary:
-            pipe.hset(redis_key, map_key, dictionary[key])
+            pipe.hset(redis_key, map_key, dictionary[map_key])
         code = pipe.execute()
         return True if code else False
 
