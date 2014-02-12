@@ -89,10 +89,10 @@ def insert_app_detail(item):
         app_platform= redis_client.hget('app::platform',item['platform'])
         if app_platform:
             app_platform=eval(app_platform)
-            app_platform.add(app_id)
+            app_platform.add(item['app_id'])
             redis_client.hset('app::platform',item['platform'],app_platform)
         else:
-            redis_client.hset('app::platform',item['platform'],set([app_id]))
+            redis_client.hset('app::platform',item['platform'],set([item['app_id']]))
        
 
 def update_app_author(app_id, author):
