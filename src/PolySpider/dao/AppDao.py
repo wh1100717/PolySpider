@@ -130,9 +130,21 @@ def update_app_category(app_id, category):
     new_app=eval(redis_client.get_item('app::data',app_id))
     new_app['category']=category
     new_categorys=category.split(',')
-    for new_category in new_categorys:
-        category_set= redis_client.hget('app::category',str(new_category.split(':')[0]))
-        category_set=eval(category_set)
-        category_set.add(app_id)
-        redis_client.hset('app::category',str(new_category.split(':')[0]),category_set)
+    for i in range(len(new_categorys)):
+        if i==0:
+            category_set= redis_client.hget('app::category',int(new_categorys[i].split(':')[0]))
+            if category_set:
+                category_set=eval(category_set)
+                category_set.add(app_id)
+                redis_client.hset('app::category',int(new_categorys[i].split(':')[0]),category_set)
+            else:
+                redis_client.hset('app::category',int(new_categorys[i].split(':')[0]),set([app_id]))
+        else:
+            category_set= redis_client.hget('app::category',int(new_categorys[i].split(':')[0]))
+            if category_set:
+                category_set=eval(category_set)
+                if app_id in category_set:
+                    category_set.remove(app_id)
+                    redis_client.hset('app::category',int(new_categorys[i].split(':')[0]),category_set)
     print redis_client.set_item('app::data',app_id,new_app)
+

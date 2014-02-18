@@ -251,7 +251,24 @@ CATEGORY_NAME = {
 '3400':'通讯',
 '3500':'音乐与音频',
 '3600':'游戏',
-'3700':'其他'
+'3700':'其他',
+'交通运输':'1100',
+'健康与健身':'1300',
+'动态壁纸':'1400',
+'动漫':'1500',
+'医疗':'1600',
+'商务':'1700',
+'图书与工具书':'1800',
+'天气':'1900',
+'小部件':'2200',
+'摄影':'2400',
+'教育':'2600',
+'新闻杂志':'2700',
+'旅游与本地出行':'2800',
+'生活时尚':'2900',
+'财务':'3100',
+'软件与演示':'3300',
+'音乐与音频':'3500'
 
 }
 
@@ -274,7 +291,7 @@ def get_category_id_by_name(category_name,item):
         if flag:
             with open('un_record_category.txt','w') as f: 
                 for key in category_map.keys(): 
-                    f.write(key +' '+ item['app_name']+' '+item['platform']+"\n")
+                    f.write(key + "\n")
         return "0"
     return CATEGORY_ID.get(category_name)
 
