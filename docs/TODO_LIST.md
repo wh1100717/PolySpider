@@ -17,10 +17,6 @@ Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载�
 *	[splash]*
 *	[Python Webkit]
 
-## Categorizing
-*	增加前台用户直接更改某个应用的分类功能
-*	增加分类查询、修改等各种接口
-
 ## Log System
 *	日志系统包括spider的活动状态
 *	日志系统包括数据库的操作记录

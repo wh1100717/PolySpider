@@ -19,9 +19,17 @@ app::data:
 '''
 
 def get_app_by_app_id(app_id):
+    '''
+    ##根据app_id来获取app record
+    *   redis_client.get_item()返回的是字符串，需要转换成object，故用eval()函数来实现
+    '''
     return eval(redis_client.get_item('app::data',app_id)) if app_id else None
 
 def get_app_detail_by_app_name(app_name):
+    '''
+    ##根据app_name来获取app_detail
+    *   app_detail为app中的一个属性，存储着app得详细数据，类型为list,每一个item中存放着相应平台和版本的具体app详情
+    '''
     app_id = redis_client.hget('app::index', app_name.encode('utf-8'))
     return get_app_by_app_id(app_id)['app_detail']
 
@@ -37,10 +45,15 @@ def get_app_by_app_name(app_name):
 
 
 def insert_app(item):
+    '''
+    ##向app::data中插入新的app数据
+    '''
+    #通过app::amount来实现类似sql中的autoincrease功能
     app_id = redis_client.incr('app::amount')
     while redis_client.get_length('app::data')<=app_id:
         redis_client.push_items('app::data',0)
     else:
+        #创建一个新的app字典
         new_app = {
             'app_id': app_id,
             'app_name':item['app_name'],
@@ -49,9 +62,11 @@ def insert_app(item):
             'package_name': item['package_name'],
             'app_detail':[]
             }
+        #插入到app::data中的app_id位置
         redis_client.set_item('app::data',app_id,new_app)
-    new_categorys=item['category'].split(',')
-    for new_category in new_categorys:
+    #处理分类
+    new_categories=item['category'].split(',')
+    for new_category in new_categories:
         category_set= redis_client.hget('app::category',str(new_category.split(':')[0]))
         if category_set:
             category_set=eval(category_set)
