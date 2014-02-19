@@ -79,7 +79,7 @@ supervisor是一个用来统一管理python程序的工具，其配有相应的�
 *   由于supervisor会往`PolySpider/src/tmp`及`PolySpider/src/tmp/log`目录下写日志文件，如果没有该文件夹会报错，故需要提前建立这两个文件夹
 *   supervisor.conf文件放在PolySpider/src/目录下，文件内容如下：
 
-
+'''
 	[inet_http_server]  
 	port=0.0.0.0:9001
 	username=poly_admin
@@ -161,6 +161,8 @@ supervisor是一个用来统一管理python程序的工具，其配有相应的�
 	;stderr_events_enabled=false   ; emit events on stderr writes (default false)
 	;environment=A="1",B="2"       ; process environment additions (def no adds)
 	;serverurl=AUTO                ; override serverurl computation (childutils)
+'''
+
 
 ###启动supervisor
     #进入PolySpider/src/目录下
