@@ -42,7 +42,7 @@ class XiaomiSpider(BaseSpider):
             value = sel.xpath(xiaomi[key]).extract() if xiaomi[key]!='' else ''
             item[key] = value[0].strip() if len(value) == 1 else ('' if len(value) == 0 else value)
         item['apk_url'] = "http://app.xiaomi.com"+item['apk_url']
-        item['rating_point']=item['rating_point'][11:]
+        item['rating_point']=str(int(item['rating_point'][11:])/2)+'分'
         item['description']=' '.join(item['description'])
         item['imgs_url']=' '.join(item['imgs_url'])
         item['platform'] = "xiaomi"
