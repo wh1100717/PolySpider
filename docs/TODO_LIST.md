@@ -10,6 +10,8 @@
 *   [机锋市场]：No package name provided
 *   [360手机助手]: No package name provided
 
+## Apk_size
+保证各个版本apk_size格式相同
 ## Dynamic Content Grabbing
 Scrapy只能实现静态页面的抓取，无法模拟浏览器，自动加载和执行js文件，导致动态请求内容无法获取。为了实现爬虫对于动态请求的抓取，需要模拟浏览器行为来实现爬虫对于多种类型网页的抓取工作。
 *	[Selenium]
