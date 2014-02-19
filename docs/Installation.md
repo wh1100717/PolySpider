@@ -1,4 +1,3 @@
-
 #PolySpider安装流程
 
 ##1. CentOS 6.4 64Bit下Scrapy环境搭建
@@ -60,7 +59,7 @@
 
 ---
 
-##2. 配置supervisor.conf
+##2. 配置并启动PolySpider项目
 PolySpider项目地址, 点击[这里](https://github.com/wh1100717/PolySpider/tree/0.3)查看
 
 (Note: 其为私有GitHub Repository,需要加入小组才能看到)
@@ -77,92 +76,7 @@ supervisor是一个用来统一管理python程序的工具，其配有相应的�
     *   `DOWNLOAD_DELAY` 默认为3秒，scrapy会随机1~3秒抓访问一次网页来抓取数据，主要用来防止被网站Ban掉
     *   `RANDOMIZE_DOWNLOAD_DELAY`默认为true,和`DOWNLOAD_DELAY`配合使用
 *   由于supervisor会往`PolySpider/src/tmp`及`PolySpider/src/tmp/log`目录下写日志文件，如果没有该文件夹会报错，故需要提前建立这两个文件夹
-*   supervisor.conf文件放在PolySpider/src/目录下，文件内容如下：
-
-'''
-	[inet_http_server]  
-	port=0.0.0.0:9001
-	username=poly_admin
-	password=poly123
-	
-	[supervisord]
-	logfile=tmp/supervisord.log ; (main log file;default $CWD/supervisord.log)
-	logfile_maxbytes=50MB        ; (max main logfile bytes b4 rotation;default 50MB)
-	logfile_backups=10           ; (num of main logfile rotation backups;default 10)
-	loglevel=info                ; (log level;default info; others: debug,warn,trace)
-	pidfile=tmp/supervisord.pid ; (supervisord pidfile;default supervisord.pid)
-	nodaemon=false               ; (start in foreground if true;default false)
-	minfds=1024                  ; (min. avail startup file descriptors;default 1024)
-	minprocs=200                 ; (min. avail process descriptors;default 200)
-	
-	[program:hiapk_spider]
-	command=scrapy crawl hiapk
-	stderr_logfile=tmp/log/hiapk_std.log        ; stderr log path, NONE for none; default AUTO
-	autostart=true
-	autorestart=true
-	
-	[program:baidu_spider]
-	command=scrapy crawl baidu
-	stderr_logfile=tmp/log/baidu_std.log        ; stderr log path, NONE for none; default AUTO
-	autostart=true
-	autorestart=true
-	
-	[program:xiaomi_spider]
-	command=scrapy crawl xiaomi
-	stderr_logfile=tmp/log/xiaomi_std.log        ; stderr log path, NONE for none; default AUTO
-	autostart=true
-	autorestart=true
-	
-	[program:appchina_spider]
-	command=scrapy crawl appchina
-	stderr_logfile=tmp/log/appchina_std.log        ; stderr log path, NONE for none; default AUTO
-	autostart=true
-	autorestart=true
-	
-	[program:googleplay_spider]
-	command=scrapy crawl googleplay
-	stderr_logfile=tmp/log/googleplay_std.log        ; stderr log path, NONE for none; default AUTO
-	autostart=true
-	autorestart=true
-	
-	[program:muzhiwan_spider]
-	command=scrapy crawl muzhiwan
-	stderr_logfile=tmp/log/muzhiwan_std.log        ; stderr log path, NONE for none; default AUTO
-	autostart=true
-	autorestart=true
-	
-	;[program:theprogramname]
-	;command=/bin/cat              ; the program (relative uses PATH, can take args)
-	;process_name=%(program_name)s ; process_name expr (default %(program_name)s)
-	;numprocs=1                    ; number of processes copies to start (def 1)
-	;directory=/tmp                ; directory to cwd to before exec (def no cwd)
-	;umask=022                     ; umask for process (default None)
-	;priority=999                  ; the relative start priority (default 999)
-	;autostart=true                ; start at supervisord start (default: true)
-	;autorestart=unexpected        ; whether/when to restart (default: unexpected)
-	;startsecs=1                   ; number of secs prog must stay running (def. 1)
-	;startretries=3                ; max # of serial start failures (default 3)
-	;exitcodes=0,2                 ; 'expected' exit codes for process (default 0,2)
-	;stopsignal=QUIT               ; signal used to kill process (default TERM)
-	;stopwaitsecs=10               ; max num secs to wait b4 SIGKILL (default 10)
-	;stopasgroup=false             ; send stop signal to the UNIX process group (default false)
-	;killasgroup=false             ; SIGKILL the UNIX process group (def false)
-	;user=chrism                   ; setuid to this UNIX account to run the program
-	;redirect_stderr=true          ; redirect proc stderr to stdout (default false)
-	;stdout_logfile=/a/path        ; stdout log path, NONE for none; default AUTO
-	;stdout_logfile_maxbytes=1MB   ; max # logfile bytes b4 rotation (default 50MB)
-	;stdout_logfile_backups=10     ; # of stdout logfile backups (default 10)
-	;stdout_capture_maxbytes=1MB   ; number of bytes in 'capturemode' (default 0)
-	;stdout_events_enabled=false   ; emit events on stdout writes (default false)
-	;stderr_logfile=/a/path        ; stderr log path, NONE for none; default AUTO
-	;stderr_logfile_maxbytes=1MB   ; max # logfile bytes b4 rotation (default 50MB)
-	;stderr_logfile_backups=10     ; # of stderr logfile backups (default 10)
-	;stderr_capture_maxbytes=1MB   ; number of bytes in 'capturemode' (default 0)
-	;stderr_events_enabled=false   ; emit events on stderr writes (default false)
-	;environment=A="1",B="2"       ; process environment additions (def no adds)
-	;serverurl=AUTO                ; override serverurl computation (childutils)
-'''
-
+*   supervisor.conf文件放在PolySpider/src/目录下,如需更改请直接参考已有默认配置
 
 ###启动supervisor
     #进入PolySpider/src/目录下
@@ -189,8 +103,7 @@ two files should be included in your log system -- server.py(which would generat
 	$ cd redis-2.8.5
 	$ make
 
-编译后的可执行文件在src目录中，可以使用下面的命令运行Redis:
-	`$ .src/redis-server`
+编译后的可执行文件在src目录中，可以使用下面的命令运行Redis:`$ .src/redis-server`
 
 如果需要查看redis的运行状态，可以安装Redmon监控，具体的安装步骤如下：
 ###安装Ruby
@@ -204,8 +117,7 @@ two files should be included in your log system -- server.py(which would generat
 ---
 
 ##4. 搭建PolySpiderFrontend
-Python的搭建环境与PolySpider相同，
-额外需要安装`pip install web.py`
+Python的搭建环境与PolySpider相同，额外需要安装`pip install web.py`
 
 PolySpiderFrontend项目地址, 点击[这里](https://github.com/wh1100717/PolySpiderFrontend)查看
 
@@ -220,12 +132,3 @@ PolySpiderFrontend项目地址, 点击[这里](https://github.com/wh1100717/Poly
 *   Note: web.py自带的服务器只适合用在请求量较少或者demo演示的场景，如果需要处理大并发量，必须更换服务器，具体请参考[这里](http://webpy.org/cookbook/)的Deployment Session.
 
 ---
-
-##5. log日志系统的环境搭建
-Environment: CentOS 6.4(64bit). 
-* install python-devel `yum install python-devel`
-* update setuptool using `easy_install -U setuptools`
-* install twisted `pip install twisted`
-* install autobahn `pip install autobahn`
-* install dependencies `pip install sh`
-
