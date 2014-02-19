@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-  
 
-#app_china spider xpath configuration
+'''
+    #Intro
+    *   Spider是通过xpath来定位要解析的内容的
+    *   SpiderConfig将所有spider中用到的xpath分离出来统一管理。
+'''
 app_china = {
     'apk_url' :'//div[@class="down-box cf"]/a[3]/@href',
     'package_name' : '//*[@id="app_pkg"]/@value',
@@ -88,7 +92,7 @@ hiapk = {
     'apk_size' :'//*[@id="ctl00_AndroidMaster_Content_Apk_SoftSize"]/text()',
     'imgs_url' :'//*[@id="main"]/div/div/div[1]/div[1]/div[2]/div[4]/div[3]/ul/li/a/@href'
 }
-google_play={
+google_play = {
     'apk_url' :'',
     'package_name' : "//*[@class='details-wrapper apps square-cover id-track-partial-impression']/@data-docid",
     'app_name' :'//*[@itemprop="name"]/div/text()',
@@ -105,7 +109,7 @@ google_play={
     'apk_size' :'//*[@itemprop="fileSize"]/text()',
     'imgs_url' :'//*[@class="thumbnails"]/img/@src'
 }
-gfan={
+gfan = {
     'apk_url' :'//*[@id="computerLoad"]/@href',
     'package_name' : "",
     'app_name' :'//*[@class="curr-tit"]/text()',
@@ -122,7 +126,7 @@ gfan={
     'apk_size' :'//*[@class="app-info"]/p[4]/text()',
     'imgs_url' :'//*[@class="simg"]/@src'
 }
-muzhiwan={
+muzhiwan = {
     'apk_url' :'//*[@class="local"]/@href',
     'package_name' : '//*[@name="package"]/@value',
     'app_name' :'//*[@class="game_name"]/h1/text()',
