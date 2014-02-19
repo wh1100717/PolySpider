@@ -1,9 +1,42 @@
 #应用商店分析
-##[Google Play]
+##[Google Play]（推荐爬取）
 ###介绍
-Google Play由于中国对Google的政策，大部分好的应用已经被禁掉了，而且国内手机基本没有预装GooglePlay的，从而导致Google Play的用户在中国十分少，就不必去爬取了
+Google Play前名为Android Market，是一个由Google为Android设备开发的在线应用程序商店。一个名为“Play Store”的应用程序会预载在允许使用Google Play的手机上，可以让用户去浏览、下载及购买在Google Play上的第三方应用程序。
+但由于中国政策问题，Google没有提供支付的服务，所以所有需要支付的应用在国内的googleplay是看不到的，从而造就出国内种种安卓市场
+但是免费应用还是占据不少比例的，所以推荐爬去
 ###应用数量
 应用数量不确定
+###应用分类
+*	个性化          
+*	交通运输        
+*	体育            
+*	健康与健身      
+*	动态壁纸        
+*	动漫            
+*	医药            
+*	商务            
+*	图书与工具书    
+*	天气            
+*	娱乐            
+*	媒体与视频      
+*	小部件          
+*	工具            
+*	摄影            
+*	效率            
+*	教育            
+*	新闻杂志        
+*	旅游与本地出行  
+*	生活时尚        
+*	社交            
+*	财务            
+*	购物            
+*	软件与演示          
+*	通讯            
+*	音乐与音频      
+*	游戏            
+###链接详情
+	https://play.google.com/store/apps/details?id=com.hrs.b2c.android
+googleplay应用是通过下发到手机去安装所以获取不到apk
 ##[小米商店]（推荐爬取）
 ###介绍
 小米商店用户主要为小米手机和miui ＲＯＭ，小米手机在２０１３年上半年就已经售出７０３万台，２０１２年为７１９万台，拥有大量的用户群体，并且大多数小米用户会通过小米自带应用商店下载应用，推荐爬取
@@ -83,7 +116,7 @@ app下载地址：<br>
 ###应用数量
 应用数量不确定
 
-##[应用宝]（推荐抓取）
+##[应用宝]
 ###介绍
 应用宝是腾讯旗下的应用商店，由于腾讯的大量用户，其应用商店下载量也是十分大的，加上众多QQ游戏是由应用宝首发，导致用户必须拥有应用宝才能下载，从而导致用户量大量上涨
 ###应用数量
@@ -287,6 +320,30 @@ Location:
 *	模拟经营
 ###链接详情
 	http://www.muzhiwan.com/index.php?action=common&opt=downloadstat&type=1&vid=94298&url=http://gslb.coop.letv.com//2013/12/20/com.ratrodstudio.skateparty252b402165fec3.gpk
+##[应用汇]（推荐爬取）
+###介绍
+“应用汇”是国内唯一一家承诺对用户进行第三方赔付的Android应用商店。“AppChina应用汇”是一款基于Android系统的本土化应用商店，可以通过手机客户端，Web端、Wap端以及Pad版等多个途径使用，每月的应用下载量超过1亿。
+###应用数量
+“应用汇”现在提供超过4万款手机应用供Android手机用户免费下载
+
+*	输入法
+*	浏览器
+*	动态壁纸
+*	系统工具
+*	便捷生活
+*	影音播放
+*	通话通讯
+*	社交网络
+*	主题插件
+*	拍摄美化
+*	新闻资讯
+*	图书阅读
+*	学习办公
+*	网购支付
+*	金融理财
+
+###链接详情
+	http://www.appchina.com/app/com.snda.wifilocating/
 [小米商店]:http://app.xiaomi.com/
 [天翼空间]:http://www.189store.com/soft.html
 [移动应用商店]:http://mm.10086.cn/
@@ -301,3 +358,4 @@ Location:
 [安卓市场]:http://apk.hiapk.com/
 [拇指玩]:http://www.muzhiwan.com/
 [Google Play]:https://play.google.com/store
+[应用汇]:http://www.appchina.com/
