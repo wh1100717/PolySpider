@@ -36,6 +36,7 @@ def move_status_into_history(date, platform):
     if redis_client.exists('status::history'):
         value = redis_client.hget('status::history', date)
         if value:
+            value=eval(value)
             value[platform] = data
             redis_client.hset('status::history', date, value)
         else:
