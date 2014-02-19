@@ -1,5 +1,6 @@
 
 #PolySpider安装流程
+
 ##1. CentOS 6.4 64Bit下Scrapy环境搭建
 
 ###Pre-requisites
@@ -56,6 +57,7 @@
     pip install twisted
     pip install autobahn
     pip install sh
+
 ---
 
 ##2. 配置supervisor.conf
@@ -173,6 +175,7 @@ two files should be included in your log system -- server.py(which would generat
 * modify the log.html with your own ip address(or hostname) and port and put the code in some page of your website.
 * Then, just wath the page in browser and see what will happen!
 * If you want to stop the server, just use `ctrl+c` to stop it. NEVER use `ctrl+d`, there is a thread process which will not be killed in this way(well, u can use `ps -ef | grep server.py` to see whch one should be killed and then use `kill -9 process_id`. THAT is NOT recommended!).
+
 ---
 
 ##3. 服务器端Redis环境搭建
@@ -213,6 +216,8 @@ PolySpiderFrontend项目地址, 点击[这里](https://github.com/wh1100717/Poly
 *   执行`python web-server.py` #默认端口为8080
 *   服务器开启，直接本地执行localhost:8080即可查看
 *   Note: web.py自带的服务器只适合用在请求量较少或者demo演示的场景，如果需要处理大并发量，必须更换服务器，具体请参考[这里](http://webpy.org/cookbook/)的Deployment Session.
+
+---
 
 ##5. log日志系统的环境搭建
 Environment: CentOS 6.4(64bit). 
