@@ -92,6 +92,8 @@ two files should be included in your log system -- server.py(which would generat
 * Then, just wath the page in browser and see what will happen!
 * If you want to stop the server, just use `ctrl+c` to stop it. NEVER use `ctrl+d`, there is a thread process which will not be killed in this way(well, u can use `ps -ef | grep server.py` to see whch one should be killed and then use `kill -9 process_id`. THAT is NOT recommended!).
 
+Note:已经在supervisor.conf中配置好了。Log Monitor依赖库安装安装成功的话，可以直接启动supervisor使用，不需要额外配置
+
 ---
 
 ##3. 服务器端Redis环境搭建

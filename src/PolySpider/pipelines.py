@@ -19,6 +19,14 @@ from PolySpider.config import Config
 
 # 关于pipeline对item数据的处理，专门撰写了一个文档进行描述，包含了详细的流程图和处理过程
 
+'''
+##不同系统和配置环境下python的解码方式不同，可能存在潜在的编码错误和问题
+pipeline中指定编码方式为`utf-8`来尽量规避编码问题
+'''
+
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 class PolySpiderPipeline(object):
 

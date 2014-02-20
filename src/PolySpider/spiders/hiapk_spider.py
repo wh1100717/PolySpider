@@ -5,13 +5,13 @@ import re
 from scrapy.selector import Selector
 from PolySpider.items import AppItem
 from scrapy.http import Request,FormRequest
-from scrapy.spider import BaseSpider
+from scrapy.spider import Spider
 from PolySpider.config import SpiderConfig
 from scrapy.exceptions import DropItem
 
 from PolySpider.util import CommonUtil
 
-class HiapkSpider(BaseSpider):
+class HiapkSpider(Spider):
     '''
     ##Hiapk: 安卓市场
     *   网址http://apk.hiapk.com/
