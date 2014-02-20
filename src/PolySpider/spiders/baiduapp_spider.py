@@ -20,9 +20,13 @@ class BaiduSpider(CrawlSpider):
         "http://as.baidu.com/a/software",
         "http://as.baidu.com/a/asgame"
     ]
+    # rules = [
+    #     Rule(SgmlLinkExtractor(allow=('item\?docid=\d.*', )),callback='parse_app',follow=True),
+    #     Rule(SgmlLinkExtractor(allow=('as\.baidu\.com/a/software\?cid','as\.baidu\.com/a/asgame\?cid' )), follow = True),
+    # ]
     rules = [
-        Rule(SgmlLinkExtractor(allow=('item\?docid=\d.*', )),callback='parse_app',follow=True),
-        Rule(SgmlLinkExtractor(allow=('as\.baidu\.com/a/software\?cid','as\.baidu\.com/a/asgame\?cid' )), follow = True),
+        Rule(SgmlLinkExtractor(allow=('item\?docid', )),callback='parse_app',follow=True),
+        Rule(SgmlLinkExtractor(allow=('software\?cid=[\d]*&s=[\d]*(&pn=[\d]*)?$')), follow = True),
     ]
     def parse_app(self, response):
 #        try:
