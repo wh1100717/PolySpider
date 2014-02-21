@@ -35,7 +35,6 @@ class GooglePlaySpider(CrawlSpider):
             value = sel.xpath(google_play[key]).extract() if google_play[key]!='' else ''
             item[key] = value[0].strip() if len(value) == 1 else ('' if len(value) == 0 else value)
         item['imgs_url'] = " ".join(item['imgs_url'])    
-        item['cover'] = item['cover'][0]
         item['download_times']=item['download_times'].replace(',','')[:item['download_times'].find('-')]
         item['rating_count']= item['rating_count'].replace(',','')
         item['platform'] = "googleplay"

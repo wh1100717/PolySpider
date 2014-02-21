@@ -74,7 +74,7 @@ Supervisor is a client/server system that allows its users to control a number o
 [BaiYun]: http://developer.baidu.com
 [Upyun]: https://www.upyun.com
 [Getting Involved]: http://wh1100717.github.io/PolyTechDocs/docs/invovled/
-[Installation]: http://wh1100717.github.io/PolyTechDocs/python/scrapy/installation/
+[Installation]: docs/Installation.md
 [TODO List]: docs/TODO_LIST.md
 [Core Functionalities]: docs/pipelineinfo.md
 [Tips]: docs/TIPS.md

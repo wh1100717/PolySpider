@@ -34,7 +34,10 @@ class AppChinaSpider(CrawlSpider):
         # 根据SpiderConfig中的xpath配置进行抓取数据
         for key in app_china:
             value = sel.xpath(app_china[key]).extract() if app_china[key]!='' else ''
-            item[key] = value[0].strip() if len(value) == 1 else ('' if len(value) == 0 else value)
+            if key=='description':
+                item[key]=value
+            else:
+                item[key] = value[0].strip() if len(value) == 1 else ('' if len(value) == 0 else value)
 #        try:
             # 应用汇对apk的下载链接做了一层redirect,所以需要更早请求来获取真实下载地址
         
@@ -45,7 +48,7 @@ class AppChinaSpider(CrawlSpider):
         item['android_version'] = item['android_version'][9:-4]
         item['download_times'] = CommonUtil.download_time_normalize(item['download_times'])
         item['last_update'] = CommonUtil.normalizeString(item['last_update'])[5:]
-        item['description'] = ' '.join(unicode(item['description']))
+        item['description'] = ' '.join(item['description']).replace(' ','')[1:-1]
         item['apk_size'] = CommonUtil.normalizeString(item['apk_size'])[5:]
         # 获取图片地址，通过空格来分割多张图片
         item['imgs_url'] = " ".join(item['imgs_url'])

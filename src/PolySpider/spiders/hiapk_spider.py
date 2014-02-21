@@ -1,17 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-  
 import urllib2
+import urllib
 import re
 from scrapy.selector import Selector
 from PolySpider.items import AppItem
 from scrapy.http import Request,FormRequest
-from scrapy.spider import BaseSpider
+from scrapy.spider import Spider
 from PolySpider.config import SpiderConfig
 from scrapy.exceptions import DropItem
 
 from PolySpider.util import CommonUtil
 
-class HiapkSpider(BaseSpider):
+class HiapkSpider(Spider):
     '''
     ##Hiapk: 安卓市场
     *   网址http://apk.hiapk.com/
@@ -45,7 +46,7 @@ class HiapkSpider(BaseSpider):
                 'apps_30_1_1','apps_80_1_1','apps_292_1_1','apps_79_1_1','apps_288_1_1'
                 ]
             #TODO 需要看看如何修改该请求，现在一次性构造请求太多，太耗费资源。
-            for app_category in apps_categories:
+            for app_category in apps_categories: 
                 for a in range(1,100):
 #                    for b in range(1,4):
 #                        for c in [0,1,2,4]:
@@ -55,7 +56,17 @@ class HiapkSpider(BaseSpider):
 #                                        for g in range(4): 
                     url = 'http://apk.hiapk.com/App.aspx?action=FindAppSoftList'
                     currentHash=str(a)+"_1_0_0_0_0_0"
-                    yield FormRequest(url,formdata={"currentHash":currentHash,"categoryId":app_category.split("_")[1]},headers={"referer":"http://apk.hiapk.com/"+app_category,"host":"apk.hiapk.com","Origin":"http://apk.hiapk.com"})
+                    req=urllib2.Request(url)
+                    data=urllib.urlencode(dict(categoryId=app_category.split('_')[1],currentHash=currentHash))
+                    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
+                    response_content = opener.open(req, data)
+                    content=response_content.read()
+                    url_lists=re.findall("http://apk.hiapk.com/html/\d{4}/\d{2}/\d+\.html",content)
+                    if len(url_lists)==0:
+                        break
+                    else:
+                        for url_list in url_lists:
+                            yield Request(url_list,callback = self.parse_app)
     def return_item(self, item):
         return item
     def parse_app(self, response):

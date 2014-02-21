@@ -18,6 +18,13 @@ def get_base_path():
     sys.path.append(base_path)
     return base_path
 
+'''
+    #REDIS配置地址
+    *   host: 填写Redis服务器名称或者IP
+    *   password: 添加Redis服务器的密码，默认为空
+    *   port: 服务器端口，默认为6379
+    *   db: redis中配置的数据库编号，默认为0
+'''
 REDIS = {
     'host':'localhost',
     'password':'',
@@ -42,10 +49,20 @@ REDIS = {
     
 '''
 HTTP_PROXY = 'http://127.0.0.1:8123'
+
+'''
+    ##Spider配置信息
+    *   appstar和xiaomi的应用详细页都是按照数字排序的，所以他们的spider实际上不需要爬，只需要根据顺序来依次访问页面获取应用数据即可
+'''
 # App Star Constant
 APPSTAR_MAX_APPS = 3000
 XIAOMI_MAX_APPS = 56000
 
+'''
+    ##云存储配置信息
+    *   利用baidu_yun的接口实现了apk上传功能
+    *   重新了upyun得接口实现了带进度条、下载速度、完成时间预估等特性的apk上传功能
+'''
 BAIDU_YUN = {
     '''
     这里需要填写BaiYun的公钥AK，私钥SK和Bucket

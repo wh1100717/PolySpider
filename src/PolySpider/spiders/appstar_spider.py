@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-  
 from scrapy.selector import Selector
-from scrapy.spider import BaseSpider
+from scrapy.spider import Spider
 from scrapy.http import Request
 from PolySpider.items import AppItem
 from PolySpider.config import Config
@@ -9,7 +9,7 @@ from PolySpider.util import CommonUtil
 from PolySpider.config import SpiderConfig
 from scrapy.exceptions import DropItem
 
-class AppStarSpider(BaseSpider):
+class AppStarSpider(Spider):
     '''
     ##AppStar: 应用之星
     *   网址http://www.appstar.com.cn

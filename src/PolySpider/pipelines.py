@@ -19,6 +19,14 @@ from PolySpider.config import Config
 
 # 关于pipeline对item数据的处理，专门撰写了一个文档进行描述，包含了详细的流程图和处理过程
 
+'''
+##不同系统和配置环境下python的解码方式不同，可能存在潜在的编码错误和问题
+pipeline中指定编码方式为`utf-8`来尽量规避编码问题
+'''
+
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 class PolySpiderPipeline(object):
 
@@ -178,8 +186,7 @@ class UpdateCategoryPipeline(object):
                     category = categories[index]  # 2200:1
                     app_category_id = category[:category.find(":")]  # 2200
                     if app_category_id == item_category_id:
-                        categories[index] = app_category_id + ":" + str(
-                            int(category[(category.find(":") + 1):]) + 1)
+                        categories[index] = app_category_id + ":" + str(int(category[(category.find(":") + 1):]) + 1)
                         flag = False
                         break
                 if flag:
@@ -191,18 +198,21 @@ class UpdateCategoryPipeline(object):
         return item
 
     def category_reorder(self, categories):
+        '''
+        ##分类排序处理函数
+        分类的数据格式为： ['2300:2','3800:10','1200:5']，
+        该排序函数会按照分类中抓取的数量来进行排序，比如该分类数组得到的排序结果为：
+        ['3800:10','1200:5','2300:2']
+        '''
         length = len(categories)
         for i in range(length - 1):
             for j in range(length - i - 1):
                 order_category = categories[j]
-                order_category_value = int(
-                    order_category[(order_category.find(":") + 1):])
+                order_category_value = int(order_category[(order_category.find(":") + 1):])
                 cmp_category = categories[j + 1]
-                cmp_category_value = int(
-                    cmp_category[(cmp_category.find(":") + 1):])
+                cmp_category_value = int(cmp_category[(cmp_category.find(":") + 1):])
                 if cmp_category_value > order_category_value:
-                    categories[i], categories[
-                        i + 1] = categories[i + 1], categories[i]
+                    categories[i], categories[i + 1] = categories[i + 1], categories[i]
         return categories
 
 

@@ -88,7 +88,7 @@ if __name__ == '__main__':
     argv[1]为日志绝对路径 必填项
     argv[2]为服务器端口号 默认未9003
     网页日志服务器启动方式如下：
-        python server.py /home/abc/project/someProject/src/tmp/log/std.log 9002 
+        python log-server.py /home/abc/project/someProject/src/tmp/log/std.log 9002 
     '''
     if len(sys.argv) <= 1:
         print "***Error: Need log_path, i.e. '$python server.py /var/sys.log'***"
