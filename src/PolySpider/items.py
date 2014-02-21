@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-  
 
 from scrapy.item import Item, Field
-
+'''
+Scrapy抓取的Model类，用来定义抓取Item的数据内容和格式
+Item会在Spider中进行抓取，然后在pipeline中进行数据处理和加工并最终存储到Redis中。
+'''
 class AppItem(Item):
     """
     获取应用的具体信息：
@@ -20,6 +23,13 @@ class AppItem(Item):
     last_update: 最后更新时间
     description: 应用简介
     imgs_url: 应用截图链接
+    apk_size: apk文件的大小
+    platform: 抓取该应用的源，比如baidu，xiaomi等
+    app_category: 用来临时存储获取的app的categroy
+
+    DROP_APP： 标识符，用来存储该应用是否要丢弃
+    NEW_APP: 标识符，用来存储该应用是否为新应用
+    UPDATE_APP: 标识符，用来存储该应用是否为更新的应用
     """
     app_id = Field()
     apk_url = Field()
