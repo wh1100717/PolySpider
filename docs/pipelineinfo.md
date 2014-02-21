@@ -10,32 +10,29 @@
 
 <img src="http://wh1100717.github.io/PolySpider/images/flowchart/CategorizingPipeline.jpg"  alt="">
 ##2、CheckAppPipeline （检查app相关内容）
-*	通过SqliteUtil.checkTableExist()判断是否存在数据库，如果没有创建数据库
-*	通过item['app_name']在ps_app表中利用App.get_app_by_app_name(app_name)方法查找app
-	*	如果app为空，生成item['category']，并通过App.insert_app()向ps_app表中添加数据，并对item['NEW_APP']赋值为True
+*	通过AppDao.get_app_by_app_name()判断是否存在该app，如果不存在返回None，如果存在返回app数据
+	*	如果app为空，生成item['category']，并通过AppDao.insert_app()向'app::data'中添加数据，同时在'app::category'和'app::index'中添加该应用id并对item['NEW_APP']赋值为True
 	*	如果app不为空，item['UPDATE_APP']赋值为True
-*	判断如果从ps_app中获取到的author为空，而抓取到的item['author']不为空，则执行App.update_app_author()更新app_author
+*	判断如果从'app::data'中获取到的author为空，而抓取到的item['author']不为空，则执行AppDao.update_app_author()更新app_author
+*	判断如果从'app::data'中获取到的package_name为空，而抓取到的item['package_name']不为空，则执行AppDao.update_app_packagename()更新package_name
 
 <img src="http://wh1100717.github.io/PolySpider/images/flowchart/CheckAppPipeline.jpg"  alt="">
 ##3、CheckAppDetailsPipeline（检查app详细内容）
-*	通过AppDetail.get_app_detail_by_item()方法获取app的详细信息
-	*	如果没有app详细信息，先执行apk_operation()方法,通过item['apk_url']对app下载，分析，获取item['package_name']，并且上传到云终端，然后AppDetail.insert_app_detail()方法添加app的详细信息
-	*	如果有app的详细信息，item['DROP_APP']赋值为True
+*	通过AppDao.get_app_detail_by_app_name方法获取app_detail_list的详细信息
+	*	如果app_detail_list为None，item['DROP_APP']赋值为True，返回item
+	*	对app_detail_list里的app_detail做判断，如果版本和平台都已经存在，item['DROP_APP']赋值为True，返回item。如果不存在通过 AppDao.insert_app_detail向'app::data'添加数据
+	
 
 <img src="http://wh1100717.github.io/PolySpider/images/flowchart/CheckAppDetailsPipeline.jpg"  alt="">
-##4、UpdateCategoryPipeline（更新ps_app中的category项）
+##4、UpdateCategoryPipeline（更新app::data中的category项）
 *	如果item['DROP_APP']为True，丢弃该item
 *	如果item['UPDATE_APP']为True，对category进行重新计算
 *	通过category_reorder对该应用分类排序，按照命中分类次数由高到低排序
-*	通过App.update_app_category()更新分类
+*	通过AppDao.update_app_category()更新分类
 
 <img src="http://wh1100717.github.io/PolySpider/images/flowchart/UpdateCategoryPipeline.jpg"  alt="">
-##5、StatusRecordPipeline（更新ps_status记录）
-*	通过Status.get_today_status()获取当日该平台应用抓取数量
-	*	如果有记录返回记录status
-	*	如果没有记录，向ps_status表中添加当日时间和平台的记录，并将status返回
-*	如果item['NEW_APP']为True对记录中的new_app加1
-*	如果item['UPDATE_APP']为True对记录中的update_app加1
-*	通过Status.update_status()对ps_status进行更新
-
+##5、StatusRecordPipeline（更新status记录）
+*	通过StatusDao.status_incr对item['platform']下的crawled加1
+*	如果item['NEW_APP']为True通过StatusDao.status_incr对item['platform']下的new加1
+*	如果item['UPDATE_APP']为True通过StatusDao.status_incr对item['platform']下的update加1
 <img src="http://wh1100717.github.io/PolySpider/images/flowchart/StatusRecordPipeline.jpg"  alt="">
