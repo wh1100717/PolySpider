@@ -211,7 +211,30 @@ CATEGORY_ID = {
     '即时动作':'3600',
     '网站应用':'3300',
     '街机和动作':'3600',
-    '即时动作':'3600'
+    '即时动作':'3600',
+    'ライフスタイル':'2900',
+    'Tools':'2300',
+    'Music & Audio':'2100',
+    'Education':'2600',
+    'Productivity':'1100',
+    'Personalization':'1000',
+    'ツール':'2300',
+    '出版-社科教育':'2600',
+    'Istruzione':'2600',
+    'Communication':'3400',
+    '即时动作':'3600',
+    'Shopping':'3200',
+    'Ferramentas':'2300',    
+    'Racing':'3600',
+    'Transportation':'1100',
+    'Travel & Local':'2800'
+
+
+
+
+
+
+
 }
 
 
